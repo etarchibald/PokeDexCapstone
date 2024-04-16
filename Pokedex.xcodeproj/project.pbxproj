@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A6BBBF02BCEC54600ACE001 /* PokemonDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A6BBBEF2BCEC54600ACE001 /* PokemonDetail.storyboard */; };
 		A38B12E32B4EE879003D33D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38B12E22B4EE879003D33D8 /* AppDelegate.swift */; };
 		A38B12E52B4EE879003D33D8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38B12E42B4EE879003D33D8 /* SceneDelegate.swift */; };
 		A38B12E72B4EE879003D33D8 /* PokemonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38B12E62B4EE879003D33D8 /* PokemonDetailViewController.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A6BBBEF2BCEC54600ACE001 /* PokemonDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PokemonDetail.storyboard; sourceTree = "<group>"; };
 		A38B12DF2B4EE879003D33D8 /* Pokedex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokedex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A38B12E22B4EE879003D33D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A38B12E42B4EE879003D33D8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +61,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A6BBBEE2BCEC03100ACE001 /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				A38B12E82B4EE879003D33D8 /* Main.storyboard */,
+				4A6BBBEF2BCEC54600ACE001 /* PokemonDetail.storyboard */,
+			);
+			path = StoryBoards;
+			sourceTree = "<group>";
+		};
 		A38B12D62B4EE879003D33D8 = {
 			isa = PBXGroup;
 			children = (
@@ -81,9 +92,9 @@
 				A38B130E2B4EFD52003D33D8 /* ViewControllers */,
 				A38B13012B4EEE09003D33D8 /* Controllers */,
 				A38B12FA2B4EED3C003D33D8 /* Models */,
+				4A6BBBEE2BCEC03100ACE001 /* StoryBoards */,
 				A38B12E22B4EE879003D33D8 /* AppDelegate.swift */,
 				A38B12E42B4EE879003D33D8 /* SceneDelegate.swift */,
-				A38B12E82B4EE879003D33D8 /* Main.storyboard */,
 				A38B12EB2B4EE87A003D33D8 /* Assets.xcassets */,
 				A38B12ED2B4EE87A003D33D8 /* LaunchScreen.storyboard */,
 				A38B12F02B4EE87A003D33D8 /* Info.plist */,
@@ -185,6 +196,7 @@
 				A38B12EF2B4EE87A003D33D8 /* LaunchScreen.storyboard in Resources */,
 				A38B12EC2B4EE87A003D33D8 /* Assets.xcassets in Resources */,
 				A38B12EA2B4EE879003D33D8 /* Main.storyboard in Resources */,
+				4A6BBBF02BCEC54600ACE001 /* PokemonDetail.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

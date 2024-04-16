@@ -13,6 +13,10 @@ struct Pokemon: Codable {
     var types: [PokemonTypeContainer]
     var sprites: PokemonSprites
     var abilities: [PokemonAbilities]
+    var stats: [Stats]
+    //Height in decimeters according to the API
+    var height: Int
+    //weight in hectograms according to the API
+    var weight: Int
     
-    var example: String
 }

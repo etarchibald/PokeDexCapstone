@@ -10,4 +10,6 @@ import Foundation
 struct PokemonSprites: Codable {
     var front_default: URL
     var back_default: URL
+    var front_shiney: URL
+    var back_shiney: URL
 }

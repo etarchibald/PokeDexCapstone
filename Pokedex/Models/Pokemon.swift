@@ -12,4 +12,5 @@ struct Pokemon: Codable {
     var name: String
     var types: [PokemonTypeContainer]
     var sprites: PokemonSprites
+    var abilities: [PokemonAbilities]
 }

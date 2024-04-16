@@ -7,6 +7,7 @@
 
 import Foundation
 
+//decoding for the details
 struct Pokemon: Codable {
     var name: String
     var types: [PokemonTypeContainer]

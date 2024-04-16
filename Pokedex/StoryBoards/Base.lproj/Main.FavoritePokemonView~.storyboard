@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -103,6 +104,22 @@
             </objects>
             <point key="canvasLocation" x="799.23664122137404" y="47.887323943661976"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="zgJ-wi-x4g">
+            <objects>
+                <viewController id="8N5-8p-GOn" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Z7C-Zy-6mr">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="cJe-4Z-5kg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="n75-rT-9u6"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1LB-St-gpZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1100" y="798"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="LBn-21-0zN">
             <objects>
@@ -114,20 +131,29 @@
                     </tabBar>
                     <connections>
                         <segue destination="zr6-14-FLd" kind="relationship" relationship="viewControllers" id="Woo-5E-u0J"/>
-                        <segue destination="x8o-oe-i8P" kind="relationship" relationship="viewControllers" id="Lbw-mn-5PI"/>
+                        <segue destination="9Rv-Vh-oqF" kind="relationship" relationship="viewControllers" id="Lbw-mn-5PI"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PLz-Tj-0XX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-127.48091603053435" y="47.887323943661976"/>
         </scene>
-        <!--FavoritePokemonView-->
-        <scene sceneID="abW-b5-Uny">
+        <!--Item-->
+        <scene sceneID="dKQ-p4-Xd4">
             <objects>
-                <viewControllerPlaceholder storyboardName="FavoritePokemonView" id="x8o-oe-i8P" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="TXf-Df-Tel"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bdG-H8-nxo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9Rv-Vh-oqF" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="TFk-26-wzW"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="912-gC-NXU">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="8N5-8p-GOn" kind="relationship" relationship="rootViewController" id="7ra-hz-LCQ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rh1-6i-OvV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="277" y="798"/>
         </scene>

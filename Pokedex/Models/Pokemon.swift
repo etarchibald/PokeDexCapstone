@@ -19,4 +19,5 @@ struct Pokemon: Codable {
     //weight in hectograms according to the API
     var weight: Int
     
+    var damageRelations: PokemonDamageRelations?
 }

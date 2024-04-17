@@ -20,7 +20,14 @@ class PokemonTableViewCell: UITableViewCell {
     }
     
     func setup(pokemon: Pokemon) {
-        nameLabel.text = pokemon.name
+        nameLabel.text = pokemon.name.capitalized
+        
+        let typeNames = pokemon.types.map { $0.type.name.capitalized }
+        let typesString = typeNames.joined(separator: ", ")
+        typeLabel.text = typesString.isEmpty ? "Unknown Type" : typesString
+        
+        //generationLabel.text = pokemon.
+        
         pokemonImage.load(url: pokemon.sprites.front_default)
     }
 

@@ -61,12 +61,17 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
                 if let searchedPokemon = try await PokemonController.getSpecificPokemon(pokemonName: searchBar.text ?? "") {
                     pokemon = [searchedPokemon]
                     tableView.reloadData()
+                    
+                    DispatchQueue.main.async {
+                        self.navigationItem.title = nil
+                    }
+                    
                 } else {
                     DispatchQueue.main.async {
-                        self.navigationItem.title = "Error Occurred"
+                        self.navigationItem.title = "Pokemon not Found"
                     }
                 }
-                
+                    
             } catch {
                 // TODO: Handle errors
                 DispatchQueue.main.async {

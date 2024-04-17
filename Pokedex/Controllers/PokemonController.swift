@@ -78,8 +78,6 @@ class PokemonController {
             }
             
             //API call to get evo information
-            
-            print("double damage from: \(String(describing: singlePokemon.damageRelations?.damageRelations.doubleDamageFrom))")
             pokemon.append(singlePokemon)
         }
         
@@ -133,7 +131,7 @@ class PokemonController {
         
         let (data, response) = try await session.data(for: request)
         
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 2200 else {
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw API.APIError.APIRequestFailed
         }
         

@@ -9,14 +9,14 @@ import UIKit
 
 class PokemonDetailViewController: UIViewController {
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var types: UILabel!
+    
     
     var pokemon: Pokemon
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         nameLabel.text = pokemon.name
         image.load(url: pokemon.sprites.front_default)

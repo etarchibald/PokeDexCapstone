@@ -11,7 +11,7 @@ struct PokemonDamageRelations: Codable {
     var damageRelations: DamageRelations
     
     enum CodingKeys: String, CodingKey {
-        case damageRelations = "damage_Relations"
+        case damageRelations = "damage_relations"
     }
 }
 

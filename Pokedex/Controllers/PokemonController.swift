@@ -64,6 +64,10 @@ struct PokemonController {
             let decoder = JSONDecoder()
             let singlePokemon = try decoder.decode(Pokemon.self, from: data)
             pokemon.append(singlePokemon)
+            
+            //API call to get damage relations
+            
+            //API call to get evo information
         }
         
         return pokemon

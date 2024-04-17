@@ -13,12 +13,21 @@ class FavoritePokemonViewController: UIViewController {
     
     var pokemon = [Pokemon]()
     
+//    let dummyFavortites = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), repeatingSubitem: item, count: 3)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+        
+        collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
     
 
@@ -41,6 +50,15 @@ extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
+        
+        //delegate if needed
+        
+        let pokemon = pokemon[indexPath.row]
+        
+        cell.updateUI(using: pokemon)
+        cell.layer.cornerRadius = 20
+        
+        return cell
     }
 }

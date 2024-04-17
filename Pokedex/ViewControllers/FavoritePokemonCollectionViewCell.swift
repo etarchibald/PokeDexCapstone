@@ -9,4 +9,8 @@ import UIKit
 
 class FavoritePokemonCollectionViewCell: UICollectionViewCell {
     
+    
+    func updateUI(using: Pokemon) {
+        
+    }
 }

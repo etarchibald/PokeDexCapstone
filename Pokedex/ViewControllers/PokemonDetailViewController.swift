@@ -35,7 +35,9 @@ class PokemonDetailViewController: UIViewController {
     // Abilites tableview
     @IBOutlet weak var abilitiesTableView: UITableView!
     
+    let segments = 4
     var pokemon: Pokemon
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()

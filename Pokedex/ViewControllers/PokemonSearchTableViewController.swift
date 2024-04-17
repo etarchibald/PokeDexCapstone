@@ -4,7 +4,6 @@
 //
 //  Created by Brayden Lemke on 1/10/24.
 //
-//added comment to test tower
 
 import UIKit
 
@@ -47,6 +46,7 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
     }
     
     // MARK: - UISearchBar Delegate Methods
+    //What I'm working on Error message for noResultsFound/ wrong spelling
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // If the text is empty bring the generic pokemon back to the screen
@@ -61,10 +61,23 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
                 if let searchedPokemon = try await PokemonController.getSpecificPokemon(pokemonName: searchBar.text ?? "") {
                     pokemon = [searchedPokemon]
                     tableView.reloadData()
+                    
+                    DispatchQueue.main.async {
+                        self.navigationItem.title = nil
+                    }
+                    
+                } else {
+                    DispatchQueue.main.async {
+                        self.navigationItem.title = "Pokemon not Found"
+                    }
                 }
+                    
             } catch {
                 // TODO: Handle errors
-                print(error)
+                DispatchQueue.main.async {
+                    self.navigationItem.title = "No Results Found or Wrong Spelling"
+                }
+                print("Error: \(error)")
             }
         }
     }

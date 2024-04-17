@@ -7,12 +7,14 @@
 
 import Foundation
 
-struct PokemonController {
+class PokemonController {
+    
+    static var shared = PokemonController()
     
     /// An API call to get a list of 20 pokemon. No searching involved.
     /// - Parameter page: An optional parameter to get 20 more pokemon after the initial 20.
     /// - Returns: An array of usable pokemon objects
-    static func getGenericPokemon(page: Int = 0) async throws -> [Pokemon] {
+    func getGenericPokemon(page: Int = 0) async throws -> [Pokemon] {
         // Make the initial API call
         let session = URLSession.shared
         var url = URLComponents(string: "\(API.url)/pokemon")!
@@ -62,7 +64,18 @@ struct PokemonController {
             
             // Decode the pokemon
             let decoder = JSONDecoder()
-            let singlePokemon = try decoder.decode(Pokemon.self, from: data)
+            var singlePokemon = try decoder.decode(Pokemon.self, from: data)
+            
+            
+            if singlePokemon.types.count == 1 {
+                if let type = singlePokemon.types.first?.type.name {
+                    
+                }
+            } else {
+                
+            }
+            
+            
             pokemon.append(singlePokemon)
             
             //API call to get damage relations
@@ -76,7 +89,7 @@ struct PokemonController {
     /// An API call to get a singular pokemon
     /// - Parameter name: The pokemons name to search for
     /// - Returns: An optional pokemon.
-    static func getSpecificPokemon(pokemonName name: String) async throws -> Pokemon? {
+    func getSpecificPokemon(pokemonName name: String) async throws -> Pokemon? {
         let session = URLSession.shared
         let url = URLComponents(string: "\(API.url)/pokemon/\(name.lowercased())")!
         
@@ -112,5 +125,20 @@ struct PokemonController {
         }
     }
     
-    // Yipee
+    func fetchPokemonDamageRelations(type: String) async throws -> PokemonDamageRelations {
+        let session = URLSession.shared
+        let url = URL(string: "\(API.url)/type/\(type)")!
+        
+        let request = URLRequest(url: url)
+        
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 2200 else {
+            throw API.APIError.APIRequestFailed
+        }
+        
+        let damageRelations = try JSONDecoder().decode(PokemonDamageRelations.self, from: data)
+        
+        return damageRelations
+    }
 }

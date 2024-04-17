@@ -66,21 +66,21 @@ class PokemonController {
             let decoder = JSONDecoder()
             var singlePokemon = try decoder.decode(Pokemon.self, from: data)
             
-            
-            if singlePokemon.types.count == 1 {
-                if let type = singlePokemon.types.first?.type.name {
-                    
-                }
-            } else {
+            //API call to get damage relations
+            for type in singlePokemon.types {
+                let pokemonType = type.type.name
                 
+                do {
+                    singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: pokemonType)
+                } catch {
+                    throw error
+                }
             }
             
-            
-            pokemon.append(singlePokemon)
-            
-            //API call to get damage relations
-            
             //API call to get evo information
+            
+            print("double damage from: \(String(describing: singlePokemon.damageRelations?.damageRelations.doubleDamageFrom))")
+            pokemon.append(singlePokemon)
         }
         
         return pokemon

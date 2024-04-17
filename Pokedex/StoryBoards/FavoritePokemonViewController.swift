@@ -13,13 +13,16 @@ class FavoritePokemonViewController: UIViewController {
     
     var pokemon = [Pokemon]()
     
-//    let dummyFavortites = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //load favorite Pokemon and put in pokemon
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        
+        //Adjust these when needed to make it look nice
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), repeatingSubitem: item, count: 3)
@@ -30,16 +33,11 @@ class FavoritePokemonViewController: UIViewController {
         collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        
+        //load favorite pokemon and put in pokemon
+        
     }
-    */
 
 }
 
@@ -57,6 +55,9 @@ extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionV
         let pokemon = pokemon[indexPath.row]
         
         cell.updateUI(using: pokemon)
+        
+        //configure cell background color, if more than one type loop trough and make it a gradient if its just one make it the full background.
+        
         cell.layer.cornerRadius = 20
         
         return cell

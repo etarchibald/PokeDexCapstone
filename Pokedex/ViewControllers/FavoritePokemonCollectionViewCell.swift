@@ -9,8 +9,11 @@ import UIKit
 
 class FavoritePokemonCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     
-    func updateUI(using: Pokemon) {
-        
+    func updateUI(using pokemon: Pokemon) {
+        nameLabel.text =  pokemon.name
+        imageView.load(url: pokemon.sprites.front_default)
     }
 }

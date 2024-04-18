@@ -14,6 +14,9 @@ class PokemonTableViewCell: UITableViewCell {
     @IBOutlet weak var generationLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    var delegate: FavoritePokemon?
+    var pokemon: Pokemon?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -29,6 +32,7 @@ class PokemonTableViewCell: UITableViewCell {
         generationLabel.text = pokemon.species?.generation?.name
         
         pokemonImage.load(url: pokemon.sprites.front_default)
+        favoriteButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -37,4 +41,10 @@ class PokemonTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func favoritebuttonTapped(_ sender: UIButton) {
+        pokemon?.isFavorited = true
+        
+        setup(pokemon: pokemon!)
+        delegate?.addPokemonToFavorite(pokemon: pokemon!)
+    }
 }

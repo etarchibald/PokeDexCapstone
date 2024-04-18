@@ -72,3 +72,9 @@ extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionV
         return cell
     }
 }
+
+extension FavoritePokemonViewController: FavoritePokemon {
+    func addPokemonToFavorite(pokemon: Pokemon) {
+        self.pokemon.append(pokemon)
+    }
+}

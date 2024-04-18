@@ -8,11 +8,11 @@
 import Foundation
 
 struct PokemonSpecies: Codable {
-    var evolutionChain: EvolutionChain
-    var generation: Generation
-    var habitat: Habitat
-    var isLegendary: Bool
-    var isMythical: Bool
+    var evolutionChain: EvolutionChain?
+    var generation: Generation?
+    var habitat: Habitat?
+    var isLegendary: Bool?
+    var isMythical: Bool?
     
     enum CodingKeys: String, CodingKey {
         case evolutionChain = "evolution_chain"

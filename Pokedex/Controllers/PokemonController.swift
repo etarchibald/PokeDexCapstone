@@ -23,6 +23,7 @@ class PokemonController {
             URLQueryItem(name: "limit", value: "20")
         ]
         
+        
         var request = URLRequest(url: url.url!)
         
         var data: Data
@@ -79,9 +80,10 @@ class PokemonController {
             
             //API call to get species info
             do {
-//                singlePokemon.evolutionChain = try await fetchPokemonEvolution(id: singlePokemon.id)
                 singlePokemon.species = try await fetchPokemonSpecies(id: singlePokemon.id)
-                singlePokemon.evolutionChain = try await fetchEvolutionChain(url: (singlePokemon.species?.evolutionChain.url)!)
+                if let url = singlePokemon.species?.evolutionChain?.url {
+                    singlePokemon.evolutionChain = try await fetchEvolutionChain(url: url)
+                }
             } catch {
                 throw error
             }

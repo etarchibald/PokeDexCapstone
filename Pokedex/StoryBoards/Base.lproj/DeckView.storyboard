@@ -1,22 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gko-jl-i9j">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gko-jl-i9j">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Pokemon Deck View Controller-->
         <scene sceneID="6dd-zF-yZh">
             <objects>
-                <viewController id="ifr-QB-pXC" sceneMemberID="viewController">
+                <viewController id="ifr-QB-pXC" customClass="PokemonDeckViewController" customModule="Pokedex" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WNd-im-MA8">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8xN-nv-C7B">
+                                <rect key="frame" x="0.0" y="175" width="393" height="220"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="100" id="ftS-18-SNN">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ftS-18-SNN" id="xMy-TM-Tcl">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZR3-JK-LUd">
+                                                    <rect key="frame" x="20" y="11" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="9Cf-T1-CUB">
+                                <rect key="frame" x="0.0" y="103" width="393" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="G51-5F-Skv"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ifr-QB-pXC" id="MpZ-Oy-uCB"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Z7X-fQ-W3I"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9Cf-T1-CUB" firstAttribute="trailing" secondItem="8xN-nv-C7B" secondAttribute="trailing" id="3lj-ge-rJ4"/>
+                            <constraint firstItem="9Cf-T1-CUB" firstAttribute="leading" secondItem="Z7X-fQ-W3I" secondAttribute="leading" id="FDB-TR-jhV"/>
+                            <constraint firstItem="Z7X-fQ-W3I" firstAttribute="bottom" secondItem="8xN-nv-C7B" secondAttribute="bottom" constant="423" id="FQ7-Ou-Xnm"/>
+                            <constraint firstItem="9Cf-T1-CUB" firstAttribute="top" secondItem="Z7X-fQ-W3I" secondAttribute="top" id="Wbc-Ok-LVR"/>
+                            <constraint firstItem="9Cf-T1-CUB" firstAttribute="centerX" secondItem="WNd-im-MA8" secondAttribute="centerX" id="ido-Fx-DtX"/>
+                            <constraint firstItem="8xN-nv-C7B" firstAttribute="top" secondItem="9Cf-T1-CUB" secondAttribute="bottom" constant="28" id="m6w-ar-quj"/>
+                            <constraint firstItem="9Cf-T1-CUB" firstAttribute="leading" secondItem="8xN-nv-C7B" secondAttribute="leading" id="pjc-jE-CdM"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="QmB-0u-Ep5"/>
                 </viewController>

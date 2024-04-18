@@ -9,6 +9,11 @@ import UIKit
 
 class DeckTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var deckNameLabel: UILabel!
+    @IBOutlet weak var numberOfCardsLabel: UILabel!
+    @IBOutlet weak var typeOfDeckLabel: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

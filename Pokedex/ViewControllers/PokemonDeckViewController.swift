@@ -8,17 +8,7 @@
 import UIKit
 
 class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
-    }
-    
 
-    @IBOutlet weak var deckSearchBar: UISearchBar!
     @IBOutlet weak var deckTableView: UITableView!
     
     var decks = [Deck]()
@@ -47,5 +37,17 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         
         // Now you can use the filteredDecks array as needed, such as displaying it in a table view
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return decks.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = deckTableView.dequeueReusableCell(withIdentifier: "deckCell", for: indexPath) as! DeckTableViewCell
+        
+        
+       return cell
+    }
+    
     
 }

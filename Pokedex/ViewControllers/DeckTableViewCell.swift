@@ -18,6 +18,14 @@ class DeckTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
+//    func setup(deck: Deck) {
+//        deckNameLabel.text =
+//        
+//        numberOfCardsLabel.text =
+//        
+//        typeOfDeckLabel.text = 
+//    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

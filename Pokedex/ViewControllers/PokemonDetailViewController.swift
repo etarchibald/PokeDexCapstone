@@ -38,7 +38,7 @@ class PokemonDetailViewController: UIViewController {
     let segments = 4
     var pokemon: Pokemon
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,10 +62,29 @@ class PokemonDetailViewController: UIViewController {
         pokemonImageView.load(url: pokemon.sprites.front_default)
         pokemonTypingLabel.text = pokemon.types.reduce("") { "\($0) \($1.type.name)" }.capitalized
         
-        
+        for stat in pokemon.stats {
+            let statDataToAppend = String(stat.base_stat)
+            switch stat.stat.name {
+            case "hp":
+                hpStatLabel.text! += " \(statDataToAppend)"
+            case "attack":
+                attackLabel.text! += " \(statDataToAppend)"
+            case "defense":
+                defenseLabel.text! += " \(statDataToAppend)"
+            case "special-attack":
+                specialAttackLabel.text! += " \(statDataToAppend)"
+            case "special-defense":
+                specialDefenseLabel.text! += " \(statDataToAppend)"
+            case "speed":
+                speedLabel.text! += " \(statDataToAppend)"
+            default:
+                break
+            }
+            
+        }
     }
     
-
+    
 }
 
 extension PokemonDetailViewController: UITableViewDataSource, UITableViewDelegate {

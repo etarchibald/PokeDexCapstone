@@ -42,14 +42,10 @@ class PokemonDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         abilitiesTableView.dataSource = self
         abilitiesTableView.delegate = self
         
-        
-        pokemonNameLabel.text = pokemon.name
-        pokemonImageView.load(url: pokemon.sprites.front_default)
-        pokemonTypingLabel.text = pokemon.types.reduce("") { "\($0 ?? "") \($1.type.name)" }
+        setUpPokemonInfo()
     }
     
     init?(pokemon: Pokemon, coder: NSCoder) {
@@ -59,6 +55,14 @@ class PokemonDetailViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setUpPokemonInfo() {
+        pokemonNameLabel.text = pokemon.name.capitalized
+        pokemonImageView.load(url: pokemon.sprites.front_default)
+        pokemonTypingLabel.text = pokemon.types.reduce("") { "\($0) \($1.type.name)" }.capitalized
+        
+        
     }
     
 

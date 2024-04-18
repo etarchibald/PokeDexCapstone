@@ -77,9 +77,11 @@ class PokemonController {
                 }
             }
             
-            //API call to get evo information
+            //API call to get species info
             do {
-                singlePokemon.evolutionChain = try await fetchPokemonEvolution(id: singlePokemon.id)
+//                singlePokemon.evolutionChain = try await fetchPokemonEvolution(id: singlePokemon.id)
+                singlePokemon.species = try await fetchPokemonSpecies(id: singlePokemon.id)
+                singlePokemon.evolutionChain = try await fetchEvolutionChain(url: (singlePokemon.species?.evolutionChain.url)!)
             } catch {
                 throw error
             }
@@ -147,10 +149,25 @@ class PokemonController {
         return damageRelations
     }
     
-    func fetchPokemonEvolution(id: Int) async throws -> PokemonEvolution {
+    func fetchPokemonSpecies(id: Int) async throws -> PokemonSpecies {
         let session = URLSession.shared
-        let url = URL(string: "\(API.url)/evolution-chain/\(id)")!
+        let url = URL(string: "\(API.url)/pokemon-species/\(id)")!
         
+        let request = URLRequest(url: url)
+        
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw API.APIError.APIRequestFailed
+        }
+        
+        let species = try JSONDecoder().decode(PokemonSpecies.self, from: data)
+        
+        return species
+    }
+    
+    func fetchEvolutionChain(url: URL) async throws -> PokemonEvolution {
+        let session = URLSession.shared
         let request = URLRequest(url: url)
         
         let (data, response) = try await session.data(for: request)

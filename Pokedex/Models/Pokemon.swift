@@ -21,5 +21,6 @@ struct Pokemon: Codable {
     var weight: Int
     
     var damageRelations: PokemonDamageRelations?
+    var species: PokemonSpecies?
     var evolutionChain: PokemonEvolution?
 }

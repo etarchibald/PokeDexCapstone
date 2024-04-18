@@ -84,6 +84,7 @@ class PokemonController {
                 throw error
             }
             //API call for generation
+            
             pokemon.append(singlePokemon)
         }
         

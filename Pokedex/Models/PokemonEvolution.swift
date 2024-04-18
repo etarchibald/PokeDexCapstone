@@ -13,11 +13,20 @@ struct PokemonEvolution: Codable {
 
 struct Chain: Codable {
     var evolvesTo: [EvolvesToStage1]
+    
+    enum CodingKeys: String, CodingKey {
+        case evolvesTo = "evolves_to"
+    }
 }
 
 struct EvolvesToStage1: Codable {
     var species: Species
     var evolvesTo: [EvolvesToStage2]?
+    
+    enum CodingKeys: String, CodingKey {
+        case species = "species"
+        case evolvesTo = "evolves_to"
+    }
 }
 
 struct EvolvesToStage2: Codable {

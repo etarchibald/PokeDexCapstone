@@ -19,13 +19,13 @@ class DeckTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-//    func setup(deck: Deck) {
-//        deckNameLabel.text =
-//        
-//        numberOfCardsLabel.text =
-//        
-//        typeOfDeckLabel.text = 
-//    }
+    func setup(deck: Deck) {
+        deckNameLabel.text = deck.deckName
+        
+        numberOfCardsLabel.text = String(deck.numberOfCards)
+        
+        typeOfDeckLabel.text = deck.typeOfDeck
+    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

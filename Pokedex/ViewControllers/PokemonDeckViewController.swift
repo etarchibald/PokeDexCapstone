@@ -11,7 +11,7 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet weak var deckTableView: UITableView!
     
-    var decks = [Deck]()
+    var deck = [Deck]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,18 +33,19 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         }
         
         // Filter the decks by deckName containing the search text
-        let filteredDecks = decks.filter { $0.deckName.localizedCaseInsensitiveContains(searchText) }
+        let filteredDecks = deck.filter { $0.deckName.localizedCaseInsensitiveContains(searchText) }
         
         // Now you can use the filteredDecks array as needed, such as displaying it in a table view
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return decks.count
+        return deck.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = deckTableView.dequeueReusableCell(withIdentifier: "deckCell", for: indexPath) as! DeckTableViewCell
         
+        cell.setup(deck: deck[indexPath.row])
         
        return cell
     }

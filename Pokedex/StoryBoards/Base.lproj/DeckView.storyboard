@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Pokemon Deck View Controller-->
+        <!--Decks-->
         <scene sceneID="6dd-zF-yZh">
             <objects>
                 <viewController id="ifr-QB-pXC" customClass="PokemonDeckViewController" customModule="Pokedex" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8xN-nv-C7B">
-                                <rect key="frame" x="0.0" y="175" width="393" height="220"/>
+                                <rect key="frame" x="0.0" y="175" width="393" height="171"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="deckCell" rowHeight="100" id="ftS-18-SNN" customClass="DeckTableViewCell" customModule="Pokedex" customModuleProvider="target">
@@ -33,13 +33,13 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="37" translatesAutoresizingMaskIntoConstraints="NO" id="LyT-Rg-ovo">
                                                             <rect key="frame" x="0.0" y="0.0" width="353" height="20.333333333333332"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZR3-JK-LUd">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deck Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZR3-JK-LUd">
                                                                     <rect key="frame" x="0.0" y="0.0" width="158" height="20.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="36a-Dw-1jU">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of cards" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="36a-Dw-1jU">
                                                                     <rect key="frame" x="195" y="0.0" width="158" height="20.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
@@ -71,6 +71,7 @@
                                             <outlet property="deckNameLabel" destination="ZR3-JK-LUd" id="XOn-De-Ia4"/>
                                             <outlet property="numberOfCardsLabel" destination="36a-Dw-1jU" id="fhw-bR-O5x"/>
                                             <outlet property="typeOfDeckLabel" destination="LsE-Kd-xxR" id="zRZ-MI-6a6"/>
+                                            <segue destination="Buh-sh-D9x" kind="show" id="Ugf-m2-D1P"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -98,7 +99,14 @@
                             <constraint firstItem="9Cf-T1-CUB" firstAttribute="leading" secondItem="8xN-nv-C7B" secondAttribute="leading" id="pjc-jE-CdM"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="QmB-0u-Ep5"/>
+                    <navigationItem key="navigationItem" title="Decks" id="57s-Lc-hoB">
+                        <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="OpI-yr-3xC">
+                            <connections>
+                                <segue destination="a2v-eJ-728" kind="show" id="CNd-R6-fux"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="deckTableView" destination="8xN-nv-C7B" id="XGp-3d-fUQ"/>
                     </connections>
@@ -106,6 +114,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U9T-fT-dgh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1773.2824427480916" y="-658.45070422535218"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="7kj-bp-Gmg">
+            <objects>
+                <viewController id="Buh-sh-D9x" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bU9-zE-4SK">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="aX6-81-Csu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Tyo-jT-NmF"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jNX-5e-DfI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2552" y="-359"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="WFn-kN-gAQ">
+            <objects>
+                <viewController id="a2v-eJ-728" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wcd-di-jmU">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="q8I-2H-Dzi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="WGO-8o-lVY"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xGB-ef-p7a" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2553" y="-1037"/>
         </scene>
         <!--Decks-->
         <scene sceneID="llh-Cz-sEl">
@@ -128,6 +168,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="square.stack.3d.down.right" catalog="system" width="105" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

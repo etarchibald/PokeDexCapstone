@@ -22,7 +22,7 @@ class DeckTableViewCell: UITableViewCell {
     func setup(deck: Deck) {
         deckNameLabel.text = deck.deckName
         
-        numberOfCardsLabel.text = String(deck.numberOfCards)
+        numberOfCardsLabel.text = String("Number of cards: \(deck.numberOfCards)")
         
         typeOfDeckLabel.text = deck.typeOfDeck
     }

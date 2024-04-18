@@ -26,7 +26,7 @@ class PokemonTableViewCell: UITableViewCell {
         let typesString = typeNames.joined(separator: ", ")
         typeLabel.text = typesString.isEmpty ? "Unknown Type" : typesString
         
-        //generationLabel.text = pokemon.
+        generationLabel.text = pokemon.species?.generation?.name
         
         pokemonImage.load(url: pokemon.sprites.front_default)
     }

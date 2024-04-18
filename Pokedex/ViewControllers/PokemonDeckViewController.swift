@@ -7,11 +7,27 @@
 
 import UIKit
 
-class PokemonDeckViewController: UIViewController {
+class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        <#code#>
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+    
 
+    @IBOutlet weak var deckSearchBar: UISearchBar!
+    @IBOutlet weak var deckTableView: UITableView!
+    
+    var decks = [Deck]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        deckTableView.dataSource = self
+        deckTableView.delegate = self
+        
         // Do any additional setup after loading the view.
     }
     
@@ -19,5 +35,17 @@ class PokemonDeckViewController: UIViewController {
     func deckMaker() {
         
     }
-
+    
+    func deckSearchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines), !searchText.isEmpty else {
+            // If the search text is empty, do nothing
+            return
+        }
+        
+        // Filter the decks by deckName containing the search text
+        let filteredDecks = decks.filter { $0.deckName.localizedCaseInsensitiveContains(searchText) }
+        
+        // Now you can use the filteredDecks array as needed, such as displaying it in a table view
+    }
+    
 }

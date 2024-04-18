@@ -78,6 +78,12 @@ class PokemonController {
             }
             
             //API call to get evo information
+            do {
+                singlePokemon.evolutionChain = try await fetchPokemonEvolution(id: singlePokemon.id)
+            } catch {
+                throw error
+            }
+            //API call for generation
             pokemon.append(singlePokemon)
         }
         
@@ -138,5 +144,22 @@ class PokemonController {
         let damageRelations = try JSONDecoder().decode(PokemonDamageRelations.self, from: data)
         
         return damageRelations
+    }
+    
+    func fetchPokemonEvolution(id: Int) async throws -> PokemonEvolution {
+        let session = URLSession.shared
+        let url = URL(string: "\(API.url)/evolution-chain/\(id)")!
+        
+        let request = URLRequest(url: url)
+        
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw API.APIError.APIRequestFailed
+        }
+        
+        let evolutionChain = try JSONDecoder().decode(PokemonEvolution.self, from: data)
+        
+        return evolutionChain
     }
 }

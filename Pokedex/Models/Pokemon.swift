@@ -9,6 +9,7 @@ import Foundation
 
 //decoding for the details
 struct Pokemon: Codable {
+    var id: Int
     var name: String
     var types: [PokemonTypeContainer]
     var sprites: PokemonSprites
@@ -20,4 +21,5 @@ struct Pokemon: Codable {
     var weight: Int
     
     var damageRelations: PokemonDamageRelations?
+    var evolutionChain: PokemonEvolution?
 }

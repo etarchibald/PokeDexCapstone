@@ -16,7 +16,7 @@ class PokemonDetailViewController: UIViewController {
     @IBOutlet weak var imageSegmentedControl: UISegmentedControl!
     @IBOutlet weak var generationIntroducedLabel: UILabel!
     
-    //Evolution chain data labels
+    // Evolution chain data labels
     @IBOutlet weak var previousEvolutionLabel: UILabel!
     @IBOutlet weak var nextEvolutionLabel: UILabel!
     
@@ -60,9 +60,9 @@ class PokemonDetailViewController: UIViewController {
     func setUpPokemonInfo() {
         
         // Needs to be corrected to load properly showing nil
-        let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo
-        let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom
-        
+//        let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo
+//        let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom
+    
 //        print(strengths)
 //        print(weaknesses)
         
@@ -92,9 +92,9 @@ class PokemonDetailViewController: UIViewController {
         }
         
         // Reliant on image fetching call from API
-        for segment in 0..<segments {
-            
-        }
+//        for segment in 0..<segments {
+//            
+//        }
         
         
         
@@ -113,7 +113,7 @@ extension PokemonDetailViewController: UITableViewDataSource, UITableViewDelegat
         let ability = pokemon.abilities[indexPath.row]
         
         var content = cell.defaultContentConfiguration()
-        content.text = ability.ability.name
+        content.text = ability.ability.name.capitalized
         cell.contentConfiguration = content
         
         return cell

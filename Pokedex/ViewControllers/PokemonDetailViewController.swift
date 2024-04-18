@@ -58,9 +58,18 @@ class PokemonDetailViewController: UIViewController {
     }
     
     func setUpPokemonInfo() {
+        
+        // Needs to be corrected to load properly showing nil
+        let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo
+        let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom
+        
+//        print(strengths)
+//        print(weaknesses)
+        
         pokemonNameLabel.text = pokemon.name.capitalized
         pokemonImageView.load(url: pokemon.sprites.front_default)
         pokemonTypingLabel.text = pokemon.types.reduce("") { "\($0) \($1.type.name)" }.capitalized
+        
         
         for stat in pokemon.stats {
             let statDataToAppend = String(stat.base_stat)
@@ -80,8 +89,15 @@ class PokemonDetailViewController: UIViewController {
             default:
                 break
             }
+        }
+        
+        // Reliant on image fetching call from API
+        for segment in 0..<segments {
             
         }
+        
+        
+        
     }
     
     

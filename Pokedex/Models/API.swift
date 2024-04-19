@@ -15,5 +15,6 @@ struct API {
         case APIRequestFailed
         case GenericAPIRequestFailed
         case SpecificPokemonRequestFailed
+        case ImageFetchFailed
     }
 }

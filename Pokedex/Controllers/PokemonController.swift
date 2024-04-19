@@ -203,4 +203,17 @@ class PokemonController {
         
         return evolutionChain
     }
+    
+    func fetchImageData(url: URL) async throws -> Data {
+        let session = URLSession.shared
+        let request = URLRequest(url: url)
+        
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw API.APIError.ImageFetchFailed
+        }
+        
+        return data
+    }
 }

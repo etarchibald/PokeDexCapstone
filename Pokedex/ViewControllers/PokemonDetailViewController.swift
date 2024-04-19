@@ -37,6 +37,7 @@ class PokemonDetailViewController: UIViewController {
     
     let segments = 4
     var pokemon: Pokemon
+    var storedImages: [UIImage] = []
     
     
     override func viewDidLoad() {
@@ -57,17 +58,18 @@ class PokemonDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     func setUpPokemonInfo() {
         let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
         let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
         let pokemonTyping = pokemon.types.reduce("") { "\($0) \($1.type.name)" }.capitalized
         
         if pokemon.species?.isMythical ?? false {
-            pokemonTypingLabel.text = "Mythical \(pokemonTyping) Pokemon"
+            pokemonTypingLabel.text = "Mythical\(pokemonTyping) Type Pokemon"
         } else if pokemon.species?.isLegendary ?? false {
-            pokemonTypingLabel.text = "Legendary \(pokemonTyping) Pokemon"
+            pokemonTypingLabel.text = "Legendary\(pokemonTyping) Type Pokemon"
         } else {
-            pokemonTypingLabel.text = "\(pokemonTyping) Pokemon"
+            pokemonTypingLabel.text = "\(pokemonTyping) Type Pokemon"
         }
         
         pokemonNameLabel.text = pokemon.name.capitalized
@@ -77,7 +79,7 @@ class PokemonDetailViewController: UIViewController {
         nextEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.evolvesTo?.first?.species.name.capitalized ?? "None")"
         typeStrengthsLabel.text! = strengths.reduce("") { "\($0) \($1.name)"}.capitalized
         typeWeaknessLabel.text! = weaknesses.reduce("") { "\($0) \($1.name)"}.capitalized
-
+        
         for stat in pokemon.stats {
             let statDataToAppend = String(stat.base_stat)
             switch stat.stat.name {

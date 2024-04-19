@@ -10,7 +10,9 @@ import UIKit
 class DeckTableViewCell: UITableViewCell {
 
     @IBOutlet weak var deckNameLabel: UILabel!
+    
     @IBOutlet weak var numberOfCardsLabel: UILabel!
+    
     @IBOutlet weak var typeOfDeckLabel: UILabel!
     
     
@@ -22,7 +24,7 @@ class DeckTableViewCell: UITableViewCell {
     func setup(deck: Deck) {
         deckNameLabel.text = deck.deckName
         
-        numberOfCardsLabel.text = String("Number of cards: \(deck.numberOfCards)")
+        numberOfCardsLabel.text = String(deck.numberOfCards)
         
         typeOfDeckLabel.text = deck.typeOfDeck
     }

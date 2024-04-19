@@ -45,6 +45,6 @@ class PokemonTableViewCell: UITableViewCell {
         pokemon?.isFavorited = true
         
         setup(pokemon: pokemon!)
-        delegate?.addPokemonToFavorite(pokemon: pokemon!)
+        favoriteView.favoritePokemon.append(pokemon!)
     }
 }

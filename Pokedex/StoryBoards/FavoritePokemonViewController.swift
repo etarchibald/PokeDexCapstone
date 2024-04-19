@@ -53,12 +53,25 @@ extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionV
         
         let pokemon = FavoritePokemonViewController.favoritePokemon[indexPath.row]
         
-        cell.updateUI(using: pokemon)
+        cell.layer.cornerRadius = 20
         
         //configure cell background color, if more than one type loop trough and make it a gradient if its just one make it the full background.
-        cell.backgroundColor = .green
+        if let type1 = pokemon.types.first?.type.name, let type2 = pokemon.types.last?.type.name {
+            if type1 == type2 {
+                cell.backgroundColor = PokemonPrettyController().getbackgroundColor(type: type1)
+            } else {
+                let gradient = CAGradientLayer()
+                gradient.colors = [PokemonPrettyController().getbackgroundColor(type: type1).cgColor, PokemonPrettyController().getbackgroundColor(type: type2).cgColor]
+//                gradient.transform = CATransform3DMakeRotation(270 / 180 * CGFloat.pi, 0, 0, 1)
+//                gradient.locations = [0.5, 0.5]
+                gradient.frame = cell.bounds
+                
+                cell.layer.insertSublayer(gradient, at: 0)
+                
+            }
+        }
         
-        cell.layer.cornerRadius = 20
+        cell.updateUI(using: pokemon)
         
         return cell
     }

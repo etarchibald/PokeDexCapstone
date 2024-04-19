@@ -113,7 +113,7 @@ class PokemonPrettyController {
         let redValue = Double((rgb >> 16) & 0xFF) / 255.0
         let greenValue = Double((rgb >> 8) & 0xFF) / 255.0
         let blueValue = Double(rgb & 0xFF) / 255.0
-        return UIColor(red: redValue, green: greenValue, blue: blueValue, alpha: 0)
+        return UIColor(red: redValue, green: greenValue, blue: blueValue, alpha: 1)
     }
     
 }

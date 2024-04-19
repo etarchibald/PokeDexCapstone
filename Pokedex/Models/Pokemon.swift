@@ -11,6 +11,7 @@ import Foundation
 struct Pokemon: Codable {
     var id: Int
     var name: String
+    var isFavorited: Bool?
     var types: [PokemonTypeContainer]
     var sprites: PokemonSprites
     var abilities: [PokemonAbilities]

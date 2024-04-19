@@ -36,7 +36,11 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonCell", for: indexPath) as! PokemonTableViewCell
         
-        cell.setup(pokemon: pokemon[indexPath.row])
+        let pokemon = pokemon[indexPath.row]
+        
+        cell.pokemon = pokemon
+        
+        cell.setup(pokemon: pokemon)
 
         return cell
     }

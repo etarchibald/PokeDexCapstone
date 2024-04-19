@@ -127,7 +127,28 @@ class PokemonController {
         // Decode the pokemon
         let decoder = JSONDecoder()
         do {
-            let singlePokemon = try decoder.decode(Pokemon.self, from: data)
+            var singlePokemon = try decoder.decode(Pokemon.self, from: data)
+            
+            for type in singlePokemon.types {
+                let pokemonType = type.type.name
+                
+                do {
+                    singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: pokemonType)
+                } catch {
+                    throw error
+                }
+            }
+            
+            //API call to get species info
+            do {
+                singlePokemon.species = try await fetchPokemonSpecies(id: singlePokemon.id)
+                if let url = singlePokemon.species?.evolutionChain?.url {
+                    singlePokemon.evolutionChain = try await fetchEvolutionChain(url: url)
+                }
+            } catch {
+                throw error
+            }
+            
             return singlePokemon
         } catch {
             return nil

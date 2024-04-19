@@ -60,15 +60,15 @@ class PokemonDetailViewController: UIViewController {
     func setUpPokemonInfo() {
         let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
         let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
-
-        pokemonTypingLabel.text = pokemon.types.reduce("") { "\($0), \($1.type.name)" }.capitalized
+        let pokemonTyping = pokemon.types.reduce("") { "\($0) \($1.type.name)" }.capitalized
         
-//        if pokemon.species?.isMythical {
-//            
-//        } else if pokemon.species?.isLegendary {
-//            
-//        }
-        
+        if pokemon.species?.isMythical ?? false {
+            pokemonTypingLabel.text = "Mythical \(pokemonTyping) Pokemon"
+        } else if pokemon.species?.isLegendary ?? false {
+            pokemonTypingLabel.text = "Legendary \(pokemonTyping) Pokemon"
+        } else {
+            pokemonTypingLabel.text = "\(pokemonTyping) Pokemon"
+        }
         
         pokemonNameLabel.text = pokemon.name.capitalized
         pokemonImageView.load(url: pokemon.sprites.front_default)

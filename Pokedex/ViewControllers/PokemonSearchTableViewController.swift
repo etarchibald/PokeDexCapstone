@@ -9,7 +9,7 @@ import UIKit
 
 class PokemonSearchTableViewController: UITableViewController, UISearchBarDelegate {
     
-    var pokemon: [Pokemon] = []
+    var pokemon = [Pokemon]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,5 +93,11 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
 }
 
 extension PokemonSearchTableViewController: FavoritePokemon {
-    
+    func addPokemonToFavorite(pokemon: Pokemon) {
+        for (index, eachPokemon) in self.pokemon.enumerated() {
+            if eachPokemon.name == pokemon.name {
+                self.pokemon[index] = pokemon
+            }
+        }
+    }
 }

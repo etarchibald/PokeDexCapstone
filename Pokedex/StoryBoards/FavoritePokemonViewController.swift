@@ -11,16 +11,8 @@ class FavoritePokemonViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var pokemon = [Pokemon]()
-    
-//    var dummyPokemon = [
-//        Pokemon(name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56),
-//        Pokemon(name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56),
-//        Pokemon(name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56),
-//        Pokemon(name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56),
-//        Pokemon(name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56),
-//        Pokemon(name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56)
-//    ]
+    //somehow needs to be static for it to work, because of the reasons: Yes
+    static var favoritePokemon = [Pokemon]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +22,7 @@ class FavoritePokemonViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        collectionView.reloadData()
         
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalHeight(1)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 5)
@@ -44,7 +37,7 @@ class FavoritePokemonViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         //load favorite pokemon and put in pokemon
-        
+        collectionView.reloadData()
     }
 
 }
@@ -52,20 +45,18 @@ class FavoritePokemonViewController: UIViewController {
 extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        pokemon.count
+        FavoritePokemonViewController.favoritePokemon.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
         
-        //delegate if needed
-        
-        let pokemon = pokemon[indexPath.row]
+        let pokemon = FavoritePokemonViewController.favoritePokemon[indexPath.row]
         
         cell.updateUI(using: pokemon)
         
         //configure cell background color, if more than one type loop trough and make it a gradient if its just one make it the full background.
-        cell.backgroundColor = .green
+//        cell.backgroundColor = .green
         
         cell.layer.cornerRadius = 20
         

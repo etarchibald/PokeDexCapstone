@@ -21,6 +21,7 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
         Task {
             var pokemon = try? await PokemonController.shared.getGenericPokemon()
             self.pokemon = pokemon!
+            
             tableView.reloadData()
         }
     }
@@ -39,6 +40,8 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
         let pokemon = pokemon[indexPath.row]
         
         cell.pokemon = pokemon
+        
+        cell.delegate = self
         
         cell.setup(pokemon: pokemon)
 
@@ -87,4 +90,8 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
     }
     
 
+}
+
+extension PokemonSearchTableViewController: FavoritePokemon {
+    
 }

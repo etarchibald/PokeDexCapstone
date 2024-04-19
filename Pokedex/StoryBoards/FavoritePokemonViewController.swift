@@ -56,7 +56,7 @@ extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionV
         cell.updateUI(using: pokemon)
         
         //configure cell background color, if more than one type loop trough and make it a gradient if its just one make it the full background.
-//        cell.backgroundColor = .green
+        cell.backgroundColor = .green
         
         cell.layer.cornerRadius = 20
         

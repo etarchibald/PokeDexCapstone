@@ -218,28 +218,27 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ls6-45-kX2">
-                                <rect key="frame" x="147" y="734" width="98" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ls6-45-kX2">
+                                <rect key="frame" x="147.66666666666666" y="366" width="98" height="34.333333333333314"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Add Deck"/>
+                                <connections>
+                                    <action selector="addDeckButtonTapped:" destination="a2v-eJ-728" eventType="touchUpInside" id="Pm4-sc-vWC"/>
+                                </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Fnr-KA-gXb">
-                                <rect key="frame" x="16" y="327" width="240" height="158.33333333333337"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="q8I-2H-Dzi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="q8I-2H-Dzi" firstAttribute="trailing" secondItem="oQn-De-Ypm" secondAttribute="trailing" constant="16" id="3Sc-d3-OHz"/>
                             <constraint firstItem="oQn-De-Ypm" firstAttribute="top" secondItem="q8I-2H-Dzi" secondAttribute="top" id="FIb-Gp-Rtd"/>
+                            <constraint firstItem="Ls6-45-kX2" firstAttribute="top" secondItem="oQn-De-Ypm" secondAttribute="bottom" constant="75.329999999999998" id="Yeb-Je-hS9"/>
                             <constraint firstItem="oQn-De-Ypm" firstAttribute="leading" secondItem="q8I-2H-Dzi" secondAttribute="leading" constant="16" id="i41-TE-KEe"/>
+                            <constraint firstItem="Ls6-45-kX2" firstAttribute="centerX" secondItem="wcd-di-jmU" secondAttribute="centerX" id="sf4-gC-3vo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WGO-8o-lVY"/>
                     <connections>
-                        <outlet property="addDeckButton" destination="Ls6-45-kX2" id="zDA-CZ-YCJ"/>
                         <outlet property="deckNameTextField" destination="cdu-kO-oz4" id="eJu-YT-9rs"/>
                         <outlet property="deckTypeTextField" destination="uNg-fq-kg1" id="Gaa-fd-y5O"/>
                     </connections>

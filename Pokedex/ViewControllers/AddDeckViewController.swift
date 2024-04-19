@@ -11,13 +11,20 @@ class AddDeckViewController: UIViewController {
 
     @IBOutlet weak var deckNameTextField: UITextField!
     @IBOutlet weak var deckTypeTextField: UITextField!
-    @IBOutlet weak var addDeckButton: UIButton!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
     
-
+    func textFromFields(deck: Deck ) {
+        deckNameTextField.text = deck.deckName
+        deckTypeTextField.text = deck.typeOfDeck
+    }
+    
+    
+    @IBAction func addDeckButtonTapped(_ sender: Any) {
+        
+    }
+    
 }

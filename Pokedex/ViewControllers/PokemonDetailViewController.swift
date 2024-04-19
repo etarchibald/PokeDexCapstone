@@ -58,19 +58,26 @@ class PokemonDetailViewController: UIViewController {
     }
     
     func setUpPokemonInfo() {
+        let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
+        let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
+
+        pokemonTypingLabel.text = pokemon.types.reduce("") { "\($0), \($1.type.name)" }.capitalized
         
-        // Needs to be corrected to load properly showing nil
-//        let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo
-//        let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom
-    
-//        print(strengths)
-//        print(weaknesses)
+//        if pokemon.species?.isMythical {
+//            
+//        } else if pokemon.species?.isLegendary {
+//            
+//        }
+        
         
         pokemonNameLabel.text = pokemon.name.capitalized
         pokemonImageView.load(url: pokemon.sprites.front_default)
-        pokemonTypingLabel.text = pokemon.types.reduce("") { "\($0) \($1.type.name)" }.capitalized
-        
-        
+        generationIntroducedLabel.text! += pokemon.species?.generation?.name ?? ""
+        previousEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.species.name.capitalized ?? "None")"
+        nextEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.evolvesTo?.first?.species.name.capitalized ?? "None")"
+        typeStrengthsLabel.text! = strengths.reduce("") { "\($0) \($1.name)"}.capitalized
+        typeWeaknessLabel.text! = weaknesses.reduce("") { "\($0) \($1.name)"}.capitalized
+
         for stat in pokemon.stats {
             let statDataToAppend = String(stat.base_stat)
             switch stat.stat.name {
@@ -90,13 +97,6 @@ class PokemonDetailViewController: UIViewController {
                 break
             }
         }
-        
-        // Reliant on image fetching call from API
-//        for segment in 0..<segments {
-//            
-//        }
-        
-        
         
     }
     

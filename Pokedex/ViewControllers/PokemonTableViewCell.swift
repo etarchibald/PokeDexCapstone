@@ -14,7 +14,7 @@ class PokemonTableViewCell: UITableViewCell {
     @IBOutlet weak var generationLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
     
-    var delegate: FavoritePokemon?
+    private var favoritePokemonView = FavoritePokemonViewController()
     var pokemon: Pokemon?
     
     override func awakeFromNib() {
@@ -45,6 +45,7 @@ class PokemonTableViewCell: UITableViewCell {
         pokemon?.isFavorited = true
         
         setup(pokemon: pokemon!)
-        favoriteView.favoritePokemon.append(pokemon!)
+//        favoritePokemonView.favoritePokemon.append(pokemon!)
+        FavoritePokemonViewController.favoritePokemon.append(pokemon!)
     }
 }

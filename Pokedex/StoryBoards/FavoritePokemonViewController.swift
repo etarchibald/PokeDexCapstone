@@ -11,18 +11,8 @@ class FavoritePokemonViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
-    private let cell = PokemonTableViewCell()
-    
-    var favoritePokemon = [Pokemon]()
-    
-//    var dummyPokemon = [
-//        Pokemon(id: 0, name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56),
-//        Pokemon(id: 0, name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56),
-//        Pokemon(id: 0, name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56),
-//        Pokemon(id: 0, name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56),
-//        Pokemon(id: 0, name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56),
-//        Pokemon(id: 0, name: "Bulbasaur", types: [], sprites: PokemonSprites(front_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!, back_default: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png")!), abilities: [], stats: [], height: 45, weight: 56)
-//    ]
+    //somehow needs to be static for it to work, because of the reasons: Yes
+    static var favoritePokemon = [Pokemon]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,27 +45,21 @@ class FavoritePokemonViewController: UIViewController {
 extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        favoritePokemon.count
+        FavoritePokemonViewController.favoritePokemon.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
         
-        let pokemon = favoritePokemon[indexPath.row]
+        let pokemon = FavoritePokemonViewController.favoritePokemon[indexPath.row]
         
         cell.updateUI(using: pokemon)
         
         //configure cell background color, if more than one type loop trough and make it a gradient if its just one make it the full background.
-        cell.backgroundColor = .green
+//        cell.backgroundColor = .green
         
         cell.layer.cornerRadius = 20
         
         return cell
     }
 }
-
-//extension FavoritePokemonViewController: FavoritePokemon {
-//    func addPokemonToFavorite(pokemon: Pokemon) {
-//        favoritePokemon.append(pokemon)
-//    }
-//}

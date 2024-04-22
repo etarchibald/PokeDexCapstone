@@ -7,9 +7,9 @@
 
 import Foundation
 
-class PokemonController {
+class PokemonNetworkController {
     
-    static var shared = PokemonController()
+    static var shared = PokemonNetworkController()
     
     /// An API call to get a list of 20 pokemon. No searching involved.
     /// - Parameter page: An optional parameter to get 20 more pokemon after the initial 20.
@@ -68,15 +68,13 @@ class PokemonController {
             var singlePokemon = try decoder.decode(Pokemon.self, from: data)
             
             //API call to get damage relations
-            for type in singlePokemon.types {
-                let pokemonType = type.type.name
-                
-                do {
-                    singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: pokemonType)
-                } catch {
-                    throw error
-                }
+            do {
+                singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.primaryType ?? .normal)
+                singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.secondaryType ?? .normal)
+            } catch {
+                throw error
             }
+            
             
             //API call to get species info
             do {
@@ -87,7 +85,6 @@ class PokemonController {
             } catch {
                 throw error
             }
-            //API call for generation
             
             pokemon.append(singlePokemon)
         }
@@ -129,14 +126,11 @@ class PokemonController {
         do {
             var singlePokemon = try decoder.decode(Pokemon.self, from: data)
             
-            for type in singlePokemon.types {
-                let pokemonType = type.type.name
-                
-                do {
-                    singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: pokemonType)
-                } catch {
-                    throw error
-                }
+            do {
+                singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.primaryType!)
+                singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.secondaryType!)
+            } catch {
+                throw error
             }
             
             //API call to get species info
@@ -155,9 +149,9 @@ class PokemonController {
         }
     }
     
-    func fetchPokemonDamageRelations(type: String) async throws -> PokemonDamageRelations {
+    func fetchPokemonDamageRelations(type: PokemonType) async throws -> PokemonDamageRelations {
         let session = URLSession.shared
-        let url = URL(string: "\(API.url)/type/\(type)")!
+        let url = URL(string: "\(API.url)/type/\(type.rawValue)")!
         
         let request = URLRequest(url: url)
         

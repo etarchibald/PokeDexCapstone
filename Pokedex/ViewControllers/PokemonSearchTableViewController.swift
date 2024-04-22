@@ -19,8 +19,12 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
     
     func displayGenericPokemon() {
         Task {
-            var pokemon = try? await PokemonController.shared.getGenericPokemon()
-            self.pokemon = pokemon!
+            do {
+                let pokemon = try await PokemonNetworkController.shared.getGenericPokemon()
+                self.pokemon = pokemon
+            } catch {
+                print("error: \(error)")
+            }
             
             tableView.reloadData()
         }
@@ -65,7 +69,7 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
         // Display the searched pokemon
         Task {
             do {
-                if let searchedPokemon = try await PokemonController.shared.getSpecificPokemon(pokemonName: searchBar.text ?? "") {
+                if let searchedPokemon = try await PokemonNetworkController.shared.getSpecificPokemon(pokemonName: searchBar.text ?? "") {
                     pokemon = [searchedPokemon]
                     tableView.reloadData()
                     

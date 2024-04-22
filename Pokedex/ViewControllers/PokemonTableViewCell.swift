@@ -27,11 +27,10 @@ class PokemonTableViewCell: UITableViewCell {
     func setup(pokemon: Pokemon) {
         nameLabel.text = pokemon.name.capitalized
         
-        let typeNames = pokemon.types.map { $0.type.name.capitalized }
-        let typesString = typeNames.joined(separator: ", ")
-        typeLabel.text = typesString.isEmpty ? "Unknown Type" : typesString
+        let typeNames = "\(pokemon.primaryType?.rawValue.capitalized ?? ""), \(pokemon.secondaryType?.rawValue.capitalized ?? "")"
+        typeLabel.text = typeNames
         
-        generationLabel.text = pokemon.species?.generation?.name
+        generationLabel.text = PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? "")
         
         pokemonImage.load(url: pokemon.sprites.front_default)
         favoriteButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
@@ -48,14 +47,14 @@ class PokemonTableViewCell: UITableViewCell {
         if pokemon?.isFavorited ?? false {
             pokemon?.isFavorited = false
             setup(pokemon: pokemon!)
-            FavoritePokemonViewController.favoritePokemon = FavoritePokemonViewController.favoritePokemon.filter { eachPokemon in
+            FavoritePokemonController().favoritePokemon = FavoritePokemonController().favoritePokemon.filter { eachPokemon in
                pokemon?.name != eachPokemon.name ? true : false
             }
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
         } else {
             pokemon?.isFavorited = true
             setup(pokemon: pokemon!)
-            FavoritePokemonViewController.favoritePokemon.append(pokemon!)
+            FavoritePokemonController().favoritePokemon.append(pokemon!)
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
         }
         

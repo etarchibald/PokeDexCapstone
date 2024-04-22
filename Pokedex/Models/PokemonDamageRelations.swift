@@ -16,12 +16,12 @@ struct PokemonDamageRelations: Codable {
 }
 
 struct DamageRelations: Codable {
-    var doubleDamageFrom: [PokemonType]
-    var doubleDamageTo: [PokemonType]
-    var halfDamageFrom: [PokemonType]
-    var halfDamageTo: [PokemonType]
-    var noDamageFrom: [PokemonType]
-    var noDamageTo: [PokemonType]
+    var doubleDamageFrom: [APIPokemonType]
+    var doubleDamageTo: [APIPokemonType]
+    var halfDamageFrom: [APIPokemonType]
+    var halfDamageTo: [APIPokemonType]
+    var noDamageFrom: [APIPokemonType]
+    var noDamageTo: [APIPokemonType]
     
     enum CodingKeys: String, CodingKey {
         case doubleDamageFrom = "double_damage_from"

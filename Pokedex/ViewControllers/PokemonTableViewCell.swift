@@ -17,6 +17,8 @@ class PokemonTableViewCell: UITableViewCell {
     private var favoritePokemonView = FavoritePokemonViewController()
     var pokemon: Pokemon?
     
+    var delegate: FavoritePokemon?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -42,10 +44,20 @@ class PokemonTableViewCell: UITableViewCell {
     }
 
     @IBAction func favoritebuttonTapped(_ sender: UIButton) {
-        pokemon?.isFavorited = true
         
-        setup(pokemon: pokemon!)
-//        favoritePokemonView.favoritePokemon.append(pokemon!)
-        FavoritePokemonViewController.favoritePokemon.append(pokemon!)
+        if pokemon?.isFavorited ?? false {
+            pokemon?.isFavorited = false
+            setup(pokemon: pokemon!)
+            FavoritePokemonViewController.favoritePokemon = FavoritePokemonViewController.favoritePokemon.filter { eachPokemon in
+               pokemon?.name != eachPokemon.name ? true : false
+            }
+            delegate?.addPokemonToFavorite(pokemon: pokemon!)
+        } else {
+            pokemon?.isFavorited = true
+            setup(pokemon: pokemon!)
+            FavoritePokemonViewController.favoritePokemon.append(pokemon!)
+            delegate?.addPokemonToFavorite(pokemon: pokemon!)
+        }
+        
     }
 }

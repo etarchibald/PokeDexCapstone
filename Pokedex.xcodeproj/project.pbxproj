@@ -10,6 +10,8 @@
 		3152CB102BD15D8800BB5980 /* PokemonDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3152CB0F2BD15D8800BB5980 /* PokemonDeck.swift */; };
 		3152CB122BD15E3F00BB5980 /* PokemonDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3152CB112BD15E3F00BB5980 /* PokemonDeckViewController.swift */; };
 		3152CB142BD1650400BB5980 /* DeckTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3152CB132BD1650400BB5980 /* DeckTableViewCell.swift */; };
+		3152CB162BD1D98500BB5980 /* AddDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3152CB152BD1D98500BB5980 /* AddDeckViewController.swift */; };
+		3152CB1A2BD6A00200BB5980 /* DeckController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3152CB192BD6A00200BB5980 /* DeckController.swift */; };
 		4A6BBBF02BCEC54600ACE001 /* PokemonDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A6BBBEF2BCEC54600ACE001 /* PokemonDetail.storyboard */; };
 		4A6BBBFE2BCECF6C00ACE001 /* FavoritePokemonView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A6BBBFC2BCECF6C00ACE001 /* FavoritePokemonView.storyboard */; };
 		4A6BBC012BCED41500ACE001 /* DeckView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A6BBBFF2BCED41500ACE001 /* DeckView.storyboard */; };
@@ -45,6 +47,8 @@
 		3152CB0F2BD15D8800BB5980 /* PokemonDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDeck.swift; sourceTree = "<group>"; };
 		3152CB112BD15E3F00BB5980 /* PokemonDeckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDeckViewController.swift; sourceTree = "<group>"; };
 		3152CB132BD1650400BB5980 /* DeckTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckTableViewCell.swift; sourceTree = "<group>"; };
+		3152CB152BD1D98500BB5980 /* AddDeckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeckViewController.swift; sourceTree = "<group>"; };
+		3152CB192BD6A00200BB5980 /* DeckController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckController.swift; sourceTree = "<group>"; };
 		4A6BBBEF2BCEC54600ACE001 /* PokemonDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PokemonDetail.storyboard; sourceTree = "<group>"; };
 		4A6BBBFD2BCECF6C00ACE001 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/FavoritePokemonView.storyboard; sourceTree = "<group>"; };
 		4A6BBC002BCED41500ACE001 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/DeckView.storyboard; sourceTree = "<group>"; };
@@ -158,6 +162,7 @@
 			children = (
 				4A893BCD2BD2D18500CCDE0B /* PokemonPrettyController.swift */,
 				4A6BBC142BD1A97100ACE001 /* Protocols.swift */,
+				3152CB192BD6A00200BB5980 /* DeckController.swift */,
 				A38B13022B4EEE28003D33D8 /* PokemonNetworkController.swift */,
 			);
 			path = Controllers;
@@ -173,6 +178,7 @@
 				A38B12E62B4EE879003D33D8 /* PokemonDetailViewController.swift */,
 				3152CB112BD15E3F00BB5980 /* PokemonDeckViewController.swift */,
 				3152CB132BD1650400BB5980 /* DeckTableViewCell.swift */,
+				3152CB152BD1D98500BB5980 /* AddDeckViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -258,6 +264,8 @@
 				A38B13072B4EEFF5003D33D8 /* PokemonGenericSearchResults.swift in Sources */,
 				4A6BBC152BD1A97100ACE001 /* Protocols.swift in Sources */,
 				4A6BBC052BCEFCED00ACE001 /* PokemonStats.swift in Sources */,
+				3152CB162BD1D98500BB5980 /* AddDeckViewController.swift in Sources */,
+				3152CB1A2BD6A00200BB5980 /* DeckController.swift in Sources */,
 				A38B13032B4EEE28003D33D8 /* PokemonNetworkController.swift in Sources */,
 				A38B13002B4EED94003D33D8 /* PokemonSprites.swift in Sources */,
 				3152CB142BD1650400BB5980 /* DeckTableViewCell.swift in Sources */,

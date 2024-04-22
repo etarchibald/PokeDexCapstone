@@ -10,40 +10,40 @@ import UIKit
 class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var deckTableView: UITableView!
+    @IBOutlet weak var deckSearchBar: UISearchBar!
     
-    var decks = [Deck]()
+    var deckController = DeckController.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         deckTableView.dataSource = self
         deckTableView.delegate = self
-        
-        // Do any additional setup after loading the view.
     }
     
-    
-    func deckMaker() {
-        
-    }
-    
-    func deckSearchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let searchText = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines), !searchText.isEmpty else {
-            // If the search text is empty, do nothing
-            return
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "newDeckSegue" {
+            if let nav = segue.destination as? UINavigationController, let first = nav.viewControllers.first as? AddDeckViewController {
+                first.dismissCompletion = reload
+            }
         }
-        
-        // Filter the decks by deckName containing the search text
-        let filteredDecks = decks.filter { $0.deckName.localizedCaseInsensitiveContains(searchText) }
-        
-        // Now you can use the filteredDecks array as needed, such as displaying it in a table view
+    }
+    
+    func reload() {
+        deckTableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return decks.count
+        return deckController.decks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = deckTableView.dequeueReusableCell(withIdentifier: "deckCell", for: indexPath) as! DeckTableViewCell
+        
+        let aDeck = deckController.decks[indexPath.row]
+        
+        cell.deck = aDeck
+        
+        cell.setup(deck: aDeck)
         
         
        return cell

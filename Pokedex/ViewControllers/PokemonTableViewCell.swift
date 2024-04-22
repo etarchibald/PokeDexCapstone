@@ -47,14 +47,14 @@ class PokemonTableViewCell: UITableViewCell {
         if pokemon?.isFavorited ?? false {
             pokemon?.isFavorited = false
             setup(pokemon: pokemon!)
-            FavoritePokemonViewController.favoritePokemon = FavoritePokemonViewController.favoritePokemon.filter { eachPokemon in
+            FavoritePokemonController().favoritePokemon = FavoritePokemonController().favoritePokemon.filter { eachPokemon in
                pokemon?.name != eachPokemon.name ? true : false
             }
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
         } else {
             pokemon?.isFavorited = true
             setup(pokemon: pokemon!)
-            FavoritePokemonViewController.favoritePokemon.append(pokemon!)
+            FavoritePokemonController().favoritePokemon.append(pokemon!)
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
         }
         

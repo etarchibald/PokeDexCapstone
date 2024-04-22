@@ -12,12 +12,16 @@ class FavoritePokemonViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     //somehow needs to be static for it to work, because of the reasons: Yes
-    static var favoritePokemon = [Pokemon]()
+    private var favoritePokemon = [Pokemon]()
+    
+    private var favoritePokemonController = FavoritePokemonController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //load favorite Pokemon and put in pokemon
+        
+        favoritePokemonController.favoritePokemon = favoritePokemon
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -45,13 +49,13 @@ class FavoritePokemonViewController: UIViewController {
 extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        FavoritePokemonViewController.favoritePokemon.count
+        favoritePokemon.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
         
-        let pokemon = FavoritePokemonViewController.favoritePokemon[indexPath.item]
+        let pokemon = favoritePokemon[indexPath.item]
         
         cell.layer.cornerRadius = 20
         

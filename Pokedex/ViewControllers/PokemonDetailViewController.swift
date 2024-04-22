@@ -21,6 +21,7 @@ class PokemonDetailViewController: UIViewController {
     @IBOutlet weak var nextEvolutionLabel: UILabel!
     
     // Base stats labels
+    @IBOutlet weak var weightAndHeightLabel: UILabel!
     @IBOutlet weak var hpStatLabel: UILabel!
     @IBOutlet weak var attackLabel: UILabel!
     @IBOutlet weak var defenseLabel: UILabel!
@@ -35,7 +36,6 @@ class PokemonDetailViewController: UIViewController {
     // Abilites tableview
     @IBOutlet weak var abilitiesTableView: UITableView!
     
-    let segments = 4
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
     var storedImages: [String:UIImage] = [:]
@@ -95,7 +95,14 @@ class PokemonDetailViewController: UIViewController {
     func setUpPokemonInfo() {
         let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
         let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
-        let pokemonTyping = pokemon.types.reduce("") { "\($0) \($1.type.name)" }.capitalized
+        var pokemonTyping = ""
+        
+        if pokemon.primaryType?.rawValue == pokemon.secondaryType?.rawValue {
+            pokemonTyping = "\(pokemon.primaryType!.rawValue)".capitalized
+        } else {
+            pokemonTyping = "\(pokemon.primaryType!.rawValue), \(pokemon.secondaryType?.rawValue ?? "")".capitalized
+        }
+        
         
         if pokemon.species?.isMythical ?? false {
             pokemonTypingLabel.text = "Mythical\(pokemonTyping) Type Pokemon"
@@ -107,9 +114,13 @@ class PokemonDetailViewController: UIViewController {
         
         pokemonNameLabel.text = pokemon.name.capitalized
         pokemonImageView.load(url: pokemon.sprites.front_default)
-        generationIntroducedLabel.text! += pokemon.species?.generation?.name ?? ""
+        generationIntroducedLabel.text! += PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? "")
+        
+        
         previousEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.species.name.capitalized ?? "None")"
         nextEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.evolvesTo?.first?.species.name.capitalized ?? "None")"
+        
+        
         typeStrengthsLabel.text! = strengths.reduce("") { "\($0) \($1.name)"}.capitalized
         typeWeaknessLabel.text! = weaknesses.reduce("") { "\($0) \($1.name)"}.capitalized
         

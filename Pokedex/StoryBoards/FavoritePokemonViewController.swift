@@ -53,25 +53,18 @@ extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionV
         
         let pokemon = FavoritePokemonViewController.favoritePokemon[indexPath.item]
         
+        //configure cell background color, if more than one type loop trough and make it a gradient if its just one make it the full background.
+        
+        print("Pokemon: \(pokemon.name). Types: \(String(describing: pokemon.primaryType?.rawValue)), \(String(describing: pokemon.secondaryType?.rawValue)).")
+        
+//        let gradient = CAGradientLayer()
+//        gradient.colors = [UIColor(hex: pokemon.primaryTypeColor ?? "").cgColor, UIColor(hex: pokemon.secondaryTypeColor ?? "").cgColor]
+//        gradient.frame = cell.bounds
+//        
+//        cell.layer.insertSublayer(gradient, at: 0)
         cell.layer.cornerRadius = 20
         
-        //configure cell background color, if more than one type loop trough and make it a gradient if its just one make it the full background.
-        if let type1 = pokemon.primaryType?.rawValue, let type2 = pokemon.secondaryType?.rawValue {
-            print("\(pokemon.name), type1: \(type1), type2: \(type2)")
-            
-            if type1 == type2 {
-                cell.backgroundColor = PokemonPrettyController.shared.getbackgroundColor(type: type1)
-            } else {
-                
-                let gradient = CAGradientLayer()
-                gradient.colors = [PokemonPrettyController.shared.getbackgroundColor(type: type1).cgColor, PokemonPrettyController.shared.getbackgroundColor(type: type2).cgColor]
-//                gradient.transform = CATransform3DMakeRotation(270 / 180 * CGFloat.pi, 0, 0, 1)
-                gradient.frame = cell.bounds
-                
-                cell.layer.insertSublayer(gradient, at: 0)
-                
-            }
-        }
+        cell.backgroundColor = UIColor(hex: pokemon.primaryTypeColor ?? "")
         
         cell.updateUI(using: pokemon)
         

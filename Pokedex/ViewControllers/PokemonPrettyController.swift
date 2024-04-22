@@ -8,27 +8,6 @@
 import Foundation
 import UIKit
 
-enum TypeColor: String {
-    case normal = "#A8A77A"
-    case fire = "#EE8130"
-    case water = "#6390F0"
-    case electric = "#F7D02C"
-    case grass = "#7AC74C"
-    case ice = "#96D9D6"
-    case fighting = "#C22E28"
-    case poison = "#A33EA1"
-    case ground = "#E2BF65"
-    case flying = "#A98FF3"
-    case psychic = "#F95587"
-    case bug = "#A6B91A"
-    case rock = "#B6A136"
-    case ghost = "#735797"
-    case dragon = "#6F35FC"
-    case dark = "#705746"
-    case steel = "#B7B7CE"
-    case fairy = "#D685AD"
-}
-
 class PokemonPrettyController {
     
     static var shared = PokemonPrettyController()
@@ -60,50 +39,50 @@ class PokemonPrettyController {
         return finalString
     }
     
-    func getbackgroundColor(type: String) -> UIColor {
-        switch type.lowercased() {
-        case "normal":
-            return getColorFrom(hex: TypeColor.normal.rawValue)
-        case "fire":
-            return getColorFrom(hex: TypeColor.fire.rawValue)
-        case "water":
-            return getColorFrom(hex: TypeColor.water.rawValue)
-        case "electric":
-            return getColorFrom(hex: TypeColor.electric.rawValue)
-        case "grass":
-            return getColorFrom(hex: TypeColor.grass.rawValue)
-        case "ice":
-            return getColorFrom(hex: TypeColor.ice.rawValue)
-        case "fighting":
-            return getColorFrom(hex: TypeColor.fighting.rawValue)
-        case "poison":
-            return getColorFrom(hex: TypeColor.poison.rawValue)
-        case "ground":
-            return getColorFrom(hex: TypeColor.ground.rawValue)
-        case "flying":
-            return getColorFrom(hex: TypeColor.flying.rawValue)
-        case "psychic":
-            return getColorFrom(hex: TypeColor.psychic.rawValue)
-        case "bug":
-            return getColorFrom(hex: TypeColor.bug.rawValue)
-        case "rock":
-            return getColorFrom(hex: TypeColor.rock.rawValue)
-        case "ghost":
-            return getColorFrom(hex: TypeColor.ghost.rawValue)
-        case "dragon":
-            return getColorFrom(hex: TypeColor.dragon.rawValue)
-        case "dark":
-            return getColorFrom(hex: TypeColor.dark.rawValue)
-        case "steel":
-            return getColorFrom(hex: TypeColor.steel.rawValue)
-        case "fairy":
-            return getColorFrom(hex: TypeColor.fairy.rawValue)
-        default:
-            return .clear
+    func getBackgroundColorHex(type: PokemonType) -> String {
+        switch type {
+        case .normal:
+            return "#AAB09F"
+        case .fire:
+            return "#EA7A3C"
+        case .water:
+            return "#6390F0"
+        case .electric:
+            return "#E5C531"
+        case .grass:
+            return "#71C558"
+        case .ice:
+            return "#70CBD4"
+        case .fighting:
+            return "#CB5F48"
+        case .poison:
+            return "#A33EA1"
+        case .ground:
+            return "#CC9F4F"
+        case .flying:
+            return "#7DA6DE"
+        case .psychic:
+            return "#F95587"
+        case .bug:
+            return "#94BC4A"
+        case .rock:
+            return "#B2A061"
+        case .ghost:
+            return "#735797"
+        case .dragon:
+            return "#6A7BAF"
+        case .dark:
+            return "#736C75"
+        case .steel:
+            return "#89A1B0"
+        case .fairy:
+            return "#E397D1"
         }
     }
-    
-    func getColorFrom(hex: String) -> UIColor {
+}
+
+extension UIColor {
+    convenience init(hex: String) {
         var cleanHexCode = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         cleanHexCode = cleanHexCode.replacingOccurrences(of: "#", with: "")
         var rgb: UInt64 = 0
@@ -113,7 +92,6 @@ class PokemonPrettyController {
         let redValue = Double((rgb >> 16) & 0xFF) / 255.0
         let greenValue = Double((rgb >> 8) & 0xFF) / 255.0
         let blueValue = Double(rgb & 0xFF) / 255.0
-        return UIColor(red: redValue, green: greenValue, blue: blueValue, alpha: 1)
+        self.init(red: redValue, green: greenValue, blue: blueValue, alpha: 1)
     }
-    
 }

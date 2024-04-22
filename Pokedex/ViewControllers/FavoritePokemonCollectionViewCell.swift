@@ -13,7 +13,7 @@ class FavoritePokemonCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     
     func updateUI(using pokemon: Pokemon) {
-        nameLabel.text =  pokemon.name
+        nameLabel.text =  pokemon.name.capitalized
         imageView.load(url: pokemon.sprites.front_default)
     }
 }

@@ -18,6 +18,8 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         super.viewDidLoad()
         deckTableView.dataSource = self
         deckTableView.delegate = self
+        
+        deckController.decks = PokemonPersistenceController.loadDecks()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

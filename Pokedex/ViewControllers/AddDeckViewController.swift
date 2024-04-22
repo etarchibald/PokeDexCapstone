@@ -18,7 +18,6 @@ class AddDeckViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("hey")
     }
     
     @IBAction func addDeckButtonTapped(_ sender: Any) {
@@ -30,11 +29,15 @@ class AddDeckViewController: UIViewController {
         let newDeck = Deck(pokemon: [], id: UUID(), typeOfDeck: deckType, deckName: deckName, numberOfCards: 0)
         
         DeckController.shared.addDeck(newDeck)
-        print(DeckController.shared.decks)
+        //print(DeckController.shared.decks)
+        
+        PokemonPersistenceController.saveDecks(decks: DeckController.shared.decks)
         
         if let dismissCompletion {
             dismissCompletion()
         }
+        
+        
         
         dismiss(animated: true, completion: nil)
     }

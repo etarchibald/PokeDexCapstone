@@ -13,18 +13,20 @@ import Foundation
 
 class PokemonPersistenceController {
     
+    static let shared = PokemonPersistenceController()
+    
     static let DocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("emojis").appendingPathExtension("json")
     
     //fix to use favortie pokemon
-    static func saveToFile(favoritePokemons: [Pokemon]) {
+    static func savePokemon(favoritePokemons: [Pokemon]) {
         let jsonEncoder = JSONEncoder()
         let encodedPokemons = try? jsonEncoder.encode(favoritePokemons)
         try? encodedPokemons?.write(to: ArchiveURL, options: .noFileProtection)
     }
     
     //fix to use favortie pokemon
-    static func loadFromFile() -> [Pokemon] {
+    static func loadPokemon() -> [Pokemon] {
         let jsonDecoder = JSONDecoder()
         if let retrievedPokemonData = try? Data(contentsOf: ArchiveURL),
            let decodedPokemons = try? jsonDecoder.decode(Array<Pokemon>.self, from: retrievedPokemonData) {
@@ -34,13 +36,13 @@ class PokemonPersistenceController {
         }
     }
     
-    static func saveToFile(decks: [Deck]) {
+    static func saveDecks(decks: [Deck]) {
         let jsonEncoder = JSONEncoder()
         let encodedDecks = try? jsonEncoder.encode(decks)
         try? encodedDecks?.write(to: ArchiveURL, options: .noFileProtection)
     }
     
-    static func loadFromFile() -> [Deck] {
+    static func loadDecks() -> [Deck] {
         let jsonDecoder = JSONDecoder()
         if let retrievedDecksData = try? Data(contentsOf: ArchiveURL),
            let decodedDecks = try? jsonDecoder.decode(Array<Deck>.self, from: retrievedDecksData) {

@@ -36,7 +36,6 @@ class PokemonDetailViewController: UIViewController {
     // Abilites tableview
     @IBOutlet weak var abilitiesTableView: UITableView!
     
-    let segments = 4
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
     var storedImages: [String:UIImage] = [:]
@@ -96,7 +95,14 @@ class PokemonDetailViewController: UIViewController {
     func setUpPokemonInfo() {
         let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
         let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
-        let pokemonTyping = pokemon.types.reduce("") { "\($0) \($1.type.name)" }.capitalized
+        var pokemonTyping = ""
+        
+        if pokemon.primaryType?.rawValue == pokemon.secondaryType?.rawValue {
+            pokemonTyping = "\(pokemon.primaryType!.rawValue)".capitalized
+        } else {
+            pokemonTyping = "\(pokemon.primaryType!.rawValue), \(pokemon.secondaryType?.rawValue ?? "")".capitalized
+        }
+        
         
         if pokemon.species?.isMythical ?? false {
             pokemonTypingLabel.text = "Mythical\(pokemonTyping) Type Pokemon"

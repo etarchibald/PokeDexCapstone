@@ -53,6 +53,9 @@
                                                     <segment title="Shiny"/>
                                                     <segment title="ShinyBack"/>
                                                 </segments>
+                                                <connections>
+                                                    <action selector="changeImageView:" destination="5rD-Wt-c3e" eventType="valueChanged" id="SUH-Tb-R4T"/>
+                                                </connections>
                                             </segmentedControl>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Generation Introduced: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XQP-B5-DA3">
                                                 <rect key="frame" x="85.333333333333329" y="39" width="162.33333333333337" height="18"/>

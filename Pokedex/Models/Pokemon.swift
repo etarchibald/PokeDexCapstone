@@ -8,11 +8,12 @@
 import Foundation
 
 //decoding for the details
-struct Pokemon: Codable {
+struct Pokemon {
     var id: Int
     var name: String
     var isFavorited: Bool?
-    var types: [PokemonTypeContainer]
+    var primaryType: PokemonType?
+    var secondaryType: PokemonType?
     var sprites: PokemonSprites
     var abilities: [PokemonAbilities]
     var stats: [Stats]
@@ -24,4 +25,40 @@ struct Pokemon: Codable {
     var damageRelations: PokemonDamageRelations?
     var species: PokemonSpecies?
     var evolutionChain: PokemonEvolution?
+}
+
+extension Pokemon: Codable {
+    
+    enum PokemonCodingKeys: CodingKey {
+        case id, name, isFavorited, primaryType, types, sprites, abilities, stats, height, weight, damageRelations, species, evolutionChain
+    }
+        
+    enum PokemonTypeContainerCodingKeys: CodingKey {
+        case slot
+        case type
+    }
+
+    enum PokemonTypeCodingKeys: CodingKey {
+        case name
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: PokemonCodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.isFavorited = try container.decodeIfPresent(Bool.self, forKey: .isFavorited)
+        
+        let typesObject = try container.decode([APIPokemonSlotType].self, forKey: .types)
+        self.primaryType = typesObject.first?.type.name
+        self.secondaryType = typesObject.last?.type.name
+        
+        self.sprites = try container.decode(PokemonSprites.self, forKey: .sprites)
+        self.abilities = try container.decode([PokemonAbilities].self, forKey: .abilities)
+        self.stats = try container.decode([Stats].self, forKey: .stats)
+        self.height = try container.decode(Int.self, forKey: .height)
+        self.weight = try container.decode(Int.self, forKey: .weight)
+        self.damageRelations = try container.decodeIfPresent(PokemonDamageRelations.self, forKey: .damageRelations)
+        self.species = try container.decodeIfPresent(PokemonSpecies.self, forKey: .species)
+        self.evolutionChain = try container.decodeIfPresent(PokemonEvolution.self, forKey: .evolutionChain)
+    }
 }

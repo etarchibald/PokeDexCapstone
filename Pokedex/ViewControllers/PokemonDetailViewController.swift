@@ -21,6 +21,7 @@ class PokemonDetailViewController: UIViewController {
     @IBOutlet weak var nextEvolutionLabel: UILabel!
     
     // Base stats labels
+    @IBOutlet weak var weightAndHeightLabel: UILabel!
     @IBOutlet weak var hpStatLabel: UILabel!
     @IBOutlet weak var attackLabel: UILabel!
     @IBOutlet weak var defenseLabel: UILabel!
@@ -107,9 +108,13 @@ class PokemonDetailViewController: UIViewController {
         
         pokemonNameLabel.text = pokemon.name.capitalized
         pokemonImageView.load(url: pokemon.sprites.front_default)
-        generationIntroducedLabel.text! += pokemon.species?.generation?.name ?? ""
+        generationIntroducedLabel.text! += PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? "")
+        
+        
         previousEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.species.name.capitalized ?? "None")"
         nextEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.evolvesTo?.first?.species.name.capitalized ?? "None")"
+        
+        
         typeStrengthsLabel.text! = strengths.reduce("") { "\($0) \($1.name)"}.capitalized
         typeWeaknessLabel.text! = weaknesses.reduce("") { "\($0) \($1.name)"}.capitalized
         

@@ -37,7 +37,7 @@ class PokemonDetailViewController: UIViewController {
     
     let segments = 4
     var pokemon: Pokemon
-    var pokemonController = PokemonController.shared
+    var pokemonController = PokemonNetworkController.shared
     var storedImages: [String:UIImage] = [:]
     
     override func viewDidLoad() {

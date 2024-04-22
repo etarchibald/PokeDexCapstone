@@ -7,9 +7,9 @@
 
 import Foundation
 
-class PokemonController {
+class PokemonNetworkController {
     
-    static var shared = PokemonController()
+    static var shared = PokemonNetworkController()
     
     /// An API call to get a list of 20 pokemon. No searching involved.
     /// - Parameter page: An optional parameter to get 20 more pokemon after the initial 20.

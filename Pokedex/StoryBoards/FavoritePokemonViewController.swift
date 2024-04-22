@@ -12,12 +12,16 @@ class FavoritePokemonViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     //somehow needs to be static for it to work, because of the reasons: Yes
-    static var favoritePokemon = [Pokemon]()
+    private var favoritePokemon = [Pokemon]()
+    
+    private var favoritePokemonController = FavoritePokemonController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //load favorite Pokemon and put in pokemon
+        
+        favoritePokemonController.favoritePokemon = favoritePokemon
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -45,25 +49,27 @@ class FavoritePokemonViewController: UIViewController {
 extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        FavoritePokemonViewController.favoritePokemon.count
+        favoritePokemon.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
         
-        let pokemon = FavoritePokemonViewController.favoritePokemon[indexPath.row]
+        let pokemon = favoritePokemon[indexPath.item]
         
         cell.layer.cornerRadius = 20
         
         //configure cell background color, if more than one type loop trough and make it a gradient if its just one make it the full background.
-        if let type1 = pokemon.types.first?.type.name, let type2 = pokemon.types.last?.type.name {
+        if let type1 = pokemon.primaryType?.rawValue, let type2 = pokemon.secondaryType?.rawValue {
+            print("\(pokemon.name), type1: \(type1), type2: \(type2)")
+            
             if type1 == type2 {
                 cell.backgroundColor = PokemonPrettyController.shared.getbackgroundColor(type: type1)
             } else {
+                
                 let gradient = CAGradientLayer()
                 gradient.colors = [PokemonPrettyController.shared.getbackgroundColor(type: type1).cgColor, PokemonPrettyController.shared.getbackgroundColor(type: type2).cgColor]
 //                gradient.transform = CATransform3DMakeRotation(270 / 180 * CGFloat.pi, 0, 0, 1)
-//                gradient.locations = [0.5, 0.5]
                 gradient.frame = cell.bounds
                 
                 cell.layer.insertSublayer(gradient, at: 0)

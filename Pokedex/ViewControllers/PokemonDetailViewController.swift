@@ -68,6 +68,8 @@ class PokemonDetailViewController: UIViewController {
         default: pokemonImageView.image = storedImages["defaultFront"]
         }
     }
+    
+    
     func saveImageData() {
         Task {
             do {
@@ -77,8 +79,6 @@ class PokemonDetailViewController: UIViewController {
                     if let shinyFrontAsImage = UIImage(data: shinyFrontData), let shinyBackAsImage = UIImage(data: shinyBackData) {
                         storedImages["shinyFront"] = shinyFrontAsImage
                         storedImages["shinyBack"] = shinyBackAsImage
-                        imageSegmentedControl.setImage(shinyFrontAsImage, forSegmentAt: 2)
-                        imageSegmentedControl.setImage(shinyFrontAsImage, forSegmentAt: 3)
                     }
                 
                 let spriteBehindImageData = try await pokemonController.fetchImageData(url: pokemon.sprites.back_default)
@@ -86,8 +86,6 @@ class PokemonDetailViewController: UIViewController {
                 if let defaultFront = UIImage(data: spriteFrontImageData), let defaultBack = UIImage(data: spriteBehindImageData) {
                     storedImages["defaultFront"] = defaultFront
                     storedImages["defaultBack"] = defaultBack
-                    imageSegmentedControl.setImage(defaultBack, forSegmentAt: 1)
-                    imageSegmentedControl.setImage(defaultFront, forSegmentAt: 0)
                 }
                 
             }

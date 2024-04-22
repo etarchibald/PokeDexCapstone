@@ -11,10 +11,11 @@ class DeckTableViewCell: UITableViewCell {
 
     @IBOutlet weak var deckNameLabel: UILabel!
     
-    @IBOutlet weak var numberOfCardsLabel: UILabel!
+    @IBOutlet weak var numberOfPokemonLabel: UILabel!
     
     @IBOutlet weak var typeOfDeckLabel: UILabel!
     
+    var deck: Deck?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,7 +25,7 @@ class DeckTableViewCell: UITableViewCell {
     func setup(deck: Deck) {
         deckNameLabel.text = deck.deckName
         
-        numberOfCardsLabel.text = String(deck.numberOfCards)
+        numberOfPokemonLabel.text = String("Number of Pokemon in Deck: \(deck.numberOfCards)")
         
         typeOfDeckLabel.text = deck.typeOfDeck
     }

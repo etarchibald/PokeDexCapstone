@@ -8,8 +8,8 @@
 import Foundation
 
 struct Deck: Codable {
-    var pokemon: [Pokemon]
-    var id: UUID
+    var pokemon: [Pokemon] = []
+    var id: UUID = UUID()
     var typeOfDeck: String
     var deckName: String
     var numberOfCards: Int

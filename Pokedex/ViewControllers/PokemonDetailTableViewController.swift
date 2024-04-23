@@ -70,16 +70,16 @@ class PokemonDetailTableViewController: UITableViewController {
     func saveImageData() {
         Task {
             do {
-                let shinyFrontData = try await pokemonController.fetchImageData(url: pokemon.sprites.front_shiny)
-                let shinyBackData = try await pokemonController.fetchImageData(url: pokemon.sprites.back_shiny)
+                let shinyFrontData = try await pokemonController.fetchImageData(url: pokemon.sprites.frontShiny)
+                let shinyBackData = try await pokemonController.fetchImageData(url: pokemon.sprites.backShiny)
                     
                     if let shinyFrontAsImage = UIImage(data: shinyFrontData), let shinyBackAsImage = UIImage(data: shinyBackData) {
                         storedImages["shinyFront"] = shinyFrontAsImage
                         storedImages["shinyBack"] = shinyBackAsImage
                     }
                 
-                let spriteBehindImageData = try await pokemonController.fetchImageData(url: pokemon.sprites.back_default)
-                let spriteFrontImageData = try await pokemonController.fetchImageData(url: pokemon.sprites.front_default)
+                let spriteBehindImageData = try await pokemonController.fetchImageData(url: pokemon.sprites.backDefault)
+                let spriteFrontImageData = try await pokemonController.fetchImageData(url: pokemon.sprites.frontDefault)
                 if let defaultFront = UIImage(data: spriteFrontImageData), let defaultBack = UIImage(data: spriteBehindImageData) {
                     storedImages["defaultFront"] = defaultFront
                     storedImages["defaultBack"] = defaultBack
@@ -110,7 +110,7 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
         pokemonNameLabel.text = pokemon.name.capitalized
-        pokemonImageView.load(url: pokemon.sprites.front_default)
+        pokemonImageView.load(url: pokemon.sprites.frontDefault)
         generationIntroducedLabel.text! += PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? "")
         
         

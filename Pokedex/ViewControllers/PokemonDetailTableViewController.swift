@@ -1,13 +1,13 @@
 //
-//  ViewController.swift
+//  DetailTableViewController.swift
 //  Pokedex
 //
-//  Created by Brayden Lemke on 1/10/24.
+//  Created by Jacob Davis on 4/23/24.
 //
 
 import UIKit
 
-class PokemonDetailViewController: UIViewController {
+class PokemonDetailTableViewController: UITableViewController {
     
     // Outlets relating to Pokemon images
     @IBOutlet weak var pokemonNameLabel: UILabel!
@@ -21,7 +21,7 @@ class PokemonDetailViewController: UIViewController {
     @IBOutlet weak var nextEvolutionLabel: UILabel!
     
     // Base stats labels
-    @IBOutlet weak var weightAndHeightLabel: UILabel!
+//    @IBOutlet weak var weightAndHeightLabel: UILabel!
     @IBOutlet weak var hpStatLabel: UILabel!
     @IBOutlet weak var attackLabel: UILabel!
     @IBOutlet weak var defenseLabel: UILabel!
@@ -145,29 +145,5 @@ class PokemonDetailViewController: UIViewController {
         }
         
     }
-    
-    
-}
 
-extension PokemonDetailViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        pokemon.abilities.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        let ability = pokemon.abilities[indexPath.row]
-        
-        var content = cell.defaultContentConfiguration()
-        content.text = ability.ability.name.capitalized
-        cell.contentConfiguration = content
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    
 }
-

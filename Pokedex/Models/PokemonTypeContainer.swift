@@ -26,8 +26,4 @@ struct APIPokemonSlotType: Codable {
 
 struct APIPokemonType: Codable {
     let name: PokemonType
-    
-    var typeColor: String {
-        PokemonPrettyController.shared.getBackgroundColorHex(type: name)
-    }
 }

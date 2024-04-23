@@ -34,15 +34,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="122" height="171"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FcT-nU-otn">
+                                                    <rect key="frame" x="0.0" y="0.0" width="122" height="171"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="91x-Zj-Uef">
                                                     <rect key="frame" x="8" y="8" width="106" height="118"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="noe-DT-iYF">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="noe-DT-iYF">
                                                     <rect key="frame" x="8" y="134" width="106" height="29"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="29" id="0AU-rf-dDr"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -59,6 +63,7 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="122" height="171"/>
                                         <connections>
+                                            <outlet property="cellBackgroundView" destination="FcT-nU-otn" id="8DC-Qe-CK7"/>
                                             <outlet property="imageView" destination="91x-Zj-Uef" id="043-QL-Dk9"/>
                                             <outlet property="nameLabel" destination="noe-DT-iYF" id="mzu-FW-uD4"/>
                                         </connections>

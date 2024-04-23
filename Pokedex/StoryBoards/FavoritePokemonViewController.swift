@@ -57,15 +57,6 @@ extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionV
         
         print("Pokemon: \(pokemon.name). Types: \(String(describing: pokemon.primaryType?.rawValue)), \(String(describing: pokemon.secondaryType?.rawValue)).")
         
-//        let gradient = CAGradientLayer()
-//        gradient.colors = [UIColor(hex: pokemon.primaryTypeColor ?? "").cgColor, UIColor(hex: pokemon.secondaryTypeColor ?? "").cgColor]
-//        gradient.frame = cell.bounds
-//        
-//        cell.layer.insertSublayer(gradient, at: 0)
-        cell.layer.cornerRadius = 20
-        
-        cell.backgroundColor = UIColor(hex: pokemon.primaryTypeColor ?? "")
-        
         cell.updateUI(using: pokemon)
         
         return cell

@@ -28,6 +28,6 @@ class FavoritePokemonCollectionViewCell: UICollectionViewCell {
         self.layer.cornerRadius = 20
         
         nameLabel.text =  pokemon.name.capitalized
-        imageView.load(url: pokemon.sprites.front_default)
+        imageView.load(url: pokemon.sprites.frontDefault)
     }
 }

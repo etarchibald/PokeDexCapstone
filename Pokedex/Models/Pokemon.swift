@@ -12,8 +12,13 @@ struct Pokemon {
     var id: Int
     var name: String
     var isFavorited: Bool?
-    var primaryType: PokemonType?
-    var secondaryType: PokemonType?
+    var types: [APIPokemonSlotType]
+    var primaryType: PokemonType? {
+        types.first?.type.name
+    }
+    var secondaryType: PokemonType? {
+        types.last?.type.name
+    }
     var sprites: PokemonSprites
     var abilities: [PokemonAbilities]
     var stats: [Stats]
@@ -48,9 +53,7 @@ extension Pokemon: Codable {
         self.name = try container.decode(String.self, forKey: .name)
         self.isFavorited = try container.decodeIfPresent(Bool.self, forKey: .isFavorited)
         
-        let typesObject = try container.decode([APIPokemonSlotType].self, forKey: .types)
-        self.primaryType = typesObject.first?.type.name
-        self.secondaryType = typesObject.last?.type.name
+        self.types = try container.decode([APIPokemonSlotType].self, forKey: .types)
         
         self.sprites = try container.decode(PokemonSprites.self, forKey: .sprites)
         self.abilities = try container.decode([PokemonAbilities].self, forKey: .abilities)
@@ -60,5 +63,19 @@ extension Pokemon: Codable {
         self.damageRelations = try container.decodeIfPresent(PokemonDamageRelations.self, forKey: .damageRelations)
         self.species = try container.decodeIfPresent(PokemonSpecies.self, forKey: .species)
         self.evolutionChain = try container.decodeIfPresent(PokemonEvolution.self, forKey: .evolutionChain)
+    }
+}
+
+extension Pokemon: Identifiable, Hashable {
+    var identifier: Int {
+        return id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        return hasher.combine(identifier)
+    }
+    
+    static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
+        return lhs.identifier == rhs.identifier
     }
 }

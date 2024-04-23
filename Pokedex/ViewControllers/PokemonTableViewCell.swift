@@ -37,7 +37,7 @@ class PokemonTableViewCell: UITableViewCell {
         
         generationLabel.text = "Gen: \(PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? ""))"
         
-        pokemonImage.load(url: pokemon.sprites.front_default)
+        pokemonImage.load(url: pokemon.sprites.frontDefault)
         favoriteButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
     }
 

@@ -9,13 +9,6 @@ import Foundation
 
 struct PokemonTypesObject: Codable {
     let types: [APIPokemonSlotType]
-    
-    var type1: PokemonType? {
-        types.first?.type.name
-    }
-    var type2: PokemonType? {
-        types.last?.type.name
-    }
 }
 
 struct APIPokemonSlotType: Codable {

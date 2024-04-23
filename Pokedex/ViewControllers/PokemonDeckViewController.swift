@@ -8,7 +8,7 @@
 import UIKit
 
 class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var deckTableView: UITableView!
     @IBOutlet weak var deckSearchBar: UISearchBar!
     
@@ -70,6 +70,7 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         
         cell.setup(deck: aDeck)
         
+        cell.selectionStyle = .none
         
        return cell
     }

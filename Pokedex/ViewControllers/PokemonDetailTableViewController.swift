@@ -33,8 +33,6 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var typeStrengthsLabel: UILabel!
     @IBOutlet weak var typeWeaknessLabel: UILabel!
     
-    // Abilites tableview
-    @IBOutlet weak var abilitiesTableView: UITableView!
     
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
@@ -43,8 +41,6 @@ class PokemonDetailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        abilitiesTableView.dataSource = self
-        abilitiesTableView.delegate = self
         
         saveImageData()
         setUpPokemonInfo()

@@ -18,7 +18,6 @@ class FavoritePokemonViewController: UIViewController {
         super.viewDidLoad()
         
         //load favorite Pokemon and put in pokemon
-        FavoritePokemonViewController.favoritePokemon.append(contentsOf: PokemonPersistenceController.loadPokemon())
         
         collectionView.delegate = self
         collectionView.dataSource = self

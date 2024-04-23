@@ -54,19 +54,27 @@ class PokemonPersistenceController {
     
     static func saveDecks(decks: [Deck]) {
         let jsonEncoder = JSONEncoder()
-        let encodedDecks = try? jsonEncoder.encode(decks)
-        try? encodedDecks?.write(to: deckArchiveURL, options: .noFileProtection)
+        do {
+            let encodedDecks = try jsonEncoder.encode(decks)
+            try encodedDecks.write(to: deckArchiveURL, options: .noFileProtection)
+            
+        } catch {
+            print("errorSavingDecks: \(error)")
+            
+        }
     }
     
     static func loadDecks() -> [Deck] {
         let jsonDecoder = JSONDecoder()
-        if let retrievedDecksData = try? Data(contentsOf: deckArchiveURL),
-           let decodedDecks = try? jsonDecoder.decode(Array<Deck>.self, from: retrievedDecksData) {
+        do {
+            let retrievedDecksData = try Data(contentsOf: deckArchiveURL)
+            let decodedDecks = try jsonDecoder.decode(Array<Deck>.self, from: retrievedDecksData)
             return decodedDecks
-        } else {
+        } catch {
+            print("errorLoadingDecks: \(error)")
             return []
         }
     }
-
-
+    
+    
 }

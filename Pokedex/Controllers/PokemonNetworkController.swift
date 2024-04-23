@@ -86,6 +86,12 @@ class PokemonNetworkController {
                 throw error
             }
             
+            for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
+                if eachFavoritedPokemon.name == singlePokemon.name {
+                    singlePokemon.isFavorited = true
+                }
+            }
+            
             pokemon.append(singlePokemon)
         }
         

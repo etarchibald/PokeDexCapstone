@@ -42,6 +42,7 @@ class PokemonDetailTableViewController: UITableViewController {
         super.viewDidLoad()
         
         
+        
         saveImageData()
         setUpPokemonInfo()
         
@@ -140,6 +141,10 @@ class PokemonDetailTableViewController: UITableViewController {
             }
         }
         
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        deselectRow(at: indexPath, animated: true)
     }
 
 }

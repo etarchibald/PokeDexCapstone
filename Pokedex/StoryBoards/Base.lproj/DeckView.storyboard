@@ -107,6 +107,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Decks" id="57s-Lc-hoB">
+                        <barButtonItem key="leftBarButtonItem" image="pencil" catalog="system" id="oX4-C3-e1Z">
+                            <connections>
+                                <action selector="editButtonTapped:" destination="ifr-QB-pXC" id="WNR-ab-NcV"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="OpI-yr-3xC">
                             <connections>
                                 <segue destination="zfX-lU-JAk" kind="presentation" identifier="newDeckSegue" id="thi-v3-AQZ"/>
@@ -283,6 +288,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="square.stack.3d.down.right" catalog="system" width="105" height="128"/>
         <systemColor name="systemBackgroundColor">

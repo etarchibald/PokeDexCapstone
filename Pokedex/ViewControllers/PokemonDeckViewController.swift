@@ -34,8 +34,31 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         deckTableView.reloadData()
     }
     
+    @IBAction func editButtonTapped(_ sender: Any) {
+        let tableViewEdingMode = deckTableView.isEditing
+        deckTableView.setEditing(!tableViewEdingMode, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return deckController.decks.count
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            deckController.decks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            PokemonPersistenceController.saveDecks(decks: DeckController.shared.decks)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        let movedDeck = deckController.decks.remove(at: fromIndexPath.row)
+        deckController.decks.insert(movedDeck, at: to.row)
+        PokemonPersistenceController.saveDecks(decks: DeckController.shared.decks)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -50,15 +73,5 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         
        return cell
     }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completionHandler) in
-            completionHandler(true)
-        }
         
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        return configuration
-    }
-    
-    
 }

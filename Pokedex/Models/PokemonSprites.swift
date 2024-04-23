@@ -12,7 +12,7 @@ struct PokemonSprites {
     var backDefault: URL
     var frontShiny: URL
     var backShiny: URL
-    var others: OtherSprites
+    var other: OtherSprites
 }
 
 extension PokemonSprites: Codable {
@@ -21,7 +21,7 @@ extension PokemonSprites: Codable {
         case backDefault = "back_default"
         case frontShiny = "front_shiny"
         case backShiny = "back_shiny"
-        case others = "others"
+        case other = "other"
     }
 }
 
@@ -30,6 +30,13 @@ struct OtherSprites: Codable {
     var home: MoreSprites
     var officialArtwork: MoreSprites
     var showdown: MoreSprites
+    
+    enum CodingKeys: String, CodingKey {
+        case dreamWorld = "dream_world"
+        case home = "home"
+        case officialArtwork = "official-artwork"
+        case showdown = "showdown"
+    }
 }
 
 struct MoreSprites: Codable {

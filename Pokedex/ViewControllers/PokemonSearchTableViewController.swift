@@ -10,17 +10,22 @@ import UIKit
 class PokemonSearchTableViewController: UITableViewController, UISearchBarDelegate {
     
     var pokemon = [Pokemon]()
+    
+    var datasource: UITableViewDiffableDataSource<Int, Pokemon>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         displayGenericPokemon()
+        setUpDataSource()
     }
     
     func displayGenericPokemon() {
         Task {
             do {
+                FavoritePokemonViewController.favoritePokemon.append(contentsOf: PokemonPersistenceController.loadPokemon())
                 let pokemon = try await PokemonNetworkController.shared.getGenericPokemon()
+                applySnapshot(from: pokemon)
                 self.pokemon = pokemon
             } catch {
                 print("error: \(error)")
@@ -31,26 +36,32 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
     }
 
     // MARK: - Table view data source
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return pokemon.count
+    
+    func setUpDataSource() {
+        datasource = UITableViewDiffableDataSource<Int, Pokemon>(tableView: tableView) { tableView, indexPath, pokemon in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonCell") as! PokemonTableViewCell
+            
+            cell.pokemon = pokemon
+            cell.delegate = self
+            cell.setup(pokemon: pokemon)
+            
+            return cell
+        }
     }
-
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonCell", for: indexPath) as! PokemonTableViewCell
-        
-        let pokemon = pokemon[indexPath.row]
-        
-        cell.pokemon = pokemon
-        
-        cell.delegate = self
-        
-        cell.setup(pokemon: pokemon)
-
-        return cell
+    
+    func applySnapshot(from pokemon: [Pokemon]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Pokemon>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(pokemon)
+        datasource.apply(snapshot, animatingDifferences: true)
     }
+    
+    func reload(_ pokemon: Pokemon) {
+        var snapshot  = datasource.snapshot()
+        snapshot.reloadItems([pokemon])
+        datasource.apply(snapshot, animatingDifferences: true)
+    }
+    
     
     @IBSegueAction func pokemonDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
         return PokemonDetailTableViewController(pokemon: pokemon[tableView.indexPathForSelectedRow!.row], coder: coder)
@@ -70,6 +81,7 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
         Task {
             do {
                 if let searchedPokemon = try await PokemonNetworkController.shared.getSpecificPokemon(pokemonName: searchBar.text ?? "") {
+                    applySnapshot(from: [searchedPokemon])
                     pokemon = [searchedPokemon]
                     tableView.reloadData()
                     

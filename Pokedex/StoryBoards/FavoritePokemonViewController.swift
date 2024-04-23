@@ -12,12 +12,13 @@ class FavoritePokemonViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     //somehow needs to be static for it to work, because of the reasons: Yes
-    static var favoritePokemon = [Pokemon]()
+    static var favoritePokemon = [Pokemon]() 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //load favorite Pokemon and put in pokemon
+        FavoritePokemonViewController.favoritePokemon.append(contentsOf: PokemonPersistenceController.loadPokemon())
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -52,10 +53,6 @@ extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
         
         let pokemon = FavoritePokemonViewController.favoritePokemon[indexPath.item]
-        
-        //configure cell background color, if more than one type loop trough and make it a gradient if its just one make it the full background.
-        
-        print("Pokemon: \(pokemon.name). Types: \(String(describing: pokemon.primaryType?.rawValue)), \(String(describing: pokemon.secondaryType?.rawValue)).")
         
         cell.updateUI(using: pokemon)
         

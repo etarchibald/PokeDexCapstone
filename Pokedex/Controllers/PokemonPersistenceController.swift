@@ -13,25 +13,41 @@ import Foundation
 
 class PokemonPersistenceController {
     
+    enum PersistanceErrors: Error {
+        case failedToLoadDecks
+        case failedToLoadPokemon
+        case failedToSaveDecks
+        case failedToSavePokemon
+    }
+    
     static let shared = PokemonPersistenceController()
     
-    static let DocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("emojis").appendingPathExtension("json")
+    static let deckDocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let deckArchiveURL = deckDocumentsDirectory.appendingPathComponent("deck").appendingPathExtension("json")
+    
+    static let pokemonDocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let pokemonArchiveURL = pokemonDocumentsDirectory.appendingPathComponent("favoritePokemon").appendingPathExtension("json")
     
     //fix to use favortie pokemon
     static func savePokemon(favoritePokemons: [Pokemon]) {
         let jsonEncoder = JSONEncoder()
-        let encodedPokemons = try? jsonEncoder.encode(favoritePokemons)
-        try? encodedPokemons?.write(to: ArchiveURL, options: .noFileProtection)
+        do {
+            let encodedPokemons = try jsonEncoder.encode(favoritePokemons)
+            try encodedPokemons.write(to: pokemonArchiveURL, options: .noFileProtection)
+        } catch {
+            print("errorSavingPokemon: \(error)")
+        }
     }
     
     //fix to use favortie pokemon
     static func loadPokemon() -> [Pokemon] {
         let jsonDecoder = JSONDecoder()
-        if let retrievedPokemonData = try? Data(contentsOf: ArchiveURL),
-           let decodedPokemons = try? jsonDecoder.decode(Array<Pokemon>.self, from: retrievedPokemonData) {
+        do {
+            let retrivedPokemonData = try Data(contentsOf: pokemonArchiveURL)
+            let decodedPokemons = try jsonDecoder.decode([Pokemon].self, from: retrivedPokemonData)
             return decodedPokemons
-        } else {
+        } catch {
+            print("ErrorLoadingPokemon: \(error)")
             return []
         }
     }
@@ -39,12 +55,12 @@ class PokemonPersistenceController {
     static func saveDecks(decks: [Deck]) {
         let jsonEncoder = JSONEncoder()
         let encodedDecks = try? jsonEncoder.encode(decks)
-        try? encodedDecks?.write(to: ArchiveURL, options: .noFileProtection)
+        try? encodedDecks?.write(to: deckArchiveURL, options: .noFileProtection)
     }
     
     static func loadDecks() -> [Deck] {
         let jsonDecoder = JSONDecoder()
-        if let retrievedDecksData = try? Data(contentsOf: ArchiveURL),
+        if let retrievedDecksData = try? Data(contentsOf: deckArchiveURL),
            let decodedDecks = try? jsonDecoder.decode(Array<Deck>.self, from: retrievedDecksData) {
             return decodedDecks
         } else {

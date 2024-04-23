@@ -56,11 +56,13 @@ class PokemonTableViewCell: UITableViewCell {
                pokemon?.name != eachPokemon.name ? true : false
             }
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
+            PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
         } else {
             pokemon?.isFavorited = true
             setup(pokemon: pokemon!)
             FavoritePokemonViewController.favoritePokemon.append(pokemon!)
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
+            PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
         }
         
     }

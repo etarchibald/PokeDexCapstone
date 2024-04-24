@@ -22,9 +22,6 @@ class PokemonPersistenceController {
     
     static let shared = PokemonPersistenceController()
     
-    static let deckDocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    static let deckArchiveURL = deckDocumentsDirectory.appendingPathComponent("deck").appendingPathExtension("json")
-    
     static let pokemonDocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     static let pokemonArchiveURL = pokemonDocumentsDirectory.appendingPathComponent("favoritePokemon").appendingPathExtension("json")
     
@@ -51,30 +48,5 @@ class PokemonPersistenceController {
             return []
         }
     }
-    
-    static func saveDecks(decks: [Deck]) {
-        let jsonEncoder = JSONEncoder()
-        do {
-            let encodedDecks = try jsonEncoder.encode(decks)
-            try encodedDecks.write(to: deckArchiveURL, options: .noFileProtection)
-            
-        } catch {
-            print("errorSavingDecks: \(error)")
-            
-        }
-    }
-    
-    static func loadDecks() -> [Deck] {
-        let jsonDecoder = JSONDecoder()
-        do {
-            let retrievedDecksData = try Data(contentsOf: deckArchiveURL)
-            let decodedDecks = try jsonDecoder.decode(Array<Deck>.self, from: retrievedDecksData)
-            return decodedDecks
-        } catch {
-            print("errorLoadingDecks: \(error)")
-            return []
-        }
-    }
-    
     
 }

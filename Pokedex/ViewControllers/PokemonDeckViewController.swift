@@ -13,8 +13,9 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var deckSearchBar: UISearchBar!
     
     var deckController = DeckController.shared
+    var filteredDecks = [Deck]()
     
-    var searching = false
+    var isSearching = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,9 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         deckTableView.delegate = self
         deckSearchBar.delegate = self
         
-        deckController.decks = PokemonPersistenceController.loadDecks()
+        //change the place of deckController
+        deckController.decks = DeckController.loadDecks()
+        filteredDecks = deckController.decks
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -37,14 +40,37 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         deckTableView.reloadData()
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+           
+            if searchText.isEmpty {
+                filteredDecks = deckController.decks
+            } else {
+                isSearching = true
+                filteredDecks = deckController.decks.filter { $0.deckName.lowercased().contains(searchText.lowercased()) }
+            }
+            
+            deckTableView.reloadData()
+        }
+        
+        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+            searchBar.text = nil
+            deckTableView.reloadData()
+        }
+    
     @IBAction func editButtonTapped(_ sender: Any) {
         let tableViewEdingMode = deckTableView.isEditing
         deckTableView.setEditing(!tableViewEdingMode, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return deckController.decks.count
+        if isSearching {
+            return filteredDecks.count
+        } else {
+            return deckController.decks.count
+        }
     }
+    
+    
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
@@ -52,22 +78,59 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            deckController.decks.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            PokemonPersistenceController.saveDecks(decks: DeckController.shared.decks)
+            presentAlertForDeleting(indexPath: indexPath)
+//            if isSearching {
+//                filteredDecks.remove(at: indexPath.row)
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+//                DeckController.saveDecks(decks: DeckController.shared.decks)
+//            } else {
+//                deckController.decks.remove(at: indexPath.row)
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+//                DeckController.saveDecks(decks: DeckController.shared.decks)
+//            }
         }
     }
+    
+    func presentAlertForDeleting(indexPath: IndexPath) {
+        let deckToDelete: Deck
+        
+        if isSearching {
+            deckToDelete = filteredDecks[indexPath.row]
+        } else {
+            deckToDelete = deckController.decks[indexPath.row]
+        }
+        
+        let alert = UIAlertController(title: nil, message: "Are you sure you want to delete \(deckToDelete.deckName)?", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
+            if self.isSearching {
+                self.filteredDecks.remove(at: indexPath.row)
+               
+            } else {
+                self.deckController.decks.remove(at: indexPath.row)
+                
+            }
+            self.deckTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+            
+            alert.addAction(yesAction)
+            
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
+    
     
     func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         let movedDeck = deckController.decks.remove(at: fromIndexPath.row)
         deckController.decks.insert(movedDeck, at: to.row)
-        PokemonPersistenceController.saveDecks(decks: DeckController.shared.decks)
+        DeckController.saveDecks(decks: DeckController.shared.decks)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = deckTableView.dequeueReusableCell(withIdentifier: "deckCell", for: indexPath) as! DeckTableViewCell
         
-        let aDeck = deckController.decks[indexPath.row]
+        let aDeck = filteredDecks[indexPath.row]
         
         cell.deck = aDeck
         
@@ -79,3 +142,4 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
     }
         
 }
+//not searching, empty search, search with stuff

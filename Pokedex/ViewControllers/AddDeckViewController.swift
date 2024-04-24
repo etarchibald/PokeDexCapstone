@@ -31,13 +31,11 @@ class AddDeckViewController: UIViewController {
         DeckController.shared.addDeck(newDeck)
         //print(DeckController.shared.decks)
         
-        PokemonPersistenceController.saveDecks(decks: DeckController.shared.decks)
+        DeckController.saveDecks(decks: DeckController.shared.decks)
         
         if let dismissCompletion {
             dismissCompletion()
         }
-        
-        
         
         dismiss(animated: true, completion: nil)
     }

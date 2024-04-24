@@ -80,13 +80,17 @@ class PokemonPrettyController {
         }
     }
     
-    func createTypeColorBoxFor(label: UILabel, text: String, type: PokemonType) -> UILabel {
-        
-        label.text = text
-        
-        label.backgroundColor = UIColor(hex: getBackgroundColorHex(type: type))
-        
+    
+    
+    func createLabelForTypeBox(_ label: UILabel, _ type: PokemonType) -> UILabel {
+        label.text = type.rawValue.capitalized
         return label
+    }
+    
+    func createBackgroundForTypeBox(_ view: UIView, _ type: PokemonType) -> UIView {
+        view.backgroundColor = UIColor(hex: PokemonPrettyController.shared.getBackgroundColorHex(type: type))
+        
+        return view
     }
 }
 

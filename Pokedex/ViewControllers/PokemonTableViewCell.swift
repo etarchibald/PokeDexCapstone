@@ -9,6 +9,8 @@ import UIKit
 
 class PokemonTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var type2BackgroundView: UIView!
+    @IBOutlet weak var type1BackgroundView: UIView!
     @IBOutlet weak var type2Label: UILabel!
     @IBOutlet weak var type1Label: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -17,9 +19,12 @@ class PokemonTableViewCell: UITableViewCell {
     @IBOutlet weak var favoriteButton: UIButton!
     
     private var favoritePokemonView = FavoritePokemonViewController()
+    private var pokemonPrettyController = PokemonPrettyController.shared
     var pokemon: Pokemon?
     
     var delegate: FavoritePokemon?
+    
+    private var cornerRadius: CGFloat = 20
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,14 +35,22 @@ class PokemonTableViewCell: UITableViewCell {
         nameLabel.text = pokemon.name.capitalized
         
         if pokemon.primaryType == pokemon.secondaryType {
-            type1Label = PokemonPrettyController.shared.createTypeColorBoxFor(label: type1Label, text: pokemon.primaryType!.rawValue.capitalized, type: pokemon.primaryType ?? .normal)
+            type1Label = pokemonPrettyController.createLabelForTypeBox(type1Label, pokemon.primaryType ?? .normal)
+            
+            type1BackgroundView = pokemonPrettyController.createBackgroundForTypeBox(type1BackgroundView, pokemon.primaryType ?? .normal)
             
             type2Label.text = ""
-        } else {
-            type1Label = PokemonPrettyController.shared.createTypeColorBoxFor(label: type1Label, text: pokemon.primaryType!.rawValue.capitalized, type: pokemon.primaryType ?? .normal)
+            type2BackgroundView.backgroundColor = .clear
             
-            type2Label = PokemonPrettyController.shared.createTypeColorBoxFor(label: type2Label, text: pokemon.secondaryType!.rawValue.capitalized, type: pokemon.secondaryType ?? .normal)
+        } else {
+            type1Label = pokemonPrettyController.createLabelForTypeBox(type1Label, pokemon.primaryType ?? .normal)
+            type1BackgroundView = pokemonPrettyController.createBackgroundForTypeBox(type1BackgroundView, pokemon.primaryType ?? .normal)
+            
+            type2Label = pokemonPrettyController.createLabelForTypeBox(type2Label, pokemon.secondaryType ?? .normal)
+            type2BackgroundView = pokemonPrettyController.createBackgroundForTypeBox(type2BackgroundView, pokemon.secondaryType ?? .normal)
         }
+        
+        type1Label.layer.cornerRadius = cornerRadius
         
         generationLabel.text = "Gen: \(PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? ""))"
         

@@ -8,9 +8,11 @@
 import UIKit
 
 class PokemonTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var type2Label: UILabel!
+    @IBOutlet weak var type1Label: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var pokemonImage: UIImageView!
-    @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var generationLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
     
@@ -28,23 +30,19 @@ class PokemonTableViewCell: UITableViewCell {
         nameLabel.text = pokemon.name.capitalized
         
         if pokemon.primaryType == pokemon.secondaryType {
-            let typeName = "\(pokemon.primaryType?.rawValue.capitalized ?? "")"
-            typeLabel.text = typeName
+            type1Label = PokemonPrettyController.shared.createTypeColorBoxFor(label: type1Label, text: pokemon.primaryType!.rawValue.capitalized, type: pokemon.primaryType ?? .normal)
+            
+            type2Label.text = ""
         } else {
-            let typeNames = "\(pokemon.primaryType?.rawValue.capitalized ?? ""), \(pokemon.secondaryType?.rawValue.capitalized ?? "")"
-            typeLabel.text = typeNames
+            type1Label = PokemonPrettyController.shared.createTypeColorBoxFor(label: type1Label, text: pokemon.primaryType!.rawValue.capitalized, type: pokemon.primaryType ?? .normal)
+            
+            type2Label = PokemonPrettyController.shared.createTypeColorBoxFor(label: type2Label, text: pokemon.secondaryType!.rawValue.capitalized, type: pokemon.secondaryType ?? .normal)
         }
         
         generationLabel.text = "Gen: \(PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? ""))"
         
         pokemonImage.load(url: pokemon.sprites.frontDefault)
         favoriteButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     @IBAction func favoritebuttonTapped(_ sender: UIButton) {

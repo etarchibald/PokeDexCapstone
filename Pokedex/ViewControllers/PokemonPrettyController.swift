@@ -79,6 +79,15 @@ class PokemonPrettyController {
             return "#E397D1"
         }
     }
+    
+    func createTypeColorBoxFor(label: UILabel, text: String, type: PokemonType) -> UILabel {
+        
+        label.text = text
+        
+        label.backgroundColor = UIColor(hex: getBackgroundColorHex(type: type))
+        
+        return label
+    }
 }
 
 extension UIColor {

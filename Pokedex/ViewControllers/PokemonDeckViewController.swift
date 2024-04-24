@@ -7,17 +7,20 @@
 
 import UIKit
 
-class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     @IBOutlet weak var deckTableView: UITableView!
     @IBOutlet weak var deckSearchBar: UISearchBar!
     
     var deckController = DeckController.shared
     
+    var searching = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         deckTableView.dataSource = self
         deckTableView.delegate = self
+        deckSearchBar.delegate = self
         
         deckController.decks = PokemonPersistenceController.loadDecks()
     }

@@ -14,7 +14,6 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var pokemonTypingLabel: UILabel!
     @IBOutlet weak var pokemonImageView: UIImageView!
     @IBOutlet weak var imageSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var generationIntroducedLabel: UILabel!
     
     // Evolution chain data labels
     @IBOutlet weak var previousEvolutionLabel: UILabel!
@@ -59,7 +58,7 @@ class PokemonDetailTableViewController: UITableViewController {
     
     @IBAction func changeImageView(_ sender: Any) {
         switch imageSegmentedControl.selectedSegmentIndex {
-        case 1: pokemonImageView.image = storedImages["backDefault"]
+        case 1: pokemonImageView.image = storedImages["defaultBack"]
         case 2: pokemonImageView.image = storedImages["shinyFront"]
         case 3: pokemonImageView.image = storedImages["shinyBack"]
         default: pokemonImageView.image = storedImages["defaultFront"]
@@ -102,17 +101,15 @@ class PokemonDetailTableViewController: UITableViewController {
         
         
         if pokemon.species?.isMythical ?? false {
-            pokemonTypingLabel.text = "Mythical\(pokemonTyping) Type Pokemon"
+            pokemonTypingLabel.text = "Mythical \(pokemonTyping) Type Pokemon"
         } else if pokemon.species?.isLegendary ?? false {
-            pokemonTypingLabel.text = "Legendary\(pokemonTyping) Type Pokemon"
+            pokemonTypingLabel.text = "Legendary \(pokemonTyping) Type Pokemon"
         } else {
             pokemonTypingLabel.text = "\(pokemonTyping) Type Pokemon"
         }
         
         pokemonNameLabel.text = pokemon.name.capitalized
         pokemonImageView.load(url: pokemon.sprites.frontDefault)
-        generationIntroducedLabel.text! += PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? "")
-        
         
         previousEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.species.name.capitalized ?? "None")"
         nextEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.evolvesTo?.first?.species.name.capitalized ?? "None")"

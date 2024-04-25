@@ -24,8 +24,6 @@ class PokemonTableViewCell: UITableViewCell {
     
     var delegate: FavoritePokemon?
     
-    private var cornerRadius: CGFloat = 20
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -49,8 +47,6 @@ class PokemonTableViewCell: UITableViewCell {
             type2Label = pokemonPrettyController.createLabelForTypeBox(type2Label, pokemon.secondaryType ?? .normal)
             type2BackgroundView = pokemonPrettyController.createBackgroundForTypeBox(type2BackgroundView, pokemon.secondaryType ?? .normal)
         }
-        
-        type1Label.layer.cornerRadius = cornerRadius
         
         generationLabel.text = "Gen: \(PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? ""))"
         

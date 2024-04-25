@@ -42,19 +42,19 @@ class PokemonPrettyController {
     func getBackgroundColorHex(type: PokemonType) -> String {
         switch type {
         case .normal:
-            return "#AAB09F"
+            return "#A8A77A"
         case .fire:
-            return "#EA7A3C"
+            return "#EE8130"
         case .water:
             return "#6390F0"
         case .electric:
-            return "#E5C531"
+            return "#F7D02C"
         case .grass:
-            return "#71C558"
+            return "#7AC74C"
         case .ice:
-            return "#70CBD4"
+            return "#96D9D6"
         case .fighting:
-            return "#CB5F48"
+            return "#C22E28"
         case .poison:
             return "#A33EA1"
         case .ground:
@@ -64,7 +64,7 @@ class PokemonPrettyController {
         case .psychic:
             return "#F95587"
         case .bug:
-            return "#94BC4A"
+            return "#A6B91A"
         case .rock:
             return "#B2A061"
         case .ghost:
@@ -72,12 +72,34 @@ class PokemonPrettyController {
         case .dragon:
             return "#6A7BAF"
         case .dark:
-            return "#736C75"
+            return "#1B1C22"
         case .steel:
             return "#89A1B0"
         case .fairy:
             return "#E397D1"
         }
+    }
+    
+    
+    
+    func createLabelForTypeBox(_ label: UILabel, _ type: PokemonType) -> UILabel {
+        label.text = type.rawValue.capitalized
+        
+        if type == .dark || type == .fighting || type == .poison || type == .ghost {
+            label.textColor = .white
+        } else {
+            label.textColor = .black
+        }
+        
+        return label
+    }
+    
+    func createBackgroundForTypeBox(_ view: UIView, _ type: PokemonType) -> UIView {
+        view.backgroundColor = UIColor(hex: PokemonPrettyController.shared.getBackgroundColorHex(type: type))
+        
+        view.layer.cornerRadius = 15
+        
+        return view
     }
 }
 

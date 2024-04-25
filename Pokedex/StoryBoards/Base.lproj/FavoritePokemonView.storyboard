@@ -66,6 +66,7 @@
                                             <outlet property="cellBackgroundView" destination="FcT-nU-otn" id="8DC-Qe-CK7"/>
                                             <outlet property="imageView" destination="91x-Zj-Uef" id="043-QL-Dk9"/>
                                             <outlet property="nameLabel" destination="noe-DT-iYF" id="mzu-FW-uD4"/>
+                                            <segue destination="Kql-HP-tEB" kind="show" destinationCreationSelector="toDetailSegueAction:" id="Hu4-mq-kel"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -88,6 +89,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1LB-St-gpZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1100" y="797.88732394366207"/>
+        </scene>
+        <!--PokemonDetail-->
+        <scene sceneID="rgr-rh-d58">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PokemonDetail" referencedIdentifier="PokemonDetail" id="Kql-HP-tEB" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="m9s-OW-Al0"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="677-P8-iIn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1967" y="779"/>
         </scene>
         <!--Favorites-->
         <scene sceneID="dKQ-p4-Xd4">

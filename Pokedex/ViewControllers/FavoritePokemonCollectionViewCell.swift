@@ -28,6 +28,13 @@ class FavoritePokemonCollectionViewCell: UICollectionViewCell {
         self.layer.cornerRadius = 20
         
         nameLabel.text =  pokemon.name.capitalized
+        
+        if pokemon.primaryType == .dark || pokemon.primaryType == .fighting || pokemon.primaryType == .poison || pokemon.primaryType == .ghost {
+            nameLabel.textColor = .white
+        } else {
+            nameLabel.textColor = .black
+        }
+        
         imageView.load(url: pokemon.sprites.frontDefault)
     }
 }

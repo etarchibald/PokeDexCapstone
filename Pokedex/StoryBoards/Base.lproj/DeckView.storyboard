@@ -120,7 +120,7 @@
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="deckSearchBar" destination="9Cf-T1-CUB" id="RVb-ef-LaH"/>
+                        <outlet property="deckSearchBar" destination="9Cf-T1-CUB" id="6Y5-2D-CCx"/>
                         <outlet property="deckTableView" destination="8xN-nv-C7B" id="XGp-3d-fUQ"/>
                     </connections>
                 </viewController>

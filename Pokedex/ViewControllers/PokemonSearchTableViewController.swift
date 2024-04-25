@@ -10,23 +10,27 @@ import UIKit
 class PokemonSearchTableViewController: UITableViewController, UISearchBarDelegate {
     
     var pokemon = [Pokemon]()
+    private var pageNumber = 0
+    private var isFetchingPokemon = false
+    private var hasMorePokemon = false
     
-    var datasource: UITableViewDiffableDataSource<Int, Pokemon>!
+    var dataSource: UITableViewDiffableDataSource<Int, Pokemon>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        displayGenericPokemon()
+        FavoritePokemonViewController.favoritePokemon.append(contentsOf: PokemonPersistenceController.loadPokemon())
+        displayGenericPokemon(pageNumber: pageNumber)
         setUpDataSource()
     }
     
-    func displayGenericPokemon() {
+    func displayGenericPokemon(pageNumber: Int) {
         Task {
             do {
-                FavoritePokemonViewController.favoritePokemon.append(contentsOf: PokemonPersistenceController.loadPokemon())
-                let pokemon = try await PokemonNetworkController.shared.getGenericPokemon()
+                let pokemon = try await PokemonNetworkController.shared.getGenericPokemon(page: pageNumber)
                 applySnapshot(from: pokemon)
-                self.pokemon = pokemon
+                self.pokemon.append(contentsOf: pokemon)
+                hasMorePokemon = true
             } catch {
                 print("error: \(error)")
             }
@@ -34,12 +38,51 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
             tableView.reloadData()
         }
     }
+    
+    private func fetchMoreGenericPokemon(pageNumber: Int) {
+        guard !isFetchingPokemon, hasMorePokemon else { return }
+        
+        isFetchingPokemon = true
+        
+        Task {
+            do {
+                let newPokemon = try await PokemonNetworkController.shared.getGenericPokemon(page: pageNumber)
+                print("page: \(pageNumber) with \(self.pokemon.count) many pokemon")
+                
+                if newPokemon.count < 20 {
+                    hasMorePokemon = false
+                }
+                
+                DispatchQueue.main.async {
+                    if newPokemon.isEmpty {
+                        self.hasMorePokemon = false
+                    } else {
+                        
+                        self.pokemon.append(contentsOf: newPokemon)
+                        self.applySnapshot(from: self.pokemon)
+                        
+                    }
+                    self.isFetchingPokemon = false
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.isFetchingPokemon = false
+                    
+                }
+            }
+        }
+    }
 
     // MARK: - Table view data source
     
     func setUpDataSource() {
-        datasource = UITableViewDiffableDataSource<Int, Pokemon>(tableView: tableView) { tableView, indexPath, pokemon in
+        dataSource = UITableViewDiffableDataSource<Int, Pokemon>(tableView: tableView) { tableView, indexPath, pokemon in
             let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonCell") as! PokemonTableViewCell
+            
+            if indexPath.row == self.pokemon.count - 1 {
+                self.pageNumber += 1
+                self.fetchMoreGenericPokemon(pageNumber: self.pageNumber)
+            }
             
             cell.pokemon = pokemon
             cell.delegate = self
@@ -53,13 +96,13 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
         var snapshot = NSDiffableDataSourceSnapshot<Int, Pokemon>()
         snapshot.appendSections([0])
         snapshot.appendItems(pokemon)
-        datasource.apply(snapshot, animatingDifferences: true)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     func reload(_ pokemon: Pokemon) {
-        var snapshot  = datasource.snapshot()
+        var snapshot  = dataSource.snapshot()
         snapshot.reloadItems([pokemon])
-        datasource.apply(snapshot, animatingDifferences: true)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     
@@ -72,8 +115,12 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // If the text is empty bring the generic pokemon back to the screen
+        
         if searchBar.text ?? "" == "" {
-            displayGenericPokemon()
+            pokemon = []
+            pageNumber = 0
+            displayGenericPokemon(pageNumber: pageNumber)
+            isFetchingPokemon = false
             return
         }
         
@@ -83,6 +130,7 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
                 if let searchedPokemon = try await PokemonNetworkController.shared.getSpecificPokemon(pokemonName: searchBar.text ?? "") {
                     applySnapshot(from: [searchedPokemon])
                     pokemon = [searchedPokemon]
+                    isFetchingPokemon = true
                     tableView.reloadData()
                     
                     DispatchQueue.main.async {

@@ -8,13 +8,18 @@
 import UIKit
 
 class PokemonTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var type2BackgroundView: UIView!
+    @IBOutlet weak var type1BackgroundView: UIView!
+    @IBOutlet weak var type2Label: UILabel!
+    @IBOutlet weak var type1Label: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var pokemonImage: UIImageView!
-    @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var generationLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
     
     private var favoritePokemonView = FavoritePokemonViewController()
+    private var pokemonPrettyController = PokemonPrettyController.shared
     var pokemon: Pokemon?
     
     var delegate: FavoritePokemon?
@@ -28,23 +33,25 @@ class PokemonTableViewCell: UITableViewCell {
         nameLabel.text = pokemon.name.capitalized
         
         if pokemon.primaryType == pokemon.secondaryType {
-            let typeName = "\(pokemon.primaryType?.rawValue.capitalized ?? "")"
-            typeLabel.text = typeName
+            type1Label = pokemonPrettyController.createLabelForTypeBox(type1Label, pokemon.primaryType ?? .normal)
+            
+            type1BackgroundView = pokemonPrettyController.createBackgroundForTypeBox(type1BackgroundView, pokemon.primaryType ?? .normal)
+            
+            type2Label.text = ""
+            type2BackgroundView.backgroundColor = .clear
+            
         } else {
-            let typeNames = "\(pokemon.primaryType?.rawValue.capitalized ?? ""), \(pokemon.secondaryType?.rawValue.capitalized ?? "")"
-            typeLabel.text = typeNames
+            type1Label = pokemonPrettyController.createLabelForTypeBox(type1Label, pokemon.primaryType ?? .normal)
+            type1BackgroundView = pokemonPrettyController.createBackgroundForTypeBox(type1BackgroundView, pokemon.primaryType ?? .normal)
+            
+            type2Label = pokemonPrettyController.createLabelForTypeBox(type2Label, pokemon.secondaryType ?? .normal)
+            type2BackgroundView = pokemonPrettyController.createBackgroundForTypeBox(type2BackgroundView, pokemon.secondaryType ?? .normal)
         }
         
         generationLabel.text = "Gen: \(PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? ""))"
         
         pokemonImage.load(url: pokemon.sprites.frontDefault)
         favoriteButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     @IBAction func favoritebuttonTapped(_ sender: UIButton) {

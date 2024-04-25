@@ -12,7 +12,7 @@ class FavoritePokemonViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     //somehow needs to be static for it to work, because of the reasons: Yes
-    static var favoritePokemon = [Pokemon]() 
+    static var favoritePokemon = [Pokemon]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +39,12 @@ class FavoritePokemonViewController: UIViewController {
         //load favorite pokemon and put in pokemon
         collectionView.reloadData()
     }
-
+    
+//    @IBSegueAction func toDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
+//        
+//        return PokemonDetailTableViewController(pokemon: , coder: coder)
+//    }
+    
 }
 
 extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionViewDataSource {

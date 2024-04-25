@@ -7,7 +7,10 @@
 
 import UIKit
 
-class PokemonSearchTableViewController: UITableViewController, UISearchBarDelegate {
+class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
+    
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     var pokemon = [Pokemon]()
     private var pageNumber = 0
@@ -18,25 +21,27 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        FavoritePokemonViewController.favoritePokemon.append(contentsOf: PokemonPersistenceController.loadPokemon())
+        Task {
+            FavoritePokemonViewController.favoritePokemon.append(contentsOf: PokemonPersistenceController.loadPokemon())
+        }
         displayGenericPokemon(pageNumber: pageNumber)
         setUpDataSource()
     }
     
     func displayGenericPokemon(pageNumber: Int) {
+        showSpinner()
         Task {
             do {
                 let pokemon = try await PokemonNetworkController.shared.getGenericPokemon(page: pageNumber)
                 applySnapshot(from: pokemon)
                 self.pokemon.append(contentsOf: pokemon)
                 hasMorePokemon = true
+                
             } catch {
                 print("error: \(error)")
             }
-            
-            tableView.reloadData()
         }
+        hideSpinner()
     }
     
     private func fetchMoreGenericPokemon(pageNumber: Int) {
@@ -105,6 +110,16 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
+    private func showSpinner() {
+        activityIndicator.startAnimating()
+        tableView.isHidden = true
+    }
+    
+    private func hideSpinner() {
+        activityIndicator.stopAnimating()
+        tableView.isHidden = false
+        activityIndicator.isHidden = true
+    }
     
     @IBSegueAction func pokemonDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
         return PokemonDetailTableViewController(pokemon: pokemon[tableView.indexPathForSelectedRow!.row], coder: coder)
@@ -156,7 +171,7 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
 
 }
 
-extension PokemonSearchTableViewController: FavoritePokemon {
+extension PokemonSearchViewController: FavoritePokemon {
     func addPokemonToFavorite(pokemon: Pokemon) {
         for (index, eachPokemon) in self.pokemon.enumerated() {
             if eachPokemon.name == pokemon.name {

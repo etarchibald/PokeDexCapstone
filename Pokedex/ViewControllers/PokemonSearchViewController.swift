@@ -9,8 +9,8 @@ import UIKit
 
 class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet var tableView: UITableView!
-    
     
     var pokemon = [Pokemon]()
     private var pageNumber = 0
@@ -151,9 +151,53 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         }
         
         // Display the searched pokemon
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            fetchPokemonByName(searchText: searchBar.text ?? "")
+        case 1:
+            searchBar.keyboardType = .numberPad
+            fetchPokemonByNumber(searchNumber: Int(searchBar.text ?? "") ?? 1)
+        case 2:
+            searchBar.keyboardType = .numberPad
+            fetchPokemonByGen(searchNumber: Int(searchBar.text ?? "") ?? 1)
+        default:
+            break
+        }
+        
+    }
+    
+    func fetchPokemonByGen(searchNumber: Int) {
         Task {
             do {
-                if let searchedPokemon = try await PokemonNetworkController.shared.getSpecificPokemon(pokemonName: searchBar.text ?? "") {
+                let searchedPokemon = try await PokemonNetworkController.shared.fetchGenerationPokemon(gen: searchNumber)
+                applySnapshot(from: searchedPokemon)
+                pokemon = searchedPokemon
+                isFetchingPokemon = true
+                hasSearchedForPokemon = true
+                tableView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.navigationItem.title = nil
+                }
+                    
+            } catch {
+                // TODO: Handle errors
+                DispatchQueue.main.async {
+                    self.navigationItem.title = "No Results Found in this Generation"
+                }
+                print("Error: \(error)")
+            }
+        }
+    }
+    
+    func fetchPokemonByNumber(searchNumber: Int) {
+        fetchPokemonByName(searchText: String(searchNumber))
+    }
+    
+    func fetchPokemonByName(searchText: String) {
+        Task {
+            do {
+                if let searchedPokemon = try await PokemonNetworkController.shared.getSpecificPokemon(pokemonName: searchText) {
                     applySnapshot(from: [searchedPokemon])
                     pokemon = [searchedPokemon]
                     isFetchingPokemon = true
@@ -179,8 +223,6 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
             }
         }
     }
-    
-
 }
 
 extension PokemonSearchViewController: FavoritePokemon {

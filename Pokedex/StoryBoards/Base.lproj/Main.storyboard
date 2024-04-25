@@ -92,8 +92,16 @@
                                     <outlet property="delegate" destination="0tx-fw-qFT" id="M06-hH-fQr"/>
                                 </connections>
                             </searchBar>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="sfm-Ea-UlX">
+                                <rect key="frame" x="16" y="166" width="361" height="32"/>
+                                <segments>
+                                    <segment title="Name"/>
+                                    <segment title="Number"/>
+                                    <segment title="Generation"/>
+                                </segments>
+                            </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="lgT-1Q-jJC">
-                                <rect key="frame" x="0.0" y="159" width="393" height="610"/>
+                                <rect key="frame" x="0.0" y="205" width="393" height="564"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PokemonCell" rowHeight="124" id="bsJ-kW-DlH" customClass="PokemonTableViewCell" customModule="Pokedex" customModuleProvider="target">
@@ -210,16 +218,20 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="yQT-Cb-Dl5" firstAttribute="top" secondItem="TFh-fG-vDu" secondAttribute="top" id="26m-Qn-A5a"/>
+                            <constraint firstItem="TFh-fG-vDu" firstAttribute="trailing" secondItem="sfm-Ea-UlX" secondAttribute="trailing" constant="16" id="2ds-ty-cQ0"/>
                             <constraint firstItem="lgT-1Q-jJC" firstAttribute="trailing" secondItem="TFh-fG-vDu" secondAttribute="trailing" id="AF4-2E-v1H"/>
+                            <constraint firstItem="sfm-Ea-UlX" firstAttribute="leading" secondItem="TFh-fG-vDu" secondAttribute="leading" constant="16" id="HvD-28-eQz"/>
                             <constraint firstItem="yQT-Cb-Dl5" firstAttribute="leading" secondItem="TFh-fG-vDu" secondAttribute="leading" id="Lzk-fI-BWw"/>
                             <constraint firstItem="yQT-Cb-Dl5" firstAttribute="trailing" secondItem="TFh-fG-vDu" secondAttribute="trailing" id="ONz-vB-IcE"/>
                             <constraint firstAttribute="bottom" secondItem="lgT-1Q-jJC" secondAttribute="bottom" constant="83" id="SDX-ZM-JtQ"/>
-                            <constraint firstItem="lgT-1Q-jJC" firstAttribute="top" secondItem="yQT-Cb-Dl5" secondAttribute="bottom" id="SJA-TP-NIU"/>
+                            <constraint firstItem="lgT-1Q-jJC" firstAttribute="top" secondItem="sfm-Ea-UlX" secondAttribute="bottom" constant="8" id="elf-nY-2QH"/>
+                            <constraint firstItem="sfm-Ea-UlX" firstAttribute="top" secondItem="yQT-Cb-Dl5" secondAttribute="bottom" constant="7" id="oCD-kf-RRr"/>
                             <constraint firstItem="lgT-1Q-jJC" firstAttribute="leading" secondItem="TFh-fG-vDu" secondAttribute="leading" id="wMC-7a-qIf"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ujP-R0-slv"/>
                     <connections>
+                        <outlet property="segmentedControl" destination="sfm-Ea-UlX" id="bYb-b0-BnQ"/>
                         <outlet property="tableView" destination="lgT-1Q-jJC" id="DA5-79-Nbu"/>
                     </connections>
                 </viewController>

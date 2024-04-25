@@ -40,10 +40,14 @@ class FavoritePokemonViewController: UIViewController {
         collectionView.reloadData()
     }
     
-//    @IBSegueAction func toDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
-//        
-//        return PokemonDetailTableViewController(pokemon: , coder: coder)
-//    }
+    @IBSegueAction func toDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
+        
+        let indexPath = collectionView.indexPathsForSelectedItems!.first
+            
+        let selectedPokemon = FavoritePokemonViewController.favoritePokemon[indexPath!.row]
+        
+        return PokemonDetailTableViewController(pokemon: selectedPokemon, coder: coder)
+    }
     
 }
 

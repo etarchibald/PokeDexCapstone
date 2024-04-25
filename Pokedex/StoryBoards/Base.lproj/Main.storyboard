@@ -92,13 +92,6 @@
                                     <outlet property="delegate" destination="0tx-fw-qFT" id="M06-hH-fQr"/>
                                 </connections>
                             </searchBar>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="aNe-cc-Mi1">
-                                <rect key="frame" x="0.0" y="159" width="393" height="363"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="393" id="6Tl-UH-Y2u"/>
-                                    <constraint firstAttribute="height" constant="363" id="M5K-NK-TVv"/>
-                                </constraints>
-                            </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="lgT-1Q-jJC">
                                 <rect key="frame" x="0.0" y="159" width="393" height="610"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -216,11 +209,8 @@
                         <viewLayoutGuide key="safeArea" id="TFh-fG-vDu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="aNe-cc-Mi1" firstAttribute="trailing" secondItem="TFh-fG-vDu" secondAttribute="trailing" id="17i-Kj-6oT"/>
                             <constraint firstItem="yQT-Cb-Dl5" firstAttribute="top" secondItem="TFh-fG-vDu" secondAttribute="top" id="26m-Qn-A5a"/>
-                            <constraint firstItem="aNe-cc-Mi1" firstAttribute="leading" secondItem="TFh-fG-vDu" secondAttribute="leading" id="8dA-D3-Hoo"/>
                             <constraint firstItem="lgT-1Q-jJC" firstAttribute="trailing" secondItem="TFh-fG-vDu" secondAttribute="trailing" id="AF4-2E-v1H"/>
-                            <constraint firstItem="aNe-cc-Mi1" firstAttribute="top" secondItem="yQT-Cb-Dl5" secondAttribute="bottom" id="D20-gj-nrt"/>
                             <constraint firstItem="yQT-Cb-Dl5" firstAttribute="leading" secondItem="TFh-fG-vDu" secondAttribute="leading" id="Lzk-fI-BWw"/>
                             <constraint firstItem="yQT-Cb-Dl5" firstAttribute="trailing" secondItem="TFh-fG-vDu" secondAttribute="trailing" id="ONz-vB-IcE"/>
                             <constraint firstAttribute="bottom" secondItem="lgT-1Q-jJC" secondAttribute="bottom" constant="83" id="SDX-ZM-JtQ"/>
@@ -230,7 +220,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="ujP-R0-slv"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="aNe-cc-Mi1" id="BGH-Tx-tsi"/>
                         <outlet property="tableView" destination="lgT-1Q-jJC" id="DA5-79-Nbu"/>
                     </connections>
                 </viewController>

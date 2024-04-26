@@ -11,9 +11,8 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // Outlets relating to Pokemon images
     @IBOutlet weak var pokemonNameLabel: UILabel!
+    @IBOutlet weak var favoritedButton: UIButton!
     @IBOutlet weak var pokemonTypingLabel: UILabel!
-//    @IBOutlet weak var pokemonImageView: UIImageView!
-//    @IBOutlet weak var imageSegmentedControl: UISegmentedControl!
     
     // Evolution chain data labels
 //    @IBOutlet weak var previousEvolutionLabel: UILabel!
@@ -46,16 +45,10 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
-        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        var frame = CGRect.zero
+        frame.size.height = .leastNormalMagnitude
+        self.tableView.tableHeaderView = UIView(frame: frame)
         
-        let item = NSCollectionLayoutItem(layoutSize: size)
-        
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, repeatingSubitem: item, count: storedImages.count + 4)
-        
-        let section = NSCollectionLayoutSection(group: group)
-//        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
         
         saveImageData()
         setUpPokemonInfo()
@@ -70,10 +63,31 @@ class PokemonDetailTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Functions
+    
     func saveImageData() {
         Task {
             do {
-                let urls = [pokemon.sprites.frontDefault, pokemon.sprites.backDefault, pokemon.sprites.frontShiny, pokemon.sprites.backShiny]
+                let spriteURLs = pokemon.sprites
+
+                var urls =
+                [
+                    spriteURLs.frontDefault,
+                    spriteURLs.backDefault,
+                    spriteURLs.frontShiny,
+                    spriteURLs.backShiny,
+                    
+                ]
+                
+                let officialSprites = pokemon.sprites.other.officialArtwork
+                let homeURLs = pokemon.sprites.other.home
+                let dreamWorldURLs = pokemon.sprites.other.dreamWorld
+                let showdownURLs = pokemon.sprites.other.showdown
+                
+                if let officialArtwork = officialSprites.frontDefault, let backArtwork = officialSprites.backDefault {
+                    urls.append(officialArtwork)
+                    urls.append(backArtwork)
+                }
                 
                 for url in urls {
                     let data = try await pokemonController.fetchImageData(url: url)
@@ -87,8 +101,23 @@ class PokemonDetailTableViewController: UITableViewController {
         }
     }
     
-    // MARK: Functions
+    @IBAction func favoriteButtonTapped(_ sender: Any) {
+        if pokemon.isFavorited ?? false {
+            pokemon.isFavorited = false
+            FavoritePokemonViewController.favoritePokemon = FavoritePokemonViewController.favoritePokemon.filter { eachPokemon in
+               pokemon.name != eachPokemon.name ? true : false
+            }
+            PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
+        } else {
+            pokemon.isFavorited = true
+            FavoritePokemonViewController.favoritePokemon.append(pokemon)
+            PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
+        }
+        
+        favoritedButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
+    }
     
+        
     func setUpPokemonInfo() {
         let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
         let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
@@ -100,6 +129,7 @@ class PokemonDetailTableViewController: UITableViewController {
             pokemonTyping = "\(pokemon.primaryType!.rawValue), \(pokemon.secondaryType?.rawValue ?? "")".capitalized
         }
         
+        favoritedButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
         
         if pokemon.species?.isMythical ?? false {
             pokemonTypingLabel.text = "Mythical \(pokemonTyping) Type Pokemon"

@@ -167,6 +167,10 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
     }
     
     func fetchPokemonByGen(searchNumber: Int) {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.frame = tableView.frame
+        spinner.startAnimating()
+        tableView.tableHeaderView = spinner
         Task {
             do {
                 let searchedPokemon = try await PokemonNetworkController.shared.fetchGenerationPokemon(gen: searchNumber)
@@ -174,6 +178,8 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                 pokemon = searchedPokemon
                 isFetchingPokemon = true
                 hasSearchedForPokemon = true
+                spinner.stopAnimating()
+                tableView.tableHeaderView = nil
                 tableView.reloadData()
                 
                 DispatchQueue.main.async {

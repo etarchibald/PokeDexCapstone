@@ -35,26 +35,28 @@ class PokemonNetworkController {
         return pokemon
     }
     
-    func fetchGenerationPokemon(gen: Int) async throws -> [Pokemon] {
+    func fetchGenerationPokemonResults(gen: Int) async throws -> [PokemonGenericSearchResults] {
         
         let fetchGenerationPokemonRequest = FetchGenerationPokemonRequest(genNumber: gen)
         
         let pokemonGenerationSearch = try await API.shared.sendRequest(fetchGenerationPokemonRequest)
         
+        return pokemonGenerationSearch.results
+    }
+    
+    func fetchGenerationBatch(genBatch: [PokemonGenericSearchResults]) async -> [Pokemon] {
         var pokemon = [Pokemon]()
-        for pokemonResult in pokemonGenerationSearch.results {
+        
+        for batchPokemon in genBatch {
             do {
-                await pokemon.append(try fetchAllPokemonInformationUsing(URL: URL(string: "\(API.url)/pokemon/\(pokemonResult.name)")!))
+                await pokemon.append(try fetchAllPokemonInformationUsing(URL: URL(string: "\(API.url)/pokemon/\(batchPokemon.name)")!))
             } catch {
-                print("Pokemon: \(pokemonResult.name) failed to load")
+                print("Pokemon: \(batchPokemon.name) failed to load")
                 continue
             }
         }
-        return pokemon
-    }
-    
-    func fetchGenerationbatch() {
         
+        return pokemon
     }
     
     /// An API call to get a singular pokemon

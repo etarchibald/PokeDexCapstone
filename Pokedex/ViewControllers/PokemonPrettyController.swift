@@ -117,3 +117,27 @@ extension UIColor {
         self.init(red: redValue, green: greenValue, blue: blueValue, alpha: 1)
     }
 }
+
+extension Array {
+    func splitIntoEqualParts(numberOfParts: Int) -> [[Element]] {
+        // Calculate the size of each part
+        let chunkSize = count / numberOfParts
+        // Create an empty array to store the parts
+        var result = [[Element]]()
+        var startIndex = startIndex
+        
+        // Iterate over the array and split it into parts
+        for _ in 0..<numberOfParts {
+            // Get the endIndex for the current part
+            let endIndex = index(startIndex, offsetBy: chunkSize, limitedBy: endIndex) ?? endIndex
+            // Slice the array to create the current part
+            let part = Array(self[startIndex..<endIndex])
+            // Append the part to the result array
+            result.append(part)
+            // Move the startIndex to the next position for the next part
+            startIndex = endIndex
+        }
+        
+        return result
+    }
+}

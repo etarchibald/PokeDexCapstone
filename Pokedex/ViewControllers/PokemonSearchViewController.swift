@@ -123,6 +123,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         snapshot.appendSections([0])
         snapshot.appendItems(pokemon)
         dataSource.apply(snapshot, animatingDifferences: true)
+        tableView.reloadData()
     }
     
     func reload(_ pokemon: Pokemon) {
@@ -171,16 +172,29 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         spinner.frame = CGRect(x: 0.0, y: 0.0, width: tableView.bounds.width, height: 80)
         spinner.startAnimating()
         tableView.tableHeaderView = spinner
+        
         Task {
             do {
-                let searchedPokemon = try await PokemonNetworkController.shared.fetchGenerationPokemon(gen: searchNumber)
-                applySnapshot(from: searchedPokemon)
-                pokemon = searchedPokemon
-                isFetchingPokemon = true
-                hasSearchedForPokemon = true
-                spinner.stopAnimating()
-                tableView.tableHeaderView = nil
-                tableView.reloadData()
+                let searchedGenPokemonResults = try await PokemonNetworkController.shared.fetchGenerationPokemonResults(gen: searchNumber)
+                
+                
+                let arrayOfGenPokemon = searchedGenPokemonResults.splitIntoEqualParts(numberOfParts: searchedGenPokemonResults.count / 10)
+                
+                var pokemonToAdd = [Pokemon]()
+                self.pokemon = pokemonToAdd
+                
+                for batchArray in arrayOfGenPokemon {
+                    Task {
+                        let pokemon = await PokemonNetworkController.shared.fetchGenerationBatch(genBatch: batchArray)
+                        
+                        pokemonToAdd = pokemon
+                        
+                        spinner.stopAnimating()
+                        self.tableView.tableHeaderView = nil
+                        self.pokemon.append(contentsOf: pokemonToAdd)
+                        self.applySnapshot(from: self.pokemon)
+                    }
+                }
                 
                 DispatchQueue.main.async {
                     self.navigationItem.title = nil
@@ -195,6 +209,10 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
             }
         }
     }
+    
+//    func fetchGroupOfGenPokemon(genPokemon: [PokemonGenericSearchResults]) {
+//
+//    }
     
     func fetchPokemonByNumber(searchNumber: Int) {
         fetchPokemonByName(searchText: String(searchNumber))

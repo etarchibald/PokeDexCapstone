@@ -28,9 +28,9 @@ class PokemonPrettyController {
             finalString = "V"
         case "generation-vi":
             finalString = "VI"
-        case "generation = vii":
+        case "generation-vii":
             finalString = "VII"
-        case "generation = viii":
+        case "generation-viii":
             finalString = "VIII"
         default:
             break
@@ -72,7 +72,7 @@ class PokemonPrettyController {
         case .dragon:
             return "#6A7BAF"
         case .dark:
-            return "#1B1C22"
+            return "#3F4250"
         case .steel:
             return "#89A1B0"
         case .fairy:

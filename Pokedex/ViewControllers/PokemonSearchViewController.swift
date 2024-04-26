@@ -9,18 +9,20 @@ import UIKit
 
 class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     var pokemon = [Pokemon]()
     private var pageNumber = 0
     private var isFetchingPokemon = false
     private var hasMorePokemon = false
+    private var hasSearchedForPokemon = false
     
     var dataSource: UITableViewDiffableDataSource<Int, Pokemon>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         Task {
             FavoritePokemonViewController.favoritePokemon.append(contentsOf: PokemonPersistenceController.loadPokemon())
         }
@@ -29,7 +31,9 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
     }
     
     func displayGenericPokemon(pageNumber: Int) {
-        showSpinner()
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.frame = tableView.frame
+        spinner.startAnimating()
         Task {
             do {
                 let pokemon = try await PokemonNetworkController.shared.getGenericPokemon(page: pageNumber)
@@ -41,7 +45,8 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                 print("error: \(error)")
             }
         }
-        hideSpinner()
+        spinner.stopAnimating()
+        spinner.isHidden = true
     }
     
     private func fetchMoreGenericPokemon(pageNumber: Int) {
@@ -84,6 +89,22 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         dataSource = UITableViewDiffableDataSource<Int, Pokemon>(tableView: tableView) { tableView, indexPath, pokemon in
             let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonCell") as! PokemonTableViewCell
             
+            
+            let lastSectionIndex = tableView.numberOfSections - 1
+            let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+            if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
+                let spinner = UIActivityIndicatorView(style: .large)
+                spinner.frame = CGRect(x: 0.0, y: 0.0, width: tableView.bounds.width, height: 70)
+                if self.hasSearchedForPokemon {
+                    spinner.stopAnimating()
+                    tableView.tableFooterView = nil
+                } else {
+                    spinner.startAnimating()
+                    tableView.tableFooterView = spinner
+                }
+            }
+            
+            
             if indexPath.row == self.pokemon.count - 1 {
                 self.pageNumber += 1
                 self.fetchMoreGenericPokemon(pageNumber: self.pageNumber)
@@ -110,17 +131,6 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    private func showSpinner() {
-        activityIndicator.startAnimating()
-        tableView.isHidden = true
-    }
-    
-    private func hideSpinner() {
-        activityIndicator.stopAnimating()
-        tableView.isHidden = false
-        activityIndicator.isHidden = true
-    }
-    
     @IBSegueAction func pokemonDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
         return PokemonDetailTableViewController(pokemon: pokemon[tableView.indexPathForSelectedRow!.row], coder: coder)
     }
@@ -136,16 +146,68 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
             pageNumber = 0
             displayGenericPokemon(pageNumber: pageNumber)
             isFetchingPokemon = false
+            hasSearchedForPokemon = false
             return
         }
         
         // Display the searched pokemon
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            fetchPokemonByName(searchText: searchBar.text ?? "")
+        case 1:
+            searchBar.keyboardType = .numberPad
+            fetchPokemonByNumber(searchNumber: Int(searchBar.text ?? "") ?? 1)
+        case 2:
+            searchBar.keyboardType = .numberPad
+            fetchPokemonByGen(searchNumber: Int(searchBar.text ?? "") ?? 1)
+        default:
+            break
+        }
+        
+    }
+    
+    func fetchPokemonByGen(searchNumber: Int) {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.frame = tableView.frame
+        spinner.startAnimating()
+        tableView.tableHeaderView = spinner
         Task {
             do {
-                if let searchedPokemon = try await PokemonNetworkController.shared.getSpecificPokemon(pokemonName: searchBar.text ?? "") {
+                let searchedPokemon = try await PokemonNetworkController.shared.fetchGenerationPokemon(gen: searchNumber)
+                applySnapshot(from: searchedPokemon)
+                pokemon = searchedPokemon
+                isFetchingPokemon = true
+                hasSearchedForPokemon = true
+                spinner.stopAnimating()
+                tableView.tableHeaderView = nil
+                tableView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.navigationItem.title = nil
+                }
+                    
+            } catch {
+                // TODO: Handle errors
+                DispatchQueue.main.async {
+                    self.navigationItem.title = "No Results Found in this Generation"
+                }
+                print("Error: \(error)")
+            }
+        }
+    }
+    
+    func fetchPokemonByNumber(searchNumber: Int) {
+        fetchPokemonByName(searchText: String(searchNumber))
+    }
+    
+    func fetchPokemonByName(searchText: String) {
+        Task {
+            do {
+                if let searchedPokemon = try await PokemonNetworkController.shared.getSpecificPokemon(pokemonName: searchText) {
                     applySnapshot(from: [searchedPokemon])
                     pokemon = [searchedPokemon]
                     isFetchingPokemon = true
+                    hasSearchedForPokemon = true
                     tableView.reloadData()
                     
                     DispatchQueue.main.async {
@@ -167,8 +229,6 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
             }
         }
     }
-    
-
 }
 
 extension PokemonSearchViewController: FavoritePokemon {

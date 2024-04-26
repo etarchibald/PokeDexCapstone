@@ -17,6 +17,8 @@ class FavoritePokemonCollectionViewCell: UICollectionViewCell {
     
     private let prettyControllerShared = PokemonPrettyController.shared
     
+    private var whiteTextTypeArray = [PokemonType.dark, PokemonType.fighting, PokemonType.poison, PokemonType.ghost]
+    
     func updateUI(using pokemon: Pokemon) {
         
         let gradient = CAGradientLayer()
@@ -29,7 +31,7 @@ class FavoritePokemonCollectionViewCell: UICollectionViewCell {
         
         nameLabel.text =  pokemon.name.capitalized
         
-        if pokemon.primaryType == .dark || pokemon.primaryType == .fighting || pokemon.primaryType == .poison || pokemon.primaryType == .ghost {
+        if whiteTextTypeArray.contains(pokemon.primaryType!) || whiteTextTypeArray.contains(pokemon.secondaryType!) {
             nameLabel.textColor = .white
         } else {
             nameLabel.textColor = .black

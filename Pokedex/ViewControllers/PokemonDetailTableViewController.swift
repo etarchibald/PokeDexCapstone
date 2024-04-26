@@ -53,9 +53,10 @@ class PokemonDetailTableViewController: UITableViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size, repeatingSubitem: item, count: storedImages.count + 4)
         
         let section = NSCollectionLayoutSection(group: group)
-//        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         
         let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        
         
         saveImageData()
         setUpPokemonInfo()
@@ -73,7 +74,15 @@ class PokemonDetailTableViewController: UITableViewController {
     func saveImageData() {
         Task {
             do {
-                let urls = [pokemon.sprites.frontDefault, pokemon.sprites.backDefault, pokemon.sprites.frontShiny, pokemon.sprites.backShiny]
+                let spriteURLs = pokemon.sprites
+                let otherSprites = spriteURLs.other
+                let urls =
+                [
+                    spriteURLs.frontDefault,
+                    spriteURLs.backDefault,
+                    spriteURLs.frontShiny,
+                    spriteURLs.backShiny
+                ]
                 
                 for url in urls {
                     let data = try await pokemonController.fetchImageData(url: url)

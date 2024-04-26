@@ -46,18 +46,6 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
-        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        
-        let item = NSCollectionLayoutItem(layoutSize: size)
-        
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, repeatingSubitem: item, count: storedImages.count + 4)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        
-        
-        
         saveImageData()
         setUpPokemonInfo()
     }
@@ -75,14 +63,25 @@ class PokemonDetailTableViewController: UITableViewController {
         Task {
             do {
                 let spriteURLs = pokemon.sprites
-                let otherSprites = spriteURLs.other
-                let urls =
+
+                var urls =
                 [
                     spriteURLs.frontDefault,
                     spriteURLs.backDefault,
                     spriteURLs.frontShiny,
-                    spriteURLs.backShiny
+                    spriteURLs.backShiny,
+                    
                 ]
+                
+                let officialSprites = pokemon.sprites.other.officialArtwork
+                let homeURLs = pokemon.sprites.other.home
+                let dreamWorldURLs = pokemon.sprites.other.dreamWorld
+                let showdownURLs = pokemon.sprites.other.showdown
+                
+                if let officialArtwork = officialSprites.frontDefault, let backArtwork = officialSprites.backDefault {
+                    urls.append(officialArtwork)
+                    urls.append(backArtwork)
+                }
                 
                 for url in urls {
                     let data = try await pokemonController.fetchImageData(url: url)

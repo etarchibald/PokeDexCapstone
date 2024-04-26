@@ -16,8 +16,8 @@ class PokemonDetailTableViewController: UITableViewController {
 //    @IBOutlet weak var imageSegmentedControl: UISegmentedControl!
     
     // Evolution chain data labels
-    @IBOutlet weak var previousEvolutionLabel: UILabel!
-    @IBOutlet weak var nextEvolutionLabel: UILabel!
+//    @IBOutlet weak var previousEvolutionLabel: UILabel!
+//    @IBOutlet weak var nextEvolutionLabel: UILabel!
     
     // Base stats labels
 //    @IBOutlet weak var weightAndHeightLabel: UILabel!
@@ -46,17 +46,16 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
-        pokemonSpritesCollectionView.reloadData()
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         
-        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 5)
+        let item = NSCollectionLayoutItem(layoutSize: size)
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), repeatingSubitem: item, count: 10)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, repeatingSubitem: item, count: storedImages.count + 4)
         
         let section = NSCollectionLayoutSection(group: group)
+//        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         
-        pokemonSpritesCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
-        
+        let layout = UICollectionViewCompositionalLayout(section: section)
         
         saveImageData()
         setUpPokemonInfo()
@@ -111,11 +110,6 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
         pokemonNameLabel.text = pokemon.name.capitalized
-//        pokemonImageView.load(url: pokemon.sprites.frontDefault)
-        
-        previousEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.species.name.capitalized ?? "None")"
-        nextEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.evolvesTo?.first?.species.name.capitalized ?? "None")"
-        
         
         typeStrengthsLabel.text! = strengths.reduce("") { "\($0) \($1.name)"}.capitalized
         typeWeaknessLabel.text! = weaknesses.reduce("") { "\($0) \($1.name)"}.capitalized
@@ -153,11 +147,7 @@ class PokemonDetailTableViewController: UITableViewController {
 extension PokemonDetailTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if storedImages.isEmpty {
-            return 1
-        } else {
-            return storedImages.count
-        }
+        return storedImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -165,13 +155,11 @@ extension PokemonDetailTableViewController: UICollectionViewDelegate, UICollecti
         
         if storedImages.isEmpty {
             cell.pokemonSpriteImageView.image = UIImage(named: "photo")
-//            cell.spriteIdentifierLabel.text = "No Image"
         } else {
             cell.pokemonSpriteImageView.image = storedImages[indexPath.row]
-//            cell.spriteIdentifierLabel.text = "\(indexPath.row + 1)"
         }
         
-        
+        cell.background.layer.cornerRadius = 15
         
         return cell
     }

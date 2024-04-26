@@ -12,13 +12,12 @@ class PokemonDetailTableViewController: UITableViewController {
     // Outlets relating to Pokemon images
     @IBOutlet weak var pokemonNameLabel: UILabel!
     @IBOutlet weak var pokemonTypingLabel: UILabel!
-    @IBOutlet weak var pokemonImageView: UIImageView!
-    @IBOutlet weak var imageSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var generationIntroducedLabel: UILabel!
+//    @IBOutlet weak var pokemonImageView: UIImageView!
+//    @IBOutlet weak var imageSegmentedControl: UISegmentedControl!
     
     // Evolution chain data labels
-    @IBOutlet weak var previousEvolutionLabel: UILabel!
-    @IBOutlet weak var nextEvolutionLabel: UILabel!
+//    @IBOutlet weak var previousEvolutionLabel: UILabel!
+//    @IBOutlet weak var nextEvolutionLabel: UILabel!
     
     // Base stats labels
 //    @IBOutlet weak var weightAndHeightLabel: UILabel!
@@ -33,19 +32,33 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var typeStrengthsLabel: UILabel!
     @IBOutlet weak var typeWeaknessLabel: UILabel!
     
+    @IBOutlet weak var pokemonSpritesCollectionView: UICollectionView!
     
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
-    var storedImages: [String:UIImage] = [:]
+    var storedImages: [UIImage] = []
+    
+    // MARK: ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        pokemonSpritesCollectionView.delegate = self
+        pokemonSpritesCollectionView.dataSource = self
         
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        
+        let item = NSCollectionLayoutItem(layoutSize: size)
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, repeatingSubitem: item, count: storedImages.count + 4)
+        
+        let section = NSCollectionLayoutSection(group: group)
+//        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
         
         saveImageData()
         setUpPokemonInfo()
-        
     }
     
     init?(pokemon: Pokemon, coder: NSCoder) {
@@ -57,37 +70,24 @@ class PokemonDetailTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBAction func changeImageView(_ sender: Any) {
-        switch imageSegmentedControl.selectedSegmentIndex {
-        case 1: pokemonImageView.image = storedImages["backDefault"]
-        case 2: pokemonImageView.image = storedImages["shinyFront"]
-        case 3: pokemonImageView.image = storedImages["shinyBack"]
-        default: pokemonImageView.image = storedImages["defaultFront"]
-        }
-    }
-    
-    
     func saveImageData() {
         Task {
             do {
-                let shinyFrontData = try await pokemonController.fetchImageData(url: pokemon.sprites.frontShiny)
-                let shinyBackData = try await pokemonController.fetchImageData(url: pokemon.sprites.backShiny)
+                let urls = [pokemon.sprites.frontDefault, pokemon.sprites.backDefault, pokemon.sprites.frontShiny, pokemon.sprites.backShiny]
+                
+                for url in urls {
+                    let data = try await pokemonController.fetchImageData(url: url)
                     
-                    if let shinyFrontAsImage = UIImage(data: shinyFrontData), let shinyBackAsImage = UIImage(data: shinyBackData) {
-                        storedImages["shinyFront"] = shinyFrontAsImage
-                        storedImages["shinyBack"] = shinyBackAsImage
+                    if let image = UIImage(data: data) {
+                        storedImages.append(image)
                     }
-                
-                let spriteBehindImageData = try await pokemonController.fetchImageData(url: pokemon.sprites.backDefault)
-                let spriteFrontImageData = try await pokemonController.fetchImageData(url: pokemon.sprites.frontDefault)
-                if let defaultFront = UIImage(data: spriteFrontImageData), let defaultBack = UIImage(data: spriteBehindImageData) {
-                    storedImages["defaultFront"] = defaultFront
-                    storedImages["defaultBack"] = defaultBack
                 }
-                
             }
+            pokemonSpritesCollectionView.reloadData()
         }
     }
+    
+    // MARK: Functions
     
     func setUpPokemonInfo() {
         let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
@@ -102,21 +102,14 @@ class PokemonDetailTableViewController: UITableViewController {
         
         
         if pokemon.species?.isMythical ?? false {
-            pokemonTypingLabel.text = "Mythical\(pokemonTyping) Type Pokemon"
+            pokemonTypingLabel.text = "Mythical \(pokemonTyping) Type Pokemon"
         } else if pokemon.species?.isLegendary ?? false {
-            pokemonTypingLabel.text = "Legendary\(pokemonTyping) Type Pokemon"
+            pokemonTypingLabel.text = "Legendary \(pokemonTyping) Type Pokemon"
         } else {
             pokemonTypingLabel.text = "\(pokemonTyping) Type Pokemon"
         }
         
         pokemonNameLabel.text = pokemon.name.capitalized
-        pokemonImageView.load(url: pokemon.sprites.frontDefault)
-        generationIntroducedLabel.text! += PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? "")
-        
-        
-        previousEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.species.name.capitalized ?? "None")"
-        nextEvolutionLabel.text! += "\n\(pokemon.evolutionChain?.chain.evolvesTo.first?.evolvesTo?.first?.species.name.capitalized ?? "None")"
-        
         
         typeStrengthsLabel.text! = strengths.reduce("") { "\($0) \($1.name)"}.capitalized
         typeWeaknessLabel.text! = weaknesses.reduce("") { "\($0) \($1.name)"}.capitalized
@@ -147,4 +140,28 @@ class PokemonDetailTableViewController: UITableViewController {
 //        deselectRow(at: indexPath, animated: true)
     }
 
+}
+
+// MARK: CollectionView
+
+extension PokemonDetailTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return storedImages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = pokemonSpritesCollectionView.dequeueReusableCell(withReuseIdentifier: "detailPokemonCell", for: indexPath) as! DetailCollectionViewCell
+        
+        if storedImages.isEmpty {
+            cell.pokemonSpriteImageView.image = UIImage(named: "photo")
+        } else {
+            cell.pokemonSpriteImageView.image = storedImages[indexPath.row]
+        }
+        
+        cell.background.layer.cornerRadius = 15
+        
+        return cell
+    }
+    
 }

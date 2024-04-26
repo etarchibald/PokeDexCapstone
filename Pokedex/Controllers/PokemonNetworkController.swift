@@ -7,6 +7,61 @@
 
 import Foundation
 
+struct fetchGenericPokemon: APIRequest {
+    var page: Int
+    
+    var urlRequest: URLRequest {
+        var url = URLComponents(string: "\(API.url)/pokemon")!
+        url.queryItems = [
+            URLQueryItem(name: "offset", value: String(page * 20)),
+            URLQueryItem(name: "limit", value: "20")
+        ]
+        return URLRequest(url: url.url!)
+    }
+    
+    func decodeData(_ data: Data) throws -> PokemonGenericSearch {
+        return try JSONDecoder().decode(PokemonGenericSearch.self, from: data)
+    }
+}
+
+struct FetchGenerationPokemon: APIRequest {
+    var genNumber: Int
+    
+    var urlRequest: URLRequest {
+        let url = URL(string: "\(API.url)/generation/\(genNumber)")!
+        return URLRequest(url: url)
+    }
+    
+    func decodeData(_ data: Data) throws -> PokemonGenerationSearch {
+        return try JSONDecoder().decode(PokemonGenerationSearch.self, from: data)
+    }
+}
+
+struct FetchAllPokemonInfo: APIRequest {
+    var url: URL
+    
+    var urlRequest: URLRequest {
+        return URLRequest(url: url)
+    }
+    
+    func decodeData(_ data: Data) throws -> Pokemon {
+        return try JSONDecoder().decode(Pokemon.self, from: data)
+    }
+}
+
+struct FetchDamageRelations: APIRequest {
+    var type: PokemonType
+    
+    var urlRequest: URLRequest {
+        let url = URL(string: "\(API.url)/type/\(type.rawValue)")!
+        return URLRequest(url: url)
+    }
+    
+    func decodeData(_ data: Data) throws -> DamageRelations {
+        return try JSONDecoder().decode(DamageRelations.self, from: data)
+    }
+}
+
 class PokemonNetworkController {
     
     static var shared = PokemonNetworkController()
@@ -15,235 +70,89 @@ class PokemonNetworkController {
     /// - Parameter page: An optional parameter to get 20 more pokemon after the initial 20.
     /// - Returns: An array of usable pokemon objects
     func getGenericPokemon(page: Int = 0) async throws -> [Pokemon] {
-        // Make the initial API call
-        let session = URLSession.shared
-        var url = URLComponents(string: "\(API.url)/pokemon")!
-        url.queryItems = [
-            URLQueryItem(name: "offset", value: String(page * 20)),
-            URLQueryItem(name: "limit", value: "20")
-        ]
         
+        //create Request
+        let fetchGenericPokemonRequest = fetchGenericPokemon(page: page)
         
-        var request = URLRequest(url: url.url!)
-        
-        var data: Data
-        var response: URLResponse
-        
-        do {
-            let (httpData, httpResponse) = try await session.data(for: request)
-            data = httpData
-            response = httpResponse
-        } catch {
-            throw error
-        }
-        
-        // Ensure we had a good response (status 200)
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            throw API.APIError.GenericAPIRequestFailed
-        }
-        
-        // Decode the initial data
-        let decoder = JSONDecoder()
-        let pokemonGenericSearch = try decoder.decode(PokemonGenericSearch.self, from: data)
+        //get Pokemon using Reqest
+        let pokemonGenericSearch = try await API.shared.sendRequest(fetchGenericPokemonRequest)
         
         // Now loop through the results and make another API call to get extra data about each pokemon
         var pokemon = [Pokemon]()
         for pokemonResult in pokemonGenericSearch.results {
-            request = URLRequest(url: pokemonResult.url)
-            
             do {
-                let (httpData, httpResponse) = try await session.data(for: request)
-                data = httpData
-                response = httpResponse
+                await pokemon.append(try fetchAllPokemonInformationUsing(URL: pokemonResult.url))
             } catch {
-                throw error
+                continue
             }
-            
-            // Ensure we had a good response (status 200)
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                throw API.APIError.SpecificPokemonRequestFailed
-            }
-            
-            // Decode the pokemon
-            let decoder = JSONDecoder()
-            var singlePokemon = try decoder.decode(Pokemon.self, from: data)
-            
-            //API call to get damage relations
-            do {
-                singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.primaryType ?? .normal)
-                singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.secondaryType ?? .normal)
-            } catch {
-                throw error
-            }
-            
-            
-            //API call to get species info
-            do {
-                singlePokemon.species = try await fetchPokemonSpecies(id: singlePokemon.id)
-                if let url = singlePokemon.species?.evolutionChain?.url {
-                    singlePokemon.evolutionChain = try await fetchEvolutionChain(url: url)
-                }
-            } catch {
-                throw error
-            }
-            
-            for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
-                if eachFavoritedPokemon.name == singlePokemon.name {
-                    singlePokemon.isFavorited = true
-                }
-            }
-            
-            pokemon.append(singlePokemon)
         }
         
         return pokemon
     }
     
     func fetchGenerationPokemon(gen: Int) async throws -> [Pokemon] {
-        let session = URLSession.shared
-        let url = URL(string: "\(API.url)/generation/\(gen)")!
         
-        let request = URLRequest(url: url)
+        let fetchGenerationPokemonRequest = FetchGenerationPokemon(genNumber: gen)
         
-        var data: Data
-        var response: URLResponse
-        
-        do {
-            let (httpData, httpResponse) = try await session.data(for: request)
-            data = httpData
-            response = httpResponse
-        } catch {
-            print("error: \(error)")
-            throw error
-        }
-        
-        // Ensure we had a good response (status 200)
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            print("ERROR WITH RESPONSE")
-            throw API.APIError.GenerationAPIRequestFailed
-        }
-        
-        // Decode the initial data
-        let decoder = JSONDecoder()
-        let pokemonGenericSearch = try decoder.decode(PokemonGenerationSearch.self, from: data)
+        let pokemonGenerationSearch = try await API.shared.sendRequest(fetchGenerationPokemonRequest)
         
         // Now loop through the results and make another API call to get extra data about each pokemon
         var pokemon = [Pokemon]()
-        for pokemonResult in pokemonGenericSearch.results {
-            let newPokemonURL = URL(string: "\(API.url)/pokemon/\(pokemonResult.name)")!
-            var newRequest = URLRequest(url: newPokemonURL)
-            
-            newRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            
-            let (httpData, newResponse) = try await session.data(for: newRequest)
-            
-            // Ensure we had a good response (status 200)
-            if let httpResponse = newResponse as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                
-                // Decode the pokemon
-                let decoder = JSONDecoder()
-                var singlePokemon = try decoder.decode(Pokemon.self, from: httpData)
-                
-                //API call to get damage relations
-                do {
-                    singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.primaryType ?? .normal)
-                    singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.secondaryType ?? .normal)
-                } catch {
-                    throw error
-                }
-                
-                
-                //API call to get species info
-                do {
-                    singlePokemon.species = try await fetchPokemonSpecies(id: singlePokemon.id)
-                    if let url = singlePokemon.species?.evolutionChain?.url {
-                        singlePokemon.evolutionChain = try await fetchEvolutionChain(url: url)
-                    }
-                } catch {
-                    throw error
-                }
-                
-                for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
-                    if eachFavoritedPokemon.name == singlePokemon.name {
-                        singlePokemon.isFavorited = true
-                    }
-                }
-                
-                pokemon.append(singlePokemon)
-            } else {
-                print("ERROR")
+        for pokemonResult in pokemonGenerationSearch.results {
+            do {
+                await pokemon.append(try fetchAllPokemonInformationUsing(URL: URL(string: "\(API.url)/pokemon/\(pokemonResult.name)")!))
+            } catch {
                 continue
             }
         }
         return pokemon
+        
     }
     
     /// An API call to get a singular pokemon
     /// - Parameter name: The pokemons name to search for
     /// - Returns: An optional pokemon.
     func getSpecificPokemon(pokemonName name: String) async throws -> Pokemon? {
-        let session = URLSession.shared
-        let url = URLComponents(string: "\(API.url)/pokemon/\(name.lowercased())")!
-        
-        let request = URLRequest(url: url.url!)
-        
-        var data: Data
-        var response: URLResponse
-        
         do {
-            let (httpData, httpResponse) = try await session.data(for: request)
-            data = httpData
-            response = httpResponse
-        } catch {
-            throw error
-        }
-        
-        // Ensure we had a good response (status 200)
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            // TODO: Currently an error is thrown if there is no pokemon by the given name.
-            // Would be better if nil is returned when there is no pokemon
-            // Then return an error for any other errors.
-            // Hint: You will need to figure out what the httpResponse.statusCode is when an unkown name is searched
-            throw API.APIError.SpecificPokemonRequestFailed
-        }
-        
-        // Decode the pokemon
-        let decoder = JSONDecoder()
-        do {
-            var singlePokemon = try decoder.decode(Pokemon.self, from: data)
-            
-            do {
-                singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.primaryType!)
-                singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.secondaryType!)
-            } catch {
-                throw error
-            }
-            
-            //API call to get species info
-            do {
-                singlePokemon.species = try await fetchPokemonSpecies(id: singlePokemon.id)
-                if let url = singlePokemon.species?.evolutionChain?.url {
-                    singlePokemon.evolutionChain = try await fetchEvolutionChain(url: url)
-                }
-            } catch {
-                throw error
-            }
-            
-            for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
-                if eachFavoritedPokemon.name == singlePokemon.name {
-                    singlePokemon.isFavorited = true
-                }
-            }
-            
-            return singlePokemon
+            return try await fetchAllPokemonInformationUsing(URL: URL(string: "\(API.url)/pokemon/\(name.lowercased())")!)
         } catch {
             return nil
         }
     }
     
-//    func fetchAllPokemonInformationUsing(URL: URL) -> [Pokemon] {
-//        
-//    }
+    func fetchAllPokemonInformationUsing(URL: URL) async throws -> Pokemon {
+        
+        let fetchAllRequest = FetchAllPokemonInfo(url: URL)
+        
+        var singlePokemon = try await API.shared.sendRequest(fetchAllRequest)
+        
+        //API call to get damage relations
+        do {
+            singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.primaryType ?? .normal)
+            singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.secondaryType ?? .normal)
+        } catch {
+            throw error
+        }
+        
+        
+        //API call to get species info
+        do {
+            singlePokemon.species = try await fetchPokemonSpecies(id: singlePokemon.id)
+            if let url = singlePokemon.species?.evolutionChain?.url {
+                singlePokemon.evolutionChain = try await fetchEvolutionChain(url: url)
+            }
+        } catch {
+            throw error
+        }
+        
+        for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
+            if eachFavoritedPokemon.name == singlePokemon.name {
+                singlePokemon.isFavorited = true
+            }
+        }
+        
+        return singlePokemon
+    }
     
     func fetchPokemonDamageRelations(type: PokemonType) async throws -> PokemonDamageRelations {
         let session = URLSession.shared

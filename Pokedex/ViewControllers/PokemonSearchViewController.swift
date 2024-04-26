@@ -168,7 +168,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
     
     func fetchPokemonByGen(searchNumber: Int) {
         let spinner = UIActivityIndicatorView(style: .large)
-        spinner.frame = tableView.frame
+        spinner.frame = CGRect(x: 0.0, y: 0.0, width: tableView.bounds.width, height: 80)
         spinner.startAnimating()
         tableView.tableHeaderView = spinner
         Task {

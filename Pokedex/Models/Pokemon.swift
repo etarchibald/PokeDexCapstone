@@ -30,12 +30,13 @@ struct Pokemon {
     var damageRelations: PokemonDamageRelations?
     var species: PokemonSpecies?
     var evolutionChain: PokemonEvolution?
+    var moves: [PokemonMove]
 }
 
 extension Pokemon: Codable {
     
     enum PokemonCodingKeys: CodingKey {
-        case id, name, isFavorited, primaryType, types, sprites, abilities, stats, height, weight, damageRelations, species, evolutionChain
+        case id, name, isFavorited, primaryType, types, sprites, abilities, stats, height, weight, damageRelations, species, evolutionChain, moves
     }
         
     enum PokemonTypeContainerCodingKeys: CodingKey {

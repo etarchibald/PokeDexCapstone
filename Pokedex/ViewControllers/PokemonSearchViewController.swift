@@ -92,7 +92,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
             
             let lastSectionIndex = tableView.numberOfSections - 1
             let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-            if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
+            if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex && self.segmentedControl.selectedSegmentIndex != 2 {
                 let spinner = UIActivityIndicatorView(style: .large)
                 spinner.frame = CGRect(x: 0.0, y: 0.0, width: tableView.bounds.width, height: 70)
                 if self.hasSearchedForPokemon {
@@ -105,7 +105,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
             }
             
             
-            if indexPath.row == self.pokemon.count - 1 {
+            if indexPath.row == self.pokemon.count - 1 && self.segmentedControl.selectedSegmentIndex != 2 {
                 self.pageNumber += 1
                 self.fetchMoreGenericPokemon(pageNumber: self.pageNumber)
             }
@@ -178,12 +178,13 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                 let searchedGenPokemonResults = try await PokemonNetworkController.shared.fetchGenerationPokemonResults(gen: searchNumber)
                 
                 
-                let arrayOfGenPokemon = searchedGenPokemonResults.splitIntoEqualParts(numberOfParts: searchedGenPokemonResults.count / 10)
+                let arrayOfGenPokemon = searchedGenPokemonResults.splitIntoEqualParts(numberOfParts: searchedGenPokemonResults.count / 20)
                 
                 var pokemonToAdd = [Pokemon]()
                 self.pokemon = pokemonToAdd
                 
                 for batchArray in arrayOfGenPokemon {
+                    print(batchArray.count)
                     Task {
                         let pokemon = await PokemonNetworkController.shared.fetchGenerationBatch(genBatch: batchArray)
                         

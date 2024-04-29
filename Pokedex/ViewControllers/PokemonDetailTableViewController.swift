@@ -36,6 +36,7 @@ class PokemonDetailTableViewController: UITableViewController {
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
     var storedImages: [UIImage] = []
+    var arrayOfTypingView: [UIView] = []
     
     // MARK: ViewDidLoad
     
@@ -48,7 +49,6 @@ class PokemonDetailTableViewController: UITableViewController {
         var frame = CGRect.zero
         frame.size.height = .leastNormalMagnitude
         self.tableView.tableHeaderView = UIView(frame: frame)
-        
         
         saveImageData()
         setUpPokemonInfo()

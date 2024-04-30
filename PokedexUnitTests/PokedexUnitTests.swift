@@ -6,7 +6,9 @@
 //
 
 import XCTest
-
+//test main pokemon struct
+//test api calls
+//test view Controllers?
 final class PokedexUnitTests: XCTestCase {
 
     override func setUpWithError() throws {

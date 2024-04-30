@@ -9,6 +9,7 @@ import Foundation
 
 struct PokemonMove: Codable {
     var move: Move
+    var version_group_details: [VersionGroupDetails]
     var moveDetail: MoveDetail?
     var name: String? {
         move.name
@@ -43,12 +44,27 @@ struct PokemonMove: Codable {
     var type: PokemonType? {
         moveDetail?.type.name
     }
+    var levelLearnedAt: Int? {
+        version_group_details.first?.level_learned_at ?? 0
+    }
+    var moveLearnedMethod: String? {
+        version_group_details.first?.move_learn_method.name ?? ""
+    }
 }
 
 
 struct Move: Codable {
     var name: String
     var url: URL
+}
+
+struct VersionGroupDetails: Codable {
+    var level_learned_at: Int
+    var move_learn_method: MoveLearnMethod
+}
+
+struct MoveLearnMethod: Codable {
+    var name: String
 }
 
 struct MoveDetail: Codable {

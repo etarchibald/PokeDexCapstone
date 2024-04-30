@@ -178,7 +178,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                 let searchedGenPokemonResults = try await PokemonNetworkController.shared.fetchGenerationPokemonResults(gen: searchNumber)
                 
                 
-                let arrayOfGenPokemon = searchedGenPokemonResults.splitIntoEqualParts(numberOfParts: searchedGenPokemonResults.count / 20)
+                let arrayOfGenPokemon = searchedGenPokemonResults.splitIntoEqualParts(numberOfParts: searchedGenPokemonResults.count / 30)
                 
                 var pokemonToAdd = [Pokemon]()
                 self.pokemon = pokemonToAdd

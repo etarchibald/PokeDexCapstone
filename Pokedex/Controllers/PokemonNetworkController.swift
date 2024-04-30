@@ -103,7 +103,6 @@ class PokemonNetworkController {
                         do {
                             return try await self.fetchPokemonAbilitiesDetails(url: eachAbility.ability.url)
                         } catch {
-                            print(error)
                             throw error
                         }
                     }
@@ -115,7 +114,6 @@ class PokemonNetworkController {
                         results.append(details)
                     }
                 } catch {
-                    print(error)
                     throw error
                 }
                 return results
@@ -126,7 +124,6 @@ class PokemonNetworkController {
                 singlePokemon.abilities[index].abilityDetails = details
             }
         } catch {
-            print(error)
             throw error
         }
         
@@ -136,10 +133,8 @@ class PokemonNetworkController {
                 for eachMove in singlePokemon.moves {
                     moves.addTask {
                         do {
-                            print("\(eachMove.url!)")
                             return try await self.fetchPokemonMoveDetails(url: eachMove.url!)
                         } catch {
-                            print(error)
                             throw error
                         }
                     }
@@ -152,7 +147,6 @@ class PokemonNetworkController {
                         resutls.append(details)
                     }
                 } catch {
-                    print(error)
                     throw error
                 }
                 

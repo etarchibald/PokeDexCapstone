@@ -5,6 +5,7 @@
 //  Created by Jacob Davis on 4/23/24.
 //
 
+import SwiftUI
 import UIKit
 
 class PokemonDetailTableViewController: UITableViewController {
@@ -36,7 +37,7 @@ class PokemonDetailTableViewController: UITableViewController {
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
     var storedImages: [UIImage] = []
-    var arrayOfTypingView: [UIView] = []
+//    var arrayOfTypingView: [UIHostingController<TypingSwiftUIView>] = []
     
     // MARK: ViewDidLoad
     
@@ -45,6 +46,20 @@ class PokemonDetailTableViewController: UITableViewController {
         
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
+        
+        let typingTest = UIHostingController(rootView: TypingSwiftUIView(typingText: .fighting))
+        let swiftUIView = typingTest.view!
+        swiftUIView.translatesAutoresizingMaskIntoConstraints = false
+        
+        addChild(typingTest)
+        typeStrengthsLabel.addSubview(swiftUIView)
+        
+        NSLayoutConstraint.activate([
+            swiftUIView.centerXAnchor.constraint(equalTo: typeStrengthsLabel.centerXAnchor),
+            swiftUIView.centerYAnchor.constraint(equalTo: typeStrengthsLabel.centerYAnchor)
+        ])
+        
+        typingTest.didMove(toParent: self)
         
         var frame = CGRect.zero
         frame.size.height = .leastNormalMagnitude

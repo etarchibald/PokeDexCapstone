@@ -95,6 +95,74 @@ class PokemonNetworkController {
             throw error
         }
         
+        do {
+            let abilitiesDetails = try await withThrowingTaskGroup(of: AbilityDetails.self) { group in
+                for eachAbility in singlePokemon.abilities {
+                    group.addTask {
+                        // Fetch details for each ability
+                        do {
+                            return try await self.fetchPokemonAbilitiesDetails(url: eachAbility.ability.url)
+                        } catch {
+                            throw error
+                        }
+                    }
+                }
+                // Collect the fetched ability details
+                var results = [AbilityDetails]()
+                do {
+                    for try await details in group {
+                        results.append(details)
+                    }
+                } catch {
+                    throw error
+                }
+                return results
+            }
+            
+            // Update abilityDetails property for each ability
+            for (index, details) in abilitiesDetails.enumerated() {
+                singlePokemon.abilities[index].abilityDetails = details
+            }
+        } catch {
+            throw error
+        }
+        
+        
+        do {
+            let movesDetails = try await withThrowingTaskGroup(of: MoveDetail.self) { moves in
+                for eachMove in singlePokemon.moves {
+                    moves.addTask {
+                        do {
+                            return try await self.fetchPokemonMoveDetails(url: eachMove.url!)
+                        } catch {
+                            throw error
+                        }
+                    }
+                }
+                
+                var resutls = [MoveDetail]()
+                
+                do {
+                    for try await details in moves {
+                        resutls.append(details)
+                    }
+                } catch {
+                    throw error
+                }
+                
+                return resutls
+            }
+            
+            for (index, details) in movesDetails.enumerated() {
+                singlePokemon.moves[index].moveDetail = details
+            }
+            
+        } catch {
+            print(error)
+            throw error
+        }
+        
+        
         for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
             if eachFavoritedPokemon.name == singlePokemon.name {
                 singlePokemon.isFavorited = true
@@ -122,6 +190,22 @@ class PokemonNetworkController {
         let evolutionChainRequest = FetchEvolutionChainRequest(url: url)
         
         return try await API.shared.sendRequest(evolutionChainRequest)
+    }
+    
+    func fetchPokemonAbilitiesDetails(url: URL) async throws -> AbilityDetails {
+        
+        let ablitliesDetailRequest = FetchPokemonAbilities(url: url)
+        
+        return try await API.shared.sendRequest(ablitliesDetailRequest)
+        
+    }
+    
+    func fetchPokemonMoveDetails(url: URL) async throws -> MoveDetail {
+        
+        let movesDetailRequest = FetchPokemonMoves(url: url)
+        
+        return try await API.shared.sendRequest(movesDetailRequest)
+        
     }
     
     func fetchImageData(url: URL) async throws -> Data {

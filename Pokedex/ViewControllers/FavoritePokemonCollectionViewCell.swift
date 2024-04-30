@@ -27,7 +27,7 @@ class FavoritePokemonCollectionViewCell: UICollectionViewCell {
         
         cellBackgroundView.layer.addSublayer(gradient)
         
-        self.layer.cornerRadius = 20
+        self.addShadowAndCornerRadius()
         
         nameLabel.text =  pokemon.name.capitalized
         

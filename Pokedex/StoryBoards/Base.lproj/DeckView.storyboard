@@ -112,18 +112,11 @@
                                 <action selector="editButtonTapped:" destination="ifr-QB-pXC" id="WNR-ab-NcV"/>
                             </connections>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem image="plus" catalog="system" id="OpI-yr-3xC">
-                                <connections>
-                                    <segue destination="zfX-lU-JAk" kind="presentation" identifier="newDeckSegue" id="thi-v3-AQZ"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Item" id="8IE-Fg-jt7">
-                                <connections>
-                                    <segue destination="B3u-fL-GQx" kind="show" id="Pb7-ou-nLQ"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="OpI-yr-3xC">
+                            <connections>
+                                <segue destination="zfX-lU-JAk" kind="presentation" identifier="newDeckSegue" id="thi-v3-AQZ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -292,16 +285,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oxo-wu-V9p" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2550.3816793893129" y="-1037.323943661972"/>
-        </scene>
-        <!--AbilitiesView-->
-        <scene sceneID="a6j-p6-ZHZ">
-            <objects>
-                <viewControllerPlaceholder storyboardIdentifier="AbilitiesView" storyboardName="AbilitiesView" referencedIdentifier="AbilitiesView" id="B3u-fL-GQx" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="7pw-td-S1b"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ne6-qi-F9j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1773" y="-1197"/>
         </scene>
     </scenes>
     <resources>

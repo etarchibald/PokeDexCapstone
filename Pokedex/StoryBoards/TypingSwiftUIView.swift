@@ -8,16 +8,28 @@
 import SwiftUI
 
 struct TypingSwiftUIView: View {
-    var typingText: PokemonType
+    var arrayOfTypes: [PokemonType]
+    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    let whiteRequired: [PokemonType] = [.dark, .fighting, .ghost, .poison]
     
     var body: some View {
-        let backgroundHex = PokemonPrettyController.shared.getBackgroundColorHex(type: typingText).dropFirst()
-        let color = Color(hex: String(backgroundHex))
-                          
-        Text(typingText.rawValue.capitalized)
-            .frame(width: 100)
-            .padding(10)
-            .background(color, in: RoundedRectangle(cornerRadius: 10))
+        
+        LazyVGrid(columns: columns, content: {
+            ForEach(arrayOfTypes, id: \.self) { type in
+                let backgroundHex = PokemonPrettyController.shared.getBackgroundColorHex(type: type).dropFirst()
+                        let color = Color(hex: String(backgroundHex))
+                
+                
+                Text(type.rawValue.capitalized)
+                    .foregroundStyle(whiteRequired.contains(type) ? .white : .black)
+                    .frame(width: 75)
+                    .padding(10)
+                    .background(color, in: RoundedRectangle(cornerRadius: 10))
+                    
+                
+            }
+        })
+//
             
             
             
@@ -25,7 +37,7 @@ struct TypingSwiftUIView: View {
 }
 
 #Preview {
-    TypingSwiftUIView(typingText: .bug)
+    TypingSwiftUIView(arrayOfTypes: [.ice, .dark, .bug, .dragon, .electric, .fairy, .fighting, .fire, .ground, .flying, .ghost, .grass, .poison, .psychic, .rock, .steel, .normal])
 }
 
 extension Color {

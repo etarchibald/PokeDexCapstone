@@ -47,19 +47,44 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
-        let typingTest = UIHostingController(rootView: TypingSwiftUIView(typingText: .fighting))
-        let swiftUIView = typingTest.view!
-        swiftUIView.translatesAutoresizingMaskIntoConstraints = false
+        let strengthAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
+        var strengths: [PokemonType] = []
+        for strength in strengthAPITyping {
+            strengths.append(strength.name)
+        }
+        let weaknessesAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
+        var weaknesses: [PokemonType] = []
+        for weakness in weaknesses {
+            weaknesses.append(weakness)
+        }
         
-        addChild(typingTest)
-        typeStrengthsLabel.addSubview(swiftUIView)
+        let strengthsView = UIHostingController(rootView: TypingSwiftUIView(arrayOfTypes: strengths))
+        let weaknessesView = UIHostingController(rootView: TypingSwiftUIView(arrayOfTypes: weaknesses))
+        let strengthSwiftUIView = strengthsView.view!
+        let weaknessSwiftUIView = weaknessesView.view!
+        
+        strengthSwiftUIView.translatesAutoresizingMaskIntoConstraints = false
+        weaknessSwiftUIView.translatesAutoresizingMaskIntoConstraints = false
+        
+        addChild(strengthsView)
+        addChild(weaknessesView)
+        typeWeaknessLabel.addSubview(weaknessSwiftUIView)
+        typeStrengthsLabel.addSubview(strengthSwiftUIView)
         
         NSLayoutConstraint.activate([
-            swiftUIView.centerXAnchor.constraint(equalTo: typeStrengthsLabel.centerXAnchor),
-            swiftUIView.centerYAnchor.constraint(equalTo: typeStrengthsLabel.centerYAnchor)
+            strengthSwiftUIView.centerXAnchor.constraint(equalTo: typeStrengthsLabel.centerXAnchor),
+            strengthSwiftUIView.centerYAnchor.constraint(equalTo: typeStrengthsLabel.centerYAnchor),
+            weaknessSwiftUIView.centerXAnchor.constraint(equalTo: typeWeaknessLabel.centerXAnchor),
+            weaknessSwiftUIView.centerYAnchor.constraint(equalTo: typeWeaknessLabel.centerYAnchor)
         ])
         
-        typingTest.didMove(toParent: self)
+//        NSLayoutConstraint.activate([
+//            weaknessSwiftUIView.centerXAnchor.constraint(equalTo: typeWeaknessLabel.centerXAnchor),
+//            weaknessSwiftUIView.centerYAnchor.constraint(equalTo: typeWeaknessLabel.centerYAnchor)
+//        ])
+        
+        strengthsView.didMove(toParent: self)
+        weaknessesView.didMove(toParent: self)
         
         var frame = CGRect.zero
         frame.size.height = .leastNormalMagnitude
@@ -134,8 +159,6 @@ class PokemonDetailTableViewController: UITableViewController {
     
         
     func setUpPokemonInfo() {
-        let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
-        let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
         var pokemonTyping = ""
         
         if pokemon.primaryType?.rawValue == pokemon.secondaryType?.rawValue {
@@ -155,9 +178,6 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
         pokemonNameLabel.text = pokemon.name.capitalized
-        
-        typeStrengthsLabel.text! = strengths.reduce("") { "\($0) \($1.name)"}.capitalized
-        typeWeaknessLabel.text! = weaknesses.reduce("") { "\($0) \($1.name)"}.capitalized
         
         for stat in pokemon.stats {
             let statDataToAppend = String(stat.base_stat)

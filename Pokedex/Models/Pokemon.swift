@@ -30,12 +30,13 @@ struct Pokemon {
     var damageRelations: PokemonDamageRelations?
     var species: PokemonSpecies?
     var evolutionChain: PokemonEvolution?
+    var moves: [PokemonMove]
 }
 
 extension Pokemon: Codable {
     
     enum PokemonCodingKeys: CodingKey {
-        case id, name, isFavorited, primaryType, types, sprites, abilities, stats, height, weight, damageRelations, species, evolutionChain
+        case id, name, isFavorited, primaryType, types, sprites, abilities, stats, height, weight, damageRelations, species, evolutionChain, moves
     }
         
     enum PokemonTypeContainerCodingKeys: CodingKey {
@@ -63,6 +64,7 @@ extension Pokemon: Codable {
         self.damageRelations = try container.decodeIfPresent(PokemonDamageRelations.self, forKey: .damageRelations)
         self.species = try container.decodeIfPresent(PokemonSpecies.self, forKey: .species)
         self.evolutionChain = try container.decodeIfPresent(PokemonEvolution.self, forKey: .evolutionChain)
+        self.moves = try container.decode([PokemonMove].self, forKey: .moves)
     }
 }
 

@@ -87,3 +87,27 @@ struct FetchEvolutionChainRequest: APIRequest {
         return try JSONDecoder().decode(PokemonEvolution.self, from: data)
     }
 }
+
+struct FetchPokemonAbilities: APIRequest {
+    var url: URL
+    
+    var urlRequest: URLRequest {
+        return URLRequest(url: url)
+    }
+    
+    func decodeData(_ data: Data) throws -> AbilityDetails {
+        return try JSONDecoder().decode(AbilityDetails.self, from: data)
+    }
+}
+
+struct FetchPokemonMoves: APIRequest {
+    var url: URL
+    
+    var urlRequest: URLRequest {
+        return URLRequest(url: url)
+    }
+    
+    func decodeData(_ data: Data) throws -> MoveDetail {
+        return try JSONDecoder().decode(MoveDetail.self, from: data)
+    }
+}

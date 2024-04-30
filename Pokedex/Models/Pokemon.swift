@@ -64,6 +64,7 @@ extension Pokemon: Codable {
         self.damageRelations = try container.decodeIfPresent(PokemonDamageRelations.self, forKey: .damageRelations)
         self.species = try container.decodeIfPresent(PokemonSpecies.self, forKey: .species)
         self.evolutionChain = try container.decodeIfPresent(PokemonEvolution.self, forKey: .evolutionChain)
+        self.moves = try container.decode([PokemonMove].self, forKey: .moves)
     }
 }
 

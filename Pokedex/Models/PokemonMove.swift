@@ -52,11 +52,11 @@ struct Move: Codable {
 }
 
 struct MoveDetail: Codable {
-    var accuracy: Int //in percent
-    var effectChance: Int
+    var accuracy: Int? //in percent
+    var effectChance: Int?
     var effectEntries: [EffectEntries]
     var damageClass: DamageClass
-    var power: Int
+    var power: Int?
     var pp: Int //Power points. The number of times this move can be used.
     var priority: Int //A value between -8 and 8. Sets the order in which moves are executed during battle.
     var target: Target

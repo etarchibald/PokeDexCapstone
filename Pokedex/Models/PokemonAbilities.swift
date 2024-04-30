@@ -24,7 +24,7 @@ struct PokemonAbilities: Codable {
 
 struct Ability: Codable {
     var name: String
-    var url: String
+    var url: URL
 }
 
 struct AbilityDetails: Codable {

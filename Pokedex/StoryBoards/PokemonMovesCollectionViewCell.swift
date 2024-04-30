@@ -19,6 +19,11 @@ class PokemonMovesCollectionViewCell: UICollectionViewCell {
     
     
     func setup(moves: PokemonMove) {
-        
+        nameLabel.text = moves.name
+        levelLabel.text = "\(moves.levelLearnedAt ?? 0)"
+        typeLabel = PokemonPrettyController.shared.createLabelForTypeBox(typeLabel, moves.type ?? .normal)
+        typeBackgroundView = PokemonPrettyController.shared.createBackgroundForTypeBox(typeBackgroundView, moves.type ?? .normal)
+        powerLabel.text = "\(moves.power ?? 0)"
+        PPLabel.text = "\(moves.pp ?? 0)"
     }
 }

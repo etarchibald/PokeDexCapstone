@@ -13,6 +13,7 @@ class PokemonMovesViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var pokemonMoves = [PokemonMove]()
+    var pokemon: Pokemon?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +24,19 @@ class PokemonMovesViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        pokemonTitleLabel.text = "\(pokemon?.name ?? "") moves"
+    }
+    
     private func configureCollectionView() {
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.2)))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 5)
         
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
 }
 

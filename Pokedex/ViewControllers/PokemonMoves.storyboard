@@ -71,7 +71,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="level" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Utn-u9-WPw">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="level" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Utn-u9-WPw">
                                                     <rect key="frame" x="8" y="14" width="40" height="53"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="40" id="zG3-ZO-Vlu"/>
@@ -154,6 +154,7 @@
                                             <outlet property="powerLabel" destination="nil-Gq-0ic" id="dXt-8z-gT8"/>
                                             <outlet property="typeBackgroundView" destination="GXb-0I-ooe" id="Ei1-ig-OcP"/>
                                             <outlet property="typeLabel" destination="0RJ-VL-V7A" id="hP9-jf-83Q"/>
+                                            <segue destination="wZT-XD-aUK" kind="show" id="3Uf-v4-OlS"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -179,6 +180,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-8.3969465648854964" y="48.591549295774648"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tD4-dc-Oe1">
+            <objects>
+                <viewController id="wZT-XD-aUK" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pyc-mK-Fg2">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="FK0-Bf-Bsz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ZXQ-pM-gCN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kro-aq-Awr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="886" y="49"/>
         </scene>
     </scenes>
     <resources>

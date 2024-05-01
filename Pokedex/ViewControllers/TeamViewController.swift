@@ -36,19 +36,16 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func reload() {
         filteredTeams = TeamController.teams
-        
         teamTableView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
         if searchText.isEmpty {
             filteredTeams = TeamController.teams
         } else {
             isSearching = true
             filteredTeams = TeamController.teams.filter { $0.teamName.lowercased().contains(searchText.lowercased()) }
         }
-        
         teamTableView.reloadData()
     }
     
@@ -94,21 +91,16 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
         let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
             if self.isSearching {
                 self.filteredTeams.remove(at: indexPath.row)
-                
             } else {
                 TeamController.teams.remove(at: indexPath.row)
-                
             }
-            
             TeamController.saveTeams(teams: TeamController.teams)
             
             self.teamTableView.deleteRows(at: [indexPath], with: .fade)
         }
         
         alert.addAction(yesAction)
-        
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -122,15 +114,10 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = teamTableView.dequeueReusableCell(withIdentifier: "teamCell", for: indexPath) as! TeamTableViewCell
         
         let aTeam = filteredTeams[indexPath.row]
-        
         cell.team = aTeam
-        
         cell.setup(team: aTeam)
-        
         cell.selectionStyle = .none
-        
         return cell
     }
     
 }
-//not searching, empty search, search with stuff

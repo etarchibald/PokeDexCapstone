@@ -24,15 +24,13 @@ class AddTeamViewController: UIViewController {
               let teamType = teamTypeTextField.text else {
             return
         }
-        
-       // let selectedPokemon: [Pokemon] =  fetch the pokemon where they are stored?
-    //newTeam.pokemon.append(contentsOf: selectedPokemon)
+        // let selectedPokemon: [Pokemon] =  fetch the pokemon where they are stored?
+        //newTeam.pokemon.append(contentsOf: selectedPokemon)
         
         // Create a new Team object with the entered data
         let newTeam = Team(pokemon: [] , id: UUID(), typeOfTeam: teamType, teamName: teamName) //selectedPokemon.count
         
         //newTeam.pokemon.append(selectedPokemon)
-        
         TeamController.shared.addTeam(newTeam)
         //print(TeamController.shared.teams)
         
@@ -41,10 +39,8 @@ class AddTeamViewController: UIViewController {
         if let dismissCompletion {
             dismissCompletion()
         }
-        
         dismiss(animated: true, completion: nil)
     }
-    
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)

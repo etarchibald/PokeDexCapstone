@@ -8,17 +8,15 @@
 import UIKit
 
 class PokemonTeamViewController: UIViewController {
-
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     static var teamPokemon = [Pokemon]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         collectionView.delegate = self
         collectionView.dataSource = self
-        
         collectionView.reloadData()
         
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalHeight(1)))
@@ -29,15 +27,14 @@ class PokemonTeamViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         
         collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
-       
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         collectionView.reloadData()
     }
-
+    
 }
+
 extension PokemonTeamViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -48,9 +45,7 @@ extension PokemonTeamViewController: UICollectionViewDelegate, UICollectionViewD
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
         
         let pokemon = PokemonTeamViewController.teamPokemon[indexPath.item]
-        
         cell.updateUI(using: pokemon)
-        
         return cell
     }
 }

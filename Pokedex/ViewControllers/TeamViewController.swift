@@ -12,6 +12,7 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var teamTableView: UITableView!
     @IBOutlet weak var teamSearchBar: UISearchBar!
     
+    var teamController = TeamController.shared
     var filteredTeams = [Team]()
     var isSearching = false
     

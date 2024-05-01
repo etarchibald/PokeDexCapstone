@@ -68,20 +68,18 @@ class PokemonDetailTableViewController: UITableViewController {
         
         addChild(strengthsView)
         addChild(weaknessesView)
-        typeWeaknessLabel.addSubview(weaknessSwiftUIView)
         typeStrengthsLabel.addSubview(strengthSwiftUIView)
+        typeWeaknessLabel.addSubview(weaknessSwiftUIView)
         
         NSLayoutConstraint.activate([
             strengthSwiftUIView.centerXAnchor.constraint(equalTo: typeStrengthsLabel.centerXAnchor),
-            strengthSwiftUIView.centerYAnchor.constraint(equalTo: typeStrengthsLabel.centerYAnchor),
+            strengthSwiftUIView.centerYAnchor.constraint(equalTo: typeStrengthsLabel.centerYAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
             weaknessSwiftUIView.centerXAnchor.constraint(equalTo: typeWeaknessLabel.centerXAnchor),
             weaknessSwiftUIView.centerYAnchor.constraint(equalTo: typeWeaknessLabel.centerYAnchor)
         ])
-        
-//        NSLayoutConstraint.activate([
-//            weaknessSwiftUIView.centerXAnchor.constraint(equalTo: typeWeaknessLabel.centerXAnchor),
-//            weaknessSwiftUIView.centerYAnchor.constraint(equalTo: typeWeaknessLabel.centerYAnchor)
-//        ])
         
         strengthsView.didMove(toParent: self)
         weaknessesView.didMove(toParent: self)

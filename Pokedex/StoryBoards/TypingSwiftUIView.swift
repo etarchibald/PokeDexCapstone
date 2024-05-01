@@ -14,11 +14,14 @@ struct TypingSwiftUIView: View {
     
     var body: some View {
         
+        HStack {
+            
+        }
+        
         LazyVGrid(columns: columns, content: {
             ForEach(arrayOfTypes, id: \.self) { type in
                 let backgroundHex = PokemonPrettyController.shared.getBackgroundColorHex(type: type).dropFirst()
                         let color = Color(hex: String(backgroundHex))
-                
                 
                 Text(type.rawValue.capitalized)
                     .foregroundStyle(whiteRequired.contains(type) ? .white : .black)
@@ -26,9 +29,11 @@ struct TypingSwiftUIView: View {
                     .padding(10)
                     .background(color, in: RoundedRectangle(cornerRadius: 10))
                     
-                
             }
         })
+        .padding()
+        .background(.gray.opacity(0.7))
+        .shadow(radius: 5)
 //
             
             

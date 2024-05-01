@@ -35,6 +35,8 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func reload() {
+        filteredDecks = DeckController.decks
+        
         deckTableView.reloadData()
     }
     

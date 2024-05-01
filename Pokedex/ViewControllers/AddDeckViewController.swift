@@ -24,8 +24,14 @@ class AddDeckViewController: UIViewController {
               let deckType = deckTypeTextField.text else {
             return
         }
+        
+       // let selectedPokemon: [Pokemon] =  fetch the pokemon where they are stored?
+    //newDeck.pokemon.append(contentsOf: selectedPokemon)
+        
         // Create a new Deck object with the entered data
-        let newDeck = Deck(pokemon: [] , id: UUID(), typeOfDeck: deckType, deckName: deckName, numberOfCards: 0)
+        var newDeck = Deck(pokemon: [] , id: UUID(), typeOfDeck: deckType, deckName: deckName, numberOfCards: 0) //selectedPokemon.count
+        
+        //newDeck.pokemon.append(selectedPokemon)
         
         DeckController.shared.addDeck(newDeck)
         //print(DeckController.shared.decks)

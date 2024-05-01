@@ -53,6 +53,20 @@ class DeckController {
         DeckController.decks.append(someDeck)
     }
     
+    func addPokemonToDeck(pokemon: Pokemon, toDeck deckId: UUID) {
+            // Find the deck with the specified ID
+        guard let deckIndex = DeckController.decks.firstIndex(where: { $0.id == deckId }) else {
+                print("Deck with ID \(deckId) not found")
+                return
+            }
+            
+            // Append the Pokemon to the found deck
+        DeckController.decks[deckIndex].pokemon.append(pokemon)
+            
+            // Optionally, you can save the updated decks to persistent storage
+        DeckController.saveDecks(decks: DeckController.decks)
+        }
+    
     
     
 }

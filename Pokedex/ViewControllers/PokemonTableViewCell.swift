@@ -71,6 +71,5 @@ class PokemonTableViewCell: UITableViewCell {
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
             PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
         }
-        
     }
 }

@@ -197,6 +197,9 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                     }
                 }
                 
+                hasSearchedForPokemon = true
+                isFetchingPokemon = true
+                
                 DispatchQueue.main.async {
                     self.navigationItem.title = nil
                 }
@@ -221,9 +224,6 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                 if let searchedPokemon = try await PokemonNetworkController.shared.getSpecificPokemon(pokemonName: searchText) {
                     applySnapshot(from: [searchedPokemon])
                     pokemon = [searchedPokemon]
-                    isFetchingPokemon = true
-                    hasSearchedForPokemon = true
-                    tableView.reloadData()
                     
                     DispatchQueue.main.async {
                         self.navigationItem.title = nil
@@ -243,14 +243,18 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                 print("Error: \(error)")
             }
         }
+        
+        isFetchingPokemon = true
+        hasSearchedForPokemon = true
     }
 }
 
 extension PokemonSearchViewController: FavoritePokemon {
     func addPokemonToFavorite(pokemon: Pokemon) {
         for (index, eachPokemon) in self.pokemon.enumerated() {
-            if eachPokemon.name == pokemon.name {
+            if eachPokemon.id == pokemon.id {
                 self.pokemon[index] = pokemon
+                applySnapshot(from: self.pokemon)
             }
         }
     }

@@ -4,7 +4,6 @@
 //
 //  Created by Austin Dobberfuhl on 4/18/24.
 //
-//modal add top right anddd a cancel top left
 
 import UIKit
 
@@ -26,12 +25,12 @@ class AddDeckViewController: UIViewController {
             return
         }
         // Create a new Deck object with the entered data
-        let newDeck = Deck(pokemon: [], id: UUID(), typeOfDeck: deckType, deckName: deckName, numberOfCards: 0)
+        let newDeck = Deck(pokemon: [] , id: UUID(), typeOfDeck: deckType, deckName: deckName, numberOfCards: 0)
         
         DeckController.shared.addDeck(newDeck)
         //print(DeckController.shared.decks)
         
-        DeckController.saveDecks(decks: DeckController.shared.decks)
+        DeckController.saveDecks(decks: DeckController.decks)
         
         if let dismissCompletion {
             dismissCompletion()

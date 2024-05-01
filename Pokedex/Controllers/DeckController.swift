@@ -4,7 +4,7 @@
 //
 //  Created by Austin Dobberfuhl on 4/22/24.
 //
-//appending and deleting decks for static dekcs
+
 import Foundation
 class DeckController {
     
@@ -50,7 +50,7 @@ class DeckController {
 //    ]
     
     func addDeck(_ someDeck: Deck) {
-        decks.append(someDeck)
+        DeckController.decks.append(someDeck)
     }
     
     

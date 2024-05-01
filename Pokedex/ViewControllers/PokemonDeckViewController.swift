@@ -22,8 +22,8 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         deckTableView.delegate = self
         deckSearchBar.delegate = self
         
-        deckController.decks = DeckController.loadDecks()
-        filteredDecks = deckController.decks
+        DeckController.decks = DeckController.loadDecks()
+        filteredDecks = DeckController.decks
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -41,10 +41,10 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         if searchText.isEmpty {
-            filteredDecks = deckController.decks
+            filteredDecks = DeckController.decks
         } else {
             isSearching = true
-            filteredDecks = deckController.decks.filter { $0.deckName.lowercased().contains(searchText.lowercased()) }
+            filteredDecks = DeckController.decks.filter { $0.deckName.lowercased().contains(searchText.lowercased()) }
         }
         
         deckTableView.reloadData()
@@ -64,7 +64,7 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         if isSearching {
             return filteredDecks.count
         } else {
-            return deckController.decks.count
+            return DeckController.decks.count
         }
     }
     
@@ -84,7 +84,7 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
         if isSearching {
             deckToDelete = filteredDecks[indexPath.row]
         } else {
-            deckToDelete = deckController.decks[indexPath.row]
+            deckToDelete = DeckController.decks[indexPath.row]
         }
         
         let alert = UIAlertController(title: nil, message: "Are you sure you want to delete \(deckToDelete.deckName)?", preferredStyle: .alert)
@@ -94,9 +94,12 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
                 self.filteredDecks.remove(at: indexPath.row)
                 
             } else {
-                self.deckController.decks.remove(at: indexPath.row)
+                DeckController.decks.remove(at: indexPath.row)
                 
             }
+            
+            DeckController.saveDecks(decks: DeckController.decks)
+            
             self.deckTableView.deleteRows(at: [indexPath], with: .fade)
         }
         
@@ -108,9 +111,9 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-        let movedDeck = deckController.decks.remove(at: fromIndexPath.row)
-        deckController.decks.insert(movedDeck, at: to.row)
-        DeckController.saveDecks(decks: DeckController.shared.decks)
+        let movedDeck = DeckController.decks.remove(at: fromIndexPath.row)
+        DeckController.decks.insert(movedDeck, at: to.row)
+        DeckController.saveDecks(decks: DeckController.decks)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

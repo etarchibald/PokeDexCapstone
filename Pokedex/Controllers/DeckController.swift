@@ -4,13 +4,13 @@
 //
 //  Created by Austin Dobberfuhl on 4/22/24.
 //
-
+//appending and deleting decks for static dekcs
 import Foundation
 class DeckController {
     
     static let shared = DeckController()
     
-    var decks: [Deck] = []
+    static var decks: [Deck] = []
     
     static let deckDocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     static let deckArchiveURL = deckDocumentsDirectory.appendingPathComponent("deck").appendingPathExtension("json")
@@ -52,6 +52,7 @@ class DeckController {
     func addDeck(_ someDeck: Deck) {
         decks.append(someDeck)
     }
+    
     
     
 }

@@ -18,6 +18,7 @@
 		317B72122BDFF1210049A06D /* PokemonAbilityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317B72112BDFF1210049A06D /* PokemonAbilityTableViewCell.swift */; };
 		3196616B2BE139FE00FE0A52 /* PokedexUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3196616A2BE139FE00FE0A52 /* PokedexUnitTests.swift */; };
 		319661742BE13CF100FE0A52 /* TestPokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319661732BE13CF100FE0A52 /* TestPokemon.swift */; };
+		319661762BE1BC3500FE0A52 /* PokemonCardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319661752BE1BC3500FE0A52 /* PokemonCardsViewController.swift */; };
 		4A6BBBF02BCEC54600ACE001 /* PokemonDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A6BBBEF2BCEC54600ACE001 /* PokemonDetail.storyboard */; };
 		4A6BBBFE2BCECF6C00ACE001 /* FavoritePokemonView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A6BBBFC2BCECF6C00ACE001 /* FavoritePokemonView.storyboard */; };
 		4A6BBC012BCED41500ACE001 /* DeckView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A6BBBFF2BCED41500ACE001 /* DeckView.storyboard */; };
@@ -76,6 +77,7 @@
 		319661682BE139FE00FE0A52 /* PokedexUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokedexUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3196616A2BE139FE00FE0A52 /* PokedexUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexUnitTests.swift; sourceTree = "<group>"; };
 		319661732BE13CF100FE0A52 /* TestPokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPokemon.swift; sourceTree = "<group>"; };
+		319661752BE1BC3500FE0A52 /* PokemonCardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCardsViewController.swift; sourceTree = "<group>"; };
 		4A6BBBEF2BCEC54600ACE001 /* PokemonDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PokemonDetail.storyboard; sourceTree = "<group>"; };
 		4A6BBBFD2BCECF6C00ACE001 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/FavoritePokemonView.storyboard; sourceTree = "<group>"; };
 		4A6BBC002BCED41500ACE001 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/DeckView.storyboard; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				F25835762BD8042000D3E972 /* PokemonDetailTableViewController.swift */,
 				F25835782BDA984F00D3E972 /* DetailCollectionViewCell.swift */,
 				3152CB112BD15E3F00BB5980 /* PokemonDeckViewController.swift */,
+				319661752BE1BC3500FE0A52 /* PokemonCardsViewController.swift */,
 				3152CB132BD1650400BB5980 /* DeckTableViewCell.swift */,
 				3152CB152BD1D98500BB5980 /* AddDeckViewController.swift */,
 				317B720F2BDFF0F80049A06D /* PokemonAbilitiesTableViewController.swift */,
@@ -354,6 +357,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				319661762BE1BC3500FE0A52 /* PokemonCardsViewController.swift in Sources */,
 				A38B12F92B4EEB65003D33D8 /* Pokemon.swift in Sources */,
 				4A6BBC032BCED7A000ACE001 /* PokemonAbilities.swift in Sources */,
 				A38B130B2B4EF8E4003D33D8 /* PokemonTableViewCell.swift in Sources */,

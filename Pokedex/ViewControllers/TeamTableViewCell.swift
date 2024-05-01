@@ -1,5 +1,5 @@
 //
-//  DeckTableViewCell.swift
+//  TeamTableViewCell.swift
 //  Pokedex
 //
 //  Created by Austin Dobberfuhl on 4/18/24.
@@ -7,27 +7,27 @@
 
 import UIKit
 
-class DeckTableViewCell: UITableViewCell {
+class TeamTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var deckNameLabel: UILabel!
+    @IBOutlet weak var teamNameLabel: UILabel!
     
     @IBOutlet weak var numberOfPokemonLabel: UILabel!
     
-    @IBOutlet weak var typeOfDeckLabel: UILabel!
+    @IBOutlet weak var typeOfTeamLabel: UILabel!
     
-    var deck: Deck?
+    var team: Team?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
     
-    func setup(deck: Deck) {
-        deckNameLabel.text = deck.deckName
+    func setup(team: Team) {
+        teamNameLabel.text = team.teamName
         
-        numberOfPokemonLabel.text = String("Number of Pokemon in Deck: \(deck.numberOfCards)")
+        numberOfPokemonLabel.text = String("Number of Pokemon in Team: \(team.numberOfCards)")
         
-        typeOfDeckLabel.text = deck.typeOfDeck
+        typeOfTeamLabel.text = team.typeOfTeam
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

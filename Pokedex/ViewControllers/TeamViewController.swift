@@ -1,5 +1,5 @@
 //
-//  PokemonDeckViewController.swift
+//  PokemonTeamViewController.swift
 //  Pokedex
 //
 //  Created by Austin Dobberfuhl on 4/18/24.
@@ -7,66 +7,65 @@
 
 import UIKit
 
-class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class TeamViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
-    @IBOutlet weak var deckTableView: UITableView!
-    @IBOutlet weak var deckSearchBar: UISearchBar!
+    @IBOutlet weak var teamTableView: UITableView!
+    @IBOutlet weak var teamSearchBar: UISearchBar!
     
-    var deckController = DeckController.shared
-    var filteredDecks = [Deck]()
+    var filteredTeams = [Team]()
     var isSearching = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        deckTableView.dataSource = self
-        deckTableView.delegate = self
-        deckSearchBar.delegate = self
+        teamTableView.dataSource = self
+        teamTableView.delegate = self
+        teamSearchBar.delegate = self
         
-        DeckController.decks = DeckController.loadDecks()
-        filteredDecks = DeckController.decks
+        TeamController.teams = TeamController.loadTeams()
+        filteredTeams = TeamController.teams
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "newDeckSegue" {
-            if let nav = segue.destination as? UINavigationController, let first = nav.viewControllers.first as? AddDeckViewController {
+        if segue.identifier == "newTeamSegue" {
+            if let nav = segue.destination as? UINavigationController, let first = nav.viewControllers.first as? AddTeamViewController {
                 first.dismissCompletion = reload
             }
         }
     }
     
     func reload() {
-        filteredDecks = DeckController.decks
+        filteredTeams = TeamController.teams
         
-        deckTableView.reloadData()
+        teamTableView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         if searchText.isEmpty {
-            filteredDecks = DeckController.decks
+            filteredTeams = TeamController.teams
         } else {
             isSearching = true
-            filteredDecks = DeckController.decks.filter { $0.deckName.lowercased().contains(searchText.lowercased()) }
+            filteredTeams = TeamController.teams.filter { $0.teamName.lowercased().contains(searchText.lowercased()) }
         }
         
-        deckTableView.reloadData()
+        teamTableView.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
-        deckTableView.reloadData()
+        teamTableView.reloadData()
     }
     
     @IBAction func editButtonTapped(_ sender: Any) {
-        let tableViewEdingMode = deckTableView.isEditing
-        deckTableView.setEditing(!tableViewEdingMode, animated: true)
+        let tableViewEdingMode = teamTableView.isEditing
+        teamTableView.setEditing(!tableViewEdingMode, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearching {
-            return filteredDecks.count
+            return filteredTeams.count
         } else {
-            return DeckController.decks.count
+            return TeamController.teams.count
         }
     }
     
@@ -81,28 +80,28 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func presentAlertForDeleting(indexPath: IndexPath) {
-        let deckToDelete: Deck
+        let teamToDelete: Team
         
         if isSearching {
-            deckToDelete = filteredDecks[indexPath.row]
+            teamToDelete = filteredTeams[indexPath.row]
         } else {
-            deckToDelete = DeckController.decks[indexPath.row]
+            teamToDelete = TeamController.teams[indexPath.row]
         }
         
-        let alert = UIAlertController(title: nil, message: "Are you sure you want to delete \(deckToDelete.deckName)?", preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: "Are you sure you want to delete \(teamToDelete.teamName)?", preferredStyle: .alert)
         
         let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
             if self.isSearching {
-                self.filteredDecks.remove(at: indexPath.row)
+                self.filteredTeams.remove(at: indexPath.row)
                 
             } else {
-                DeckController.decks.remove(at: indexPath.row)
+                TeamController.teams.remove(at: indexPath.row)
                 
             }
             
-            DeckController.saveDecks(decks: DeckController.decks)
+            TeamController.saveTeams(teams: TeamController.teams)
             
-            self.deckTableView.deleteRows(at: [indexPath], with: .fade)
+            self.teamTableView.deleteRows(at: [indexPath], with: .fade)
         }
         
         alert.addAction(yesAction)
@@ -113,19 +112,19 @@ class PokemonDeckViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-        let movedDeck = DeckController.decks.remove(at: fromIndexPath.row)
-        DeckController.decks.insert(movedDeck, at: to.row)
-        DeckController.saveDecks(decks: DeckController.decks)
+        let movedTeam = TeamController.teams.remove(at: fromIndexPath.row)
+        TeamController.teams.insert(movedTeam, at: to.row)
+        TeamController.saveTeams(teams: TeamController.teams)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = deckTableView.dequeueReusableCell(withIdentifier: "deckCell", for: indexPath) as! DeckTableViewCell
+        let cell = teamTableView.dequeueReusableCell(withIdentifier: "teamCell", for: indexPath) as! TeamTableViewCell
         
-        let aDeck = filteredDecks[indexPath.row]
+        let aTeam = filteredTeams[indexPath.row]
         
-        cell.deck = aDeck
+        cell.team = aTeam
         
-        cell.setup(deck: aDeck)
+        cell.setup(team: aTeam)
         
         cell.selectionStyle = .none
         

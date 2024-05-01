@@ -7,11 +7,11 @@
 
 import UIKit
 
-class PokemonCardsViewController: UIViewController {
+class PokemonTeamViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
-    static var deckPokemon = [Pokemon]()
+    static var teamPokemon = [Pokemon]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,16 +38,16 @@ class PokemonCardsViewController: UIViewController {
     }
 
 }
-extension PokemonCardsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension PokemonTeamViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        PokemonCardsViewController.deckPokemon.count
+        PokemonTeamViewController.teamPokemon.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
         
-        let pokemon = PokemonCardsViewController.deckPokemon[indexPath.item]
+        let pokemon = PokemonTeamViewController.teamPokemon[indexPath.item]
         
         cell.updateUI(using: pokemon)
         

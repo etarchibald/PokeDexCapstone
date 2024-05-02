@@ -67,8 +67,10 @@ class PokemonDetailTableViewController: UITableViewController {
         strengthsAndWeaknessesView.addSubview(strengthSwiftUIView)
         
         NSLayoutConstraint.activate([
-            strengthSwiftUIView.centerXAnchor.constraint(equalTo: strengthsAndWeaknessesView.centerXAnchor),
-            strengthSwiftUIView.centerYAnchor.constraint(equalTo: strengthsAndWeaknessesView.centerYAnchor)
+            strengthSwiftUIView.leadingAnchor.constraint(equalTo: strengthsAndWeaknessesView.leadingAnchor),
+            strengthSwiftUIView.topAnchor.constraint(equalTo: strengthsAndWeaknessesView.topAnchor),
+            strengthSwiftUIView.trailingAnchor.constraint(equalTo: strengthsAndWeaknessesView.trailingAnchor),
+            strengthSwiftUIView.bottomAnchor.constraint(equalTo: strengthsAndWeaknessesView.bottomAnchor)
         ])
         
         strengthsView.didMove(toParent: self)
@@ -186,10 +188,6 @@ class PokemonDetailTableViewController: UITableViewController {
             }
         }
         
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        deselectRow(at: indexPath, animated: true)
     }
 
 }

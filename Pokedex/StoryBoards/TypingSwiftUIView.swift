@@ -46,7 +46,7 @@ struct TypingSwiftUIView: View {
             }
             .scrollTargetLayout()
         }
-        .contentMargins(16, for: .scrollContent)
+        .contentMargins(10, for: .scrollContent)
         .scrollTargetBehavior(.viewAligned)
         
     }

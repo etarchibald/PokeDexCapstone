@@ -13,8 +13,8 @@ struct FetchGenericPokemonRequest: APIRequest {
     var urlRequest: URLRequest {
         var url = URLComponents(string: "\(API.url)/pokemon")!
         url.queryItems = [
-            URLQueryItem(name: "offset", value: String(page * 20)),
-            URLQueryItem(name: "limit", value: "20")
+            URLQueryItem(name: "offset", value: String(page * 30)),
+            URLQueryItem(name: "limit", value: "30")
         ]
         return URLRequest(url: url.url!)
     }
@@ -28,7 +28,7 @@ struct FetchGenerationPokemonRequest: APIRequest {
     var genNumber: Int
     
     var urlRequest: URLRequest {
-        var url = URL(string: "\(API.url)/generation/\(genNumber)")!
+        let url = URL(string: "\(API.url)/generation/\(genNumber)")!
         
         return URLRequest(url: url)
     }

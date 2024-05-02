@@ -97,7 +97,7 @@ class PokemonPrettyController {
     func createBackgroundForTypeBox(_ view: UIView, _ type: PokemonType) -> UIView {
         view.backgroundColor = UIColor(hex: PokemonPrettyController.shared.getBackgroundColorHex(type: type))
         
-        view.layer.cornerRadius = 15
+        view.layer.cornerRadius = 10
         
         return view
     }

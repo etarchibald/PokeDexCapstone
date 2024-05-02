@@ -65,17 +65,6 @@ class PokemonDetailTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: IBActions
-    
-    @IBAction func abilitiesButtonTapped(_ sender: Any) {
-        performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
-    }
-    
-    @IBAction func movesButtonTapped(_ sender: Any) {
-        performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
-    }
-    
-    
     // MARK: Functions
     
     func saveImageData() {
@@ -207,7 +196,15 @@ class PokemonDetailTableViewController: UITableViewController {
     //MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        <#code#>
+        if let detailVC = segue.destination as? PokemonAbilitiesTableViewController {
+            detailVC.pokemon = pokemon
+        }
+        
+        if let detailVC = segue.destination as? PokemonMovesViewController {
+            detailVC.pokemon = pokemon
+            detailVC.pokemonMoves = pokemon.moves
+        }
+        
     }
 
 }

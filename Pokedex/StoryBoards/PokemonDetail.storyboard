@@ -153,7 +153,7 @@
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="gray" title="Abilities &gt;"/>
                                                     <connections>
-                                                        <action selector="abilitiesButtonTapped:" destination="kF5-BP-Z4F" eventType="touchUpInside" id="niR-7u-Abd"/>
+                                                        <segue destination="FBo-qb-Fpg" kind="show" identifier="moveToAbilites" id="HP0-Mt-Yum"/>
                                                     </connections>
                                                 </button>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="W6n-ZN-9Ns">
@@ -211,7 +211,7 @@
                                                     </constraints>
                                                     <buttonConfiguration key="configuration" style="gray" title="Moves &gt;"/>
                                                     <connections>
-                                                        <action selector="movesButtonTapped:" destination="kF5-BP-Z4F" eventType="touchUpInside" id="zaD-XA-mUg"/>
+                                                        <segue destination="oye-FI-reG" kind="show" identifier="moveToMoves" id="zO2-4p-4zd"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -288,6 +288,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7uX-fV-vPb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="736.64122137404581" y="16.901408450704228"/>
+        </scene>
+        <!--AbilitiesView-->
+        <scene sceneID="9L2-gf-HHC">
+            <objects>
+                <viewControllerPlaceholder storyboardName="AbilitiesView" referencedIdentifier="AbilitiesView" id="FBo-qb-Fpg" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="egG-h7-bWQ"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Mb-ef-Tpb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1337" y="-15"/>
+        </scene>
+        <!--PokemonMoves-->
+        <scene sceneID="uSX-Sp-DOw">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PokemonMoves" referencedIdentifier="PokemonMoves" id="oye-FI-reG" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Cnr-pO-sZo"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vAF-WM-EUK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1370" y="131"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ufs-9k-BI6">

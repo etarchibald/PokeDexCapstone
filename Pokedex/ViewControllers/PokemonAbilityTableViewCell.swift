@@ -8,12 +8,10 @@
 import UIKit
 
 class PokemonAbilityTableViewCell: UITableViewCell {
-
     
     @IBOutlet weak var abilityNameLabel: UILabel!
     @IBOutlet weak var effectDescriptionLabel: UILabel!
     @IBOutlet weak var flavorTextLabel: UILabel!
-    
     
     func setup(ability: PokemonAbilities) {
         abilityNameLabel.text = ability.name
@@ -21,16 +19,14 @@ class PokemonAbilityTableViewCell: UITableViewCell {
         flavorTextLabel.text = ability.flavorText
     }
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        
     }
-
+    
 }

@@ -7,18 +7,16 @@
 
 import UIKit
 
-class PokemonCardsViewController: UIViewController {
-
+class PokemonTeamViewController: UIViewController {
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
-    static var deckPokemon = [Pokemon]()
+    static var teamPokemon = [Pokemon]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         collectionView.delegate = self
         collectionView.dataSource = self
-        
         collectionView.reloadData()
         
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalHeight(1)))
@@ -29,28 +27,25 @@ class PokemonCardsViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         
         collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
-       
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         collectionView.reloadData()
     }
-
+    
 }
-extension PokemonCardsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+
+extension PokemonTeamViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        PokemonCardsViewController.deckPokemon.count
+        PokemonTeamViewController.teamPokemon.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
         
-        let pokemon = PokemonCardsViewController.deckPokemon[indexPath.item]
-        
+        let pokemon = PokemonTeamViewController.teamPokemon[indexPath.item]
         cell.updateUI(using: pokemon)
-        
         return cell
     }
 }

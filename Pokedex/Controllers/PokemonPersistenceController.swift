@@ -6,7 +6,7 @@
 //
 //file system save changes
 
-//save deck
+//save team
 //save all favorite pokemon
 
 import Foundation
@@ -14,9 +14,9 @@ import Foundation
 class PokemonPersistenceController {
     
     enum PersistanceErrors: Error {
-        case failedToLoadDecks
+        case failedToLoadTeams
         case failedToLoadPokemon
-        case failedToSaveDecks
+        case failedToSaveTeams
         case failedToSavePokemon
     }
     

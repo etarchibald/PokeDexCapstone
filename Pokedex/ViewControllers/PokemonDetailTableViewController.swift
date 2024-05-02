@@ -30,7 +30,6 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // Damage relations labels
     @IBOutlet weak var strengthsAndWeaknessesView: UIView!
-    @IBOutlet weak var typeWeaknessLabel: UILabel!
     
     @IBOutlet weak var pokemonSpritesCollectionView: UICollectionView!
     
@@ -65,6 +64,17 @@ class PokemonDetailTableViewController: UITableViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: IBActions
+    
+    @IBAction func abilitiesButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
+    }
+    
+    @IBAction func movesButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
+    }
+    
     
     // MARK: Functions
     
@@ -192,6 +202,12 @@ class PokemonDetailTableViewController: UITableViewController {
         ])
         
         strengthsView.didMove(toParent: self)
+    }
+    
+    //MARK: Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        <#code#>
     }
 
 }

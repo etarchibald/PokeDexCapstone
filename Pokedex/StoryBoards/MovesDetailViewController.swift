@@ -9,7 +9,6 @@ import UIKit
 
 class MovesDetailViewController: UIViewController {
     
-    @IBOutlet var otherLabels: [UILabel]!
     @IBOutlet weak var backgroundSquareView: UIView!
     @IBOutlet weak var effectChanceDetailLabel: UILabel!
     @IBOutlet weak var effectDetailLabel: UILabel!
@@ -48,9 +47,9 @@ class MovesDetailViewController: UIViewController {
     
     private func updateUI() {
         if let type = move.type {
-            for eachLabel in otherLabels {
-                eachLabel.textColor = UIColor(hex: type.rawValue)
-            }
+//            for eachLabel in otherLabels {
+//                eachLabel.textColor = UIColor(hex: type.rawValue)
+//            }
             nameLabel.text = move.name
             typeNameLabel.text = type.rawValue
             typeBackgroundLabel = PokemonPrettyController.shared.createBackgroundForTypeBox(typeBackgroundLabel, type)
@@ -64,9 +63,7 @@ class MovesDetailViewController: UIViewController {
             targetDetailLabel.text = move.target
             effectDetailLabel.text = move.effectEntries
             effectChanceDetailLabel.text = "\(move.effectChance ?? 0)"
-            backgroundSquareView.backgroundColor = UIColor(hex: PokemonPrettyController.shared.getBackgroundColorHex(type: type)).withAlphaComponent(0.4)
-            
-            backgroundSquareView.layer.cornerRadius = 10
+            backgroundSquareView = PokemonPrettyController.shared.createBackgroundForTypeBox(backgroundSquareView, type)
         }
     }
 

@@ -47,33 +47,7 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
-        let strengthAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
-        var strengths: [PokemonType] = []
-        for strength in strengthAPITyping {
-            strengths.append(strength.name)
-        }
-        let weaknessesAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
-        var weaknesses: [PokemonType] = []
-        for weakness in weaknessesAPITyping {
-            weaknesses.append(weakness.name)
-        }
-        
-        let strengthsView = UIHostingController(rootView: TypingSwiftUIView(strengths: strengths, weaknesses: weaknesses))
-        let strengthSwiftUIView = strengthsView.view!
-        
-        strengthSwiftUIView.translatesAutoresizingMaskIntoConstraints = false
-        
-        addChild(strengthsView)
-        strengthsAndWeaknessesView.addSubview(strengthSwiftUIView)
-        
-        NSLayoutConstraint.activate([
-            strengthSwiftUIView.leadingAnchor.constraint(equalTo: strengthsAndWeaknessesView.leadingAnchor),
-            strengthSwiftUIView.topAnchor.constraint(equalTo: strengthsAndWeaknessesView.topAnchor),
-            strengthSwiftUIView.trailingAnchor.constraint(equalTo: strengthsAndWeaknessesView.trailingAnchor),
-            strengthSwiftUIView.bottomAnchor.constraint(equalTo: strengthsAndWeaknessesView.bottomAnchor)
-        ])
-        
-        strengthsView.didMove(toParent: self)
+        setupSwiftUIView()
         
         var frame = CGRect.zero
         frame.size.height = .leastNormalMagnitude
@@ -188,6 +162,36 @@ class PokemonDetailTableViewController: UITableViewController {
             }
         }
         
+    }
+    
+    func setupSwiftUIView() {
+        let strengthAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
+        var strengths: [PokemonType] = []
+        for strength in strengthAPITyping {
+            strengths.append(strength.name)
+        }
+        let weaknessesAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
+        var weaknesses: [PokemonType] = []
+        for weakness in weaknessesAPITyping {
+            weaknesses.append(weakness.name)
+        }
+        
+        let strengthsView = UIHostingController(rootView: TypingSwiftUIView(strengths: strengths, weaknesses: weaknesses))
+        let strengthSwiftUIView = strengthsView.view!
+        
+        strengthSwiftUIView.translatesAutoresizingMaskIntoConstraints = false
+        
+        addChild(strengthsView)
+        strengthsAndWeaknessesView.addSubview(strengthSwiftUIView)
+        
+        NSLayoutConstraint.activate([
+            strengthSwiftUIView.leadingAnchor.constraint(equalTo: strengthsAndWeaknessesView.leadingAnchor),
+            strengthSwiftUIView.topAnchor.constraint(equalTo: strengthsAndWeaknessesView.topAnchor),
+            strengthSwiftUIView.trailingAnchor.constraint(equalTo: strengthsAndWeaknessesView.trailingAnchor),
+            strengthSwiftUIView.bottomAnchor.constraint(equalTo: strengthsAndWeaknessesView.bottomAnchor)
+        ])
+        
+        strengthsView.didMove(toParent: self)
     }
 
 }

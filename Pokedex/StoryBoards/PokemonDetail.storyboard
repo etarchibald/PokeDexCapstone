@@ -27,11 +27,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="92"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="pOU-gY-3hM">
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pOU-gY-3hM">
                                                     <rect key="frame" x="20" y="11" width="353" height="70"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vO7-fd-RJP">
-                                                            <rect key="frame" x="0.0" y="0.0" width="253" height="70"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="293" height="70"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pokemon Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8F-lB-fZ1">
                                                                     <rect key="frame" x="0.0" y="0.0" width="203.66666666666666" height="31"/>
@@ -39,7 +39,7 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Typing" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jqs-PG-fp9">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Typing" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jqs-PG-fp9">
                                                                     <rect key="frame" x="0.0" y="39" width="54" height="31"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                                     <nil key="textColor"/>

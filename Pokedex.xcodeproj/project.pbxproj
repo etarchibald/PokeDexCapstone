@@ -52,6 +52,7 @@
 		A38B130D2B4EFBD5003D33D8 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38B130C2B4EFBD5003D33D8 /* UIImageViewExtension.swift */; };
 		F25835772BD8042000D3E972 /* PokemonDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25835762BD8042000D3E972 /* PokemonDetailTableViewController.swift */; };
 		F25835792BDA984F00D3E972 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25835782BDA984F00D3E972 /* DetailCollectionViewCell.swift */; };
+		F2B791482BDFE8FF00A92385 /* TypingSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B791472BDFE8FF00A92385 /* TypingSwiftUIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,7 @@
 		A38B130C2B4EFBD5003D33D8 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		F25835762BD8042000D3E972 /* PokemonDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailTableViewController.swift; sourceTree = "<group>"; };
 		F25835782BDA984F00D3E972 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		F2B791472BDFE8FF00A92385 /* TypingSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingSwiftUIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 				4A6BBBFC2BCECF6C00ACE001 /* FavoritePokemonView.storyboard */,
 				A38B12E82B4EE879003D33D8 /* Main.storyboard */,
 				4A6BBBEF2BCEC54600ACE001 /* PokemonDetail.storyboard */,
+				F2B791472BDFE8FF00A92385 /* TypingSwiftUIView.swift */,
 			);
 			path = StoryBoards;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				4A6BBC0F2BD07A5800ACE001 /* PokemonEvolution.swift in Sources */,
 				4A893BCE2BD2D18500CCDE0B /* PokemonPrettyController.swift in Sources */,
 				4A6BBC0B2BD01C1B00ACE001 /* FavoritePokemonCollectionViewCell.swift in Sources */,
+				F2B791482BDFE8FF00A92385 /* TypingSwiftUIView.swift in Sources */,
 				3152CB102BD15D8800BB5980 /* PokemonDeck.swift in Sources */,
 				4A6BBC072BCF01B700ACE001 /* PokemonDamageRelations.swift in Sources */,
 				4A6BBC092BD0176300ACE001 /* FavoritePokemonViewController.swift in Sources */,

@@ -10,7 +10,7 @@ class DeckController {
     
     static let shared = DeckController()
     
-    var decks: [Deck] = []
+    static var decks: [Deck] = []
     
     static let deckDocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     static let deckArchiveURL = deckDocumentsDirectory.appendingPathComponent("deck").appendingPathExtension("json")
@@ -50,8 +50,23 @@ class DeckController {
 //    ]
     
     func addDeck(_ someDeck: Deck) {
-        decks.append(someDeck)
+        DeckController.decks.append(someDeck)
     }
+    
+    func addPokemonToDeck(pokemon: Pokemon, toDeck deckId: UUID) {
+            // Find the deck with the specified ID
+        guard let deckIndex = DeckController.decks.firstIndex(where: { $0.id == deckId }) else {
+                print("Deck with ID \(deckId) not found")
+                return
+            }
+            
+            // Append the Pokemon to the found deck
+        DeckController.decks[deckIndex].pokemon.append(pokemon)
+            
+            // Optionally, you can save the updated decks to persistent storage
+        DeckController.saveDecks(decks: DeckController.decks)
+        }
+    
     
     
 }

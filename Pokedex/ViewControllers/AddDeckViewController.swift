@@ -4,7 +4,6 @@
 //
 //  Created by Austin Dobberfuhl on 4/18/24.
 //
-//modal add top right anddd a cancel top left
 
 import UIKit
 
@@ -25,13 +24,19 @@ class AddDeckViewController: UIViewController {
               let deckType = deckTypeTextField.text else {
             return
         }
+        
+       // let selectedPokemon: [Pokemon] =  fetch the pokemon where they are stored?
+    //newDeck.pokemon.append(contentsOf: selectedPokemon)
+        
         // Create a new Deck object with the entered data
-        let newDeck = Deck(pokemon: [], id: UUID(), typeOfDeck: deckType, deckName: deckName, numberOfCards: 0)
+        var newDeck = Deck(pokemon: [] , id: UUID(), typeOfDeck: deckType, deckName: deckName, numberOfCards: 0) //selectedPokemon.count
+        
+        //newDeck.pokemon.append(selectedPokemon)
         
         DeckController.shared.addDeck(newDeck)
         //print(DeckController.shared.decks)
         
-        DeckController.saveDecks(decks: DeckController.shared.decks)
+        DeckController.saveDecks(decks: DeckController.decks)
         
         if let dismissCompletion {
             dismissCompletion()

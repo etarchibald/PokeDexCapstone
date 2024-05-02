@@ -28,6 +28,8 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         }
         displayGenericPokemon(pageNumber: pageNumber)
         setUpDataSource()
+        
+        tabBarController?.tabBar.items?[2].title = "Teams"
     }
     
     func displayGenericPokemon(pageNumber: Int) {

@@ -5,6 +5,7 @@
 //  Created by Jacob Davis on 4/23/24.
 //
 
+import SwiftUI
 import UIKit
 
 class PokemonDetailTableViewController: UITableViewController {
@@ -28,7 +29,7 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var speedLabel: UILabel!
     
     // Damage relations labels
-    @IBOutlet weak var typeStrengthsLabel: UILabel!
+    @IBOutlet weak var strengthsAndWeaknessesView: UIView!
     @IBOutlet weak var typeWeaknessLabel: UILabel!
     
     @IBOutlet weak var pokemonSpritesCollectionView: UICollectionView!
@@ -36,6 +37,7 @@ class PokemonDetailTableViewController: UITableViewController {
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
     var storedImages: [UIImage] = []
+//    var arrayOfTypingView: [UIHostingController<TypingSwiftUIView>] = []
     
     // MARK: ViewDidLoad
     
@@ -45,10 +47,37 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
+        let strengthAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
+        var strengths: [PokemonType] = []
+        for strength in strengthAPITyping {
+            strengths.append(strength.name)
+        }
+        let weaknessesAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
+        var weaknesses: [PokemonType] = []
+        for weakness in weaknessesAPITyping {
+            weaknesses.append(weakness.name)
+        }
+        
+        let strengthsView = UIHostingController(rootView: TypingSwiftUIView(strengths: strengths, weaknesses: weaknesses))
+        let strengthSwiftUIView = strengthsView.view!
+        
+        strengthSwiftUIView.translatesAutoresizingMaskIntoConstraints = false
+        
+        addChild(strengthsView)
+        strengthsAndWeaknessesView.addSubview(strengthSwiftUIView)
+        
+        NSLayoutConstraint.activate([
+            strengthSwiftUIView.leadingAnchor.constraint(equalTo: strengthsAndWeaknessesView.leadingAnchor),
+            strengthSwiftUIView.topAnchor.constraint(equalTo: strengthsAndWeaknessesView.topAnchor),
+            strengthSwiftUIView.trailingAnchor.constraint(equalTo: strengthsAndWeaknessesView.trailingAnchor),
+            strengthSwiftUIView.bottomAnchor.constraint(equalTo: strengthsAndWeaknessesView.bottomAnchor)
+        ])
+        
+        strengthsView.didMove(toParent: self)
+        
         var frame = CGRect.zero
         frame.size.height = .leastNormalMagnitude
         self.tableView.tableHeaderView = UIView(frame: frame)
-        
         
         saveImageData()
         setUpPokemonInfo()
@@ -119,8 +148,6 @@ class PokemonDetailTableViewController: UITableViewController {
     
         
     func setUpPokemonInfo() {
-        let strengths = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
-        let weaknesses = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
         var pokemonTyping = ""
         
         if pokemon.primaryType?.rawValue == pokemon.secondaryType?.rawValue {
@@ -140,9 +167,6 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
         pokemonNameLabel.text = pokemon.name.capitalized
-        
-        typeStrengthsLabel.text! = strengths.reduce("") { "\($0) \($1.name)"}.capitalized
-        typeWeaknessLabel.text! = weaknesses.reduce("") { "\($0) \($1.name)"}.capitalized
         
         for stat in pokemon.stats {
             let statDataToAppend = String(stat.base_stat)
@@ -164,10 +188,6 @@ class PokemonDetailTableViewController: UITableViewController {
             }
         }
         
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        deselectRow(at: indexPath, animated: true)
     }
 
 }

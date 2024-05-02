@@ -25,7 +25,16 @@ class MovesDetailViewController: UIViewController {
     @IBOutlet weak var typeNameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     
-    var move: PokemonMove?
+    var move: PokemonMove
+    
+    required init?(move: PokemonMove, coder: NSCoder) {
+        self.move = move
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,8 +47,7 @@ class MovesDetailViewController: UIViewController {
     }
     
     private func updateUI() {
-        if let move = move, let type = move.type {
-            
+        if let type = move.type {
             for eachLabel in otherLabels {
                 eachLabel.textColor = UIColor(hex: type.rawValue)
             }

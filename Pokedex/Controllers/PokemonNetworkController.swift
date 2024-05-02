@@ -77,6 +77,7 @@ class PokemonNetworkController {
         var singlePokemon = try await API.shared.sendRequest(fetchAllRequest)
         
         //API call to get damage relations
+        
         do {
             singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.primaryType ?? .normal)
             singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.secondaryType ?? .normal)

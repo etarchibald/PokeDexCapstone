@@ -199,9 +199,6 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                     }
                 }
                 
-                hasSearchedForPokemon = true
-                isFetchingPokemon = true
-                
                 DispatchQueue.main.async {
                     self.navigationItem.title = nil
                 }
@@ -214,6 +211,9 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                 print("Error: \(error)")
             }
         }
+        
+        hasSearchedForPokemon = true
+        isFetchingPokemon = true
     }
     
     func fetchPokemonByNumber(searchNumber: Int) {

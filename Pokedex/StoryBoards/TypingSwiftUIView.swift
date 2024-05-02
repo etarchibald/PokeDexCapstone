@@ -8,50 +8,78 @@
 import SwiftUI
 
 struct TypingSwiftUIView: View {
-    var arrayOfTypes: [PokemonType]
+    var strengths: [PokemonType]
+    var weaknesses: [PokemonType]
+    
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
-    let whiteRequired: [PokemonType] = [.dark, .fighting, .ghost, .poison]
     
     var body: some View {
-        
-        HStack {
-            
-        }
-        
-        LazyVGrid(columns: columns, content: {
-            ForEach(arrayOfTypes, id: \.self) { type in
-                let backgroundHex = PokemonPrettyController.shared.getBackgroundColorHex(type: type).dropFirst()
-                        let color = Color(hex: String(backgroundHex))
-                
-                Text(type.rawValue.capitalized)
-                    .foregroundStyle(whiteRequired.contains(type) ? .white : .black)
-                    .frame(width: 75)
-                    .padding(10)
-                    .background(color, in: RoundedRectangle(cornerRadius: 10))
+        ScrollView(.horizontal) {
+            HStack {
+                VStack {
+                    Text("Strengths")
+                        .font(.largeTitle)
+                        
+                    LazyVGrid(columns: columns, content: {
+                        setupGrid(for: strengths)
+                    })
                     
+                }
+                .padding()
+                .frame(width: 350)
+                .background(.gray.opacity(0.7), in: RoundedRectangle(cornerRadius: 10))
+                .shadow(radius: 5)
+                
+                VStack {
+                    Text("Weaknesses")
+                        .font(.largeTitle)
+                    
+                    LazyVGrid(columns: columns, content: {
+                        setupGrid(for: weaknesses)
+                    })
+                }
+                .padding()
+                .frame(width: 350)
+                .background(.gray.opacity(0.7), in: RoundedRectangle(cornerRadius: 10))
+                .shadow(radius: 5)
+                
             }
-        })
-        .padding()
-        .background(.gray.opacity(0.7))
-        .shadow(radius: 5)
-//
-            
-            
-            
+            .scrollTargetLayout()
+        }
+        .contentMargins(16, for: .scrollContent)
+        .scrollTargetBehavior(.viewAligned)
+        
     }
 }
 
 #Preview {
-    TypingSwiftUIView(arrayOfTypes: [.ice, .dark, .bug, .dragon, .electric, .fairy, .fighting, .fire, .ground, .flying, .ghost, .grass, .poison, .psychic, .rock, .steel, .normal])
+    TypingSwiftUIView(strengths: [.ice, .dark, .bug, .dragon, .electric, .fairy, .fighting, .fire, .ground, .flying, .ghost, .grass, .poison, .psychic, .rock, .steel, .normal], weaknesses: [.ice, .dark, .bug, .dragon, .electric, .fairy, .fighting, .fire, .ground, .flying, .ghost, .grass, .poison, .psychic, .rock, .steel, .normal] )
+}
+
+//@ViewBuilder
+func setupGrid(for types: [PokemonType]) -> some View {
+    let whiteRequired: [PokemonType] = [.dark, .fighting, .ghost, .poison]
+    
+    return ForEach(types, id: \.self) { type in
+        let backgroundHex = PokemonPrettyController.shared.getBackgroundColorHex(type: type).dropFirst()
+        let color = Color(hex: String(backgroundHex))
+        
+        Text(type.rawValue.capitalized)
+            .foregroundStyle(whiteRequired.contains(type) ? .white : .black)
+            .frame(width: 75)
+            .padding(10)
+            .background(color, in: RoundedRectangle(cornerRadius: 10))
+        
+    }
 }
 
 extension Color {
     init(hex: String) {
         let scanner = Scanner(string: hex)
         var rgb: UInt64 = 0
-
+        
         scanner.scanHexInt64(&rgb)
-
+        
         self.init(
             .sRGB,
             red: Double((rgb >> 16) & 0xFF) / 255.0,

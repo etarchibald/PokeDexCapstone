@@ -29,7 +29,7 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var speedLabel: UILabel!
     
     // Damage relations labels
-    @IBOutlet weak var typeStrengthsLabel: UILabel!
+    @IBOutlet weak var strengthsAndWeaknessesView: UIView!
     @IBOutlet weak var typeWeaknessLabel: UILabel!
     
     @IBOutlet weak var pokemonSpritesCollectionView: UICollectionView!
@@ -54,35 +54,24 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         let weaknessesAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
         var weaknesses: [PokemonType] = []
-        for weakness in weaknesses {
-            weaknesses.append(weakness)
+        for weakness in weaknessesAPITyping {
+            weaknesses.append(weakness.name)
         }
         
-        let strengthsView = UIHostingController(rootView: TypingSwiftUIView(arrayOfTypes: strengths))
-        let weaknessesView = UIHostingController(rootView: TypingSwiftUIView(arrayOfTypes: weaknesses))
+        let strengthsView = UIHostingController(rootView: TypingSwiftUIView(strengths: strengths, weaknesses: weaknesses))
         let strengthSwiftUIView = strengthsView.view!
-        let weaknessSwiftUIView = weaknessesView.view!
         
         strengthSwiftUIView.translatesAutoresizingMaskIntoConstraints = false
-        weaknessSwiftUIView.translatesAutoresizingMaskIntoConstraints = false
         
         addChild(strengthsView)
-        addChild(weaknessesView)
-        typeStrengthsLabel.addSubview(strengthSwiftUIView)
-        typeWeaknessLabel.addSubview(weaknessSwiftUIView)
+        strengthsAndWeaknessesView.addSubview(strengthSwiftUIView)
         
         NSLayoutConstraint.activate([
-            strengthSwiftUIView.centerXAnchor.constraint(equalTo: typeStrengthsLabel.centerXAnchor),
-            strengthSwiftUIView.centerYAnchor.constraint(equalTo: typeStrengthsLabel.centerYAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            weaknessSwiftUIView.centerXAnchor.constraint(equalTo: typeWeaknessLabel.centerXAnchor),
-            weaknessSwiftUIView.centerYAnchor.constraint(equalTo: typeWeaknessLabel.centerYAnchor)
+            strengthSwiftUIView.centerXAnchor.constraint(equalTo: strengthsAndWeaknessesView.centerXAnchor),
+            strengthSwiftUIView.centerYAnchor.constraint(equalTo: strengthsAndWeaknessesView.centerYAnchor)
         ])
         
         strengthsView.didMove(toParent: self)
-        weaknessesView.didMove(toParent: self)
         
         var frame = CGRect.zero
         frame.size.height = .leastNormalMagnitude

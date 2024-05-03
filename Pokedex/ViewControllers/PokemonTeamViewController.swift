@@ -6,12 +6,13 @@
 //
 
 import UIKit
-
+//gotta get the pokemon from the team cell to show here 
 class PokemonTeamViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    static var teamPokemon = [Pokemon]()
+    var teamPokemon = [Pokemon]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +20,15 @@ class PokemonTeamViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.reloadData()
         
+        configureCollectionView()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        collectionView.reloadData()
+    }
+    
+    private func configureCollectionView() {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalHeight(1)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 5)
         
@@ -29,22 +39,18 @@ class PokemonTeamViewController: UIViewController {
         collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        collectionView.reloadData()
-    }
-    
 }
 
 extension PokemonTeamViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        PokemonTeamViewController.teamPokemon.count
+        teamPokemon.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
         
-        let pokemon = PokemonTeamViewController.teamPokemon[indexPath.item]
+        let pokemon = teamPokemon[indexPath.item]
         cell.updateUI(using: pokemon)
         return cell
     }

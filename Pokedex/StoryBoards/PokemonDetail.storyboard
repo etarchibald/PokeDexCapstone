@@ -330,7 +330,7 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <segue destination="6Rn-1F-k1D" kind="unwind" identifier="UnwindToDetailView" unwindAction="unwindToDetailViewFor:towards:" id="VTG-mx-NcT"/>
+                        <segue destination="6Rn-1F-k1D" kind="unwind" identifier="UnwindToDetailView" unwindAction="unwindToDetailViewWithSegue:" id="R6H-Em-Hf8"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VNy-2u-hkQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -174,6 +174,10 @@ class PokemonDetailTableViewController: UITableViewController {
         
     }
     
+//    func setupSheetView() {
+//        let sheetViewController = UISheetPresentationController(presentedViewController: <#T##UIViewController#>, presenting: <#T##UIViewController?#>)
+//    }
+    
     // MARK: SwiftUIView
     
     func setupSwiftUIView() {
@@ -218,7 +222,9 @@ class PokemonDetailTableViewController: UITableViewController {
                         self.teamController.addPokemonToTeam(pokemon: self.pokemon, toTeam: TeamController.teams[index].id)
                     })
                 }
-                actions.append(UIAction(title: "Show All Teams") { (_) in })
+                actions.append(UIAction(title: "Show All Teams") { (_) in
+                    
+                })
             } else {
                 for team in TeamController.teams {
                     actions.append(UIAction(title: team.teamName) { _ in
@@ -255,6 +261,12 @@ class PokemonDetailTableViewController: UITableViewController {
             detailVC.pokemonMoves = pokemon.moves
         }
         
+    }
+    
+    @IBAction func unwindToDetailView(sender: UIStoryboardSegue) {
+        if let sourceVC = sender.source as? ViewMoreTeamsTableViewController, let selectedIndex = sourceVC.selectedIndex {
+            teamController.addPokemonToTeam(pokemon: pokemon, toTeam: TeamController.teams[selectedIndex].id)
+        }
     }
 
 }

@@ -39,12 +39,36 @@ class PokemonTeamViewController: UIViewController {
         collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
     
+    @IBSegueAction func toDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
+        
+        let indexPath = collectionView.indexPathsForSelectedItems!.first
+        
+        let selectedPokemon = teamPokemon[indexPath!.row]
+        
+        return PokemonDetailTableViewController(pokemon: selectedPokemon, coder: coder)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        guard let selectedItemIndex = self.collectionView.indexPathsForSelectedItems
+        else {return}
+        print()
+         if let teamVC = segue.destination as? PokemonDetailTableViewController {
+             
+             teamVC.pokemon = teamPokemon[selectedItemIndex[0].row]
+        }
+    }
+    
+    
 }
-
 extension PokemonTeamViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         teamPokemon.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedPokemon = teamPokemon[indexPath.item]
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

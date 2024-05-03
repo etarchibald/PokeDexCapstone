@@ -37,8 +37,8 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let selectedTeam = filteredTeams[indexPath.row]
                 teamVC.teamPokemon = selectedTeam.pokemon
             }
-            }
         }
+    }
     
     func reload() {
         filteredTeams = TeamController.teams

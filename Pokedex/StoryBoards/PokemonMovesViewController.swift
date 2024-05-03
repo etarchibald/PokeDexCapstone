@@ -48,7 +48,6 @@ class PokemonMovesViewController: UIViewController {
         return MovesDetailViewController(move: selectedMoves, coder: coder)
     }
     
-    
 }
 
 extension PokemonMovesViewController: UICollectionViewDelegate, UICollectionViewDataSource {

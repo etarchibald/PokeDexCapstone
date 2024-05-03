@@ -56,6 +56,7 @@
 		A38B130D2B4EFBD5003D33D8 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38B130C2B4EFBD5003D33D8 /* UIImageViewExtension.swift */; };
 		F25835772BD8042000D3E972 /* PokemonDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25835762BD8042000D3E972 /* PokemonDetailTableViewController.swift */; };
 		F25835792BDA984F00D3E972 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25835782BDA984F00D3E972 /* DetailCollectionViewCell.swift */; };
+		F2A9CBC72BE527770006BC64 /* ViewMoreTeamsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A9CBC62BE527770006BC64 /* ViewMoreTeamsTableViewController.swift */; };
 		F2B791482BDFE8FF00A92385 /* TypingSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B791472BDFE8FF00A92385 /* TypingSwiftUIView.swift */; };
 /* End PBXBuildFile section */
 
@@ -122,6 +123,7 @@
 		A38B130C2B4EFBD5003D33D8 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		F25835762BD8042000D3E972 /* PokemonDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailTableViewController.swift; sourceTree = "<group>"; };
 		F25835782BDA984F00D3E972 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		F2A9CBC62BE527770006BC64 /* ViewMoreTeamsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMoreTeamsTableViewController.swift; sourceTree = "<group>"; };
 		F2B791472BDFE8FF00A92385 /* TypingSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingSwiftUIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,7 +157,6 @@
 		4A6BBBEE2BCEC03100ACE001 /* StoryBoards */ = {
 			isa = PBXGroup;
 			children = (
-
 				4A6BBBFF2BCED41500ACE001 /* TeamView.storyboard */,
 				4A893BD92BE1334300CCDE0B /* PokemonMoves.storyboard */,
 				317B72072BDFE5550049A06D /* AbilitiesView.storyboard */,
@@ -255,6 +256,7 @@
 				3152CB152BD1D98500BB5980 /* AddTeamViewController.swift */,
 				317B720F2BDFF0F80049A06D /* PokemonAbilitiesTableViewController.swift */,
 				317B72112BDFF1210049A06D /* PokemonAbilityTableViewCell.swift */,
+				F2A9CBC62BE527770006BC64 /* ViewMoreTeamsTableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -398,6 +400,7 @@
 				4A893BCE2BD2D18500CCDE0B /* PokemonPrettyController.swift in Sources */,
 				4A6BBC0B2BD01C1B00ACE001 /* FavoritePokemonCollectionViewCell.swift in Sources */,
 				F2B791482BDFE8FF00A92385 /* TypingSwiftUIView.swift in Sources */,
+				F2A9CBC72BE527770006BC64 /* ViewMoreTeamsTableViewController.swift in Sources */,
 				3152CB102BD15D8800BB5980 /* PokemonTeam.swift in Sources */,
 				4A6BBC072BCF01B700ACE001 /* PokemonDamageRelations.swift in Sources */,
 				4A6BBC092BD0176300ACE001 /* FavoritePokemonViewController.swift in Sources */,

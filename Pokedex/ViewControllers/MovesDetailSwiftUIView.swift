@@ -144,7 +144,7 @@ struct MovesDetailSwiftUIView: View {
             
             Spacer()
         }
-        .background(RoundedRectangle(cornerRadius: 10).fill(.gray.opacity(0.2)))
+        .background(RoundedRectangle(cornerRadius: 10).fill(.gray.opacity(0.3)))
 
     }
 }

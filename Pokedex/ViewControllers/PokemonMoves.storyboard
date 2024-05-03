@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rXW-Nj-7Up">
-                                <rect key="frame" x="0.0" y="165" width="393" height="639"/>
+                                <rect key="frame" x="0.0" y="165" width="393" height="653"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="v3N-sE-rIr">
                                     <size key="itemSize" width="393" height="81"/>
@@ -189,7 +189,7 @@
                             <constraint firstItem="rXW-Nj-7Up" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="Cpr-6n-TmC"/>
                             <constraint firstItem="rXW-Nj-7Up" firstAttribute="top" secondItem="men-5d-kgd" secondAttribute="bottom" constant="45" id="Ecz-qq-zNE"/>
                             <constraint firstItem="oY0-vn-g16" firstAttribute="top" secondItem="men-5d-kgd" secondAttribute="bottom" constant="6" id="FPU-Pi-09M"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="rXW-Nj-7Up" secondAttribute="bottom" constant="14" id="Fvn-Mx-fw6"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="rXW-Nj-7Up" secondAttribute="bottom" id="Fvn-Mx-fw6"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="oY0-vn-g16" secondAttribute="trailing" constant="16" id="QEA-Qb-Qf5"/>
                             <constraint firstItem="men-5d-kgd" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="7" id="XMC-fu-5AS"/>
                             <constraint firstItem="men-5d-kgd" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="aaZ-2h-8WC"/>

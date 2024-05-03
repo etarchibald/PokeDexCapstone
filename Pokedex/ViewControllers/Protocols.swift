@@ -10,3 +10,7 @@ import Foundation
 protocol FavoritePokemon {
     func addPokemonToFavorite(pokemon: Pokemon)
 }
+
+protocol UpdateCell {
+    func updateCell()
+}

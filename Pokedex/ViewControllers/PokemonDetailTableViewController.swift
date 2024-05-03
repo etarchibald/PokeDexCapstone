@@ -47,7 +47,7 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
-//        setupMenu()
+        setupMenu()
         
         setupSwiftUIView()
         

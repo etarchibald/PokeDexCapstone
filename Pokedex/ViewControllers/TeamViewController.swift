@@ -14,12 +14,14 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var filteredTeams = [Team]()
     var isSearching = false
+    var delegate: UpdateCell?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         teamTableView.dataSource = self
         teamTableView.delegate = self
         teamSearchBar.delegate = self
+        
         
         TeamController.teams = TeamController.loadTeams()
         filteredTeams = TeamController.teams
@@ -116,7 +118,16 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.team = aTeam
         cell.setup(team: aTeam)
         cell.selectionStyle = .none
+        delegate?.updateCell()
         return cell
     }
+    
+}
+
+extension TeamViewController: UpdateCell {
+    func updateCell() {
+        self.teamTableView.reloadData()
+    }
+    
     
 }

@@ -26,18 +26,15 @@ class MovesDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        updateUI()
         setupDetailView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-//        updateUI()
     }
     
     private func setupDetailView() {
         let detailView = UIHostingController(rootView: MovesDetailSwiftUIView(move: move))
         
         let detailSwiftUIView = detailView.view!
+
+        detailSwiftUIView.translatesAutoresizingMaskIntoConstraints = false
         
         addChild(detailView)
         self.detailView.addSubview(detailSwiftUIView)
@@ -46,27 +43,4 @@ class MovesDetailViewController: UIViewController {
         
         detailView.didMove(toParent: self) 
     }
-    
-//    private func updateUI() {
-//        if let type = move.type {
-////            for eachLabel in otherLabels {
-////                eachLabel.textColor = UIColor(hex: type.rawValue)
-////            }
-//            nameLabel.text = move.name
-//            typeNameLabel.text = type.rawValue
-//            typeBackgroundLabel = PokemonPrettyController.shared.createBackgroundForTypeBox(typeBackgroundLabel, type)
-//            levelNumberLabel.text = "\(move.levelLearnedAt ?? 0)"
-//            accuracyNumberLabel.text = "\(move.accuarcy ?? 0)"
-//            powerNumberLabel.text = "\(move.power ?? 0)"
-//            PPNumberLabel.text = "\(move.pp ?? 0)"
-//            priorityNumberLabel.text = "\(move.priority ?? 0)"
-//            learnedDetailLabel.text = move.moveLearnedMethod
-//            damageClassDetailLabel.text = move.damageClass
-//            targetDetailLabel.text = move.target
-//            effectDetailLabel.text = move.effectEntries
-//            effectChanceDetailLabel.text = "\(move.effectChance ?? 0)"
-//            backgroundSquareView = PokemonPrettyController.shared.createBackgroundForTypeBox(backgroundSquareView, type)
-//        }
-//    }
-
 }

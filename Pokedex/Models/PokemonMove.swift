@@ -95,6 +95,7 @@ struct MoveDetail: Codable {
 
 struct EffectEntries: Codable {
     var effect: String
+    var language: Language
 }
 
 struct DamageClass: Codable {
@@ -102,5 +103,9 @@ struct DamageClass: Codable {
 }
 
 struct Target: Codable {
+    var name: String
+}
+
+struct Language: Codable {
     var name: String
 }

@@ -267,9 +267,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="Beo-cw-vjC">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="AIa-lR-QAC"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Beo-cw-vjC"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="attackLabel" destination="ggD-XQ-cG4" id="PXQ-QO-2xn"/>

@@ -35,6 +35,7 @@ class PokemonDetailTableViewController: UITableViewController {
     
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
+    var teamController = TeamController.shared
     var storedImages: [UIImage] = []
 //    var arrayOfTypingView: [UIHostingController<TypingSwiftUIView>] = []
     
@@ -46,6 +47,8 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
+        setupMenu()
+        
         setupSwiftUIView()
         
         var frame = CGRect.zero
@@ -54,6 +57,10 @@ class PokemonDetailTableViewController: UITableViewController {
         
         saveImageData()
         setUpPokemonInfo()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupMenu()
     }
     
     init?(pokemon: Pokemon, coder: NSCoder) {
@@ -65,7 +72,7 @@ class PokemonDetailTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: Functions
+    // MARK: Displaying Images
     
     func saveImageData() {
         Task {
@@ -103,6 +110,8 @@ class PokemonDetailTableViewController: UITableViewController {
         }
     }
     
+    // MARK: Favorite Button
+    
     @IBAction func favoriteButtonTapped(_ sender: Any) {
         if pokemon.isFavorited ?? false {
             pokemon.isFavorited = false
@@ -119,6 +128,7 @@ class PokemonDetailTableViewController: UITableViewController {
         favoritedButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
     }
     
+    // MARK: Setting up Labels, etc.
         
     func setUpPokemonInfo() {
         var pokemonTyping = ""
@@ -163,6 +173,8 @@ class PokemonDetailTableViewController: UITableViewController {
         
     }
     
+    // MARK: SwiftUIView
+    
     func setupSwiftUIView() {
         let strengthAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
         var strengths: [PokemonType] = []
@@ -191,6 +203,43 @@ class PokemonDetailTableViewController: UITableViewController {
         ])
         
         strengthsView.didMove(toParent: self)
+    }
+
+    // MARK: Menu Setup
+    
+    func setupMenu() {
+        var actions: [UIAction] = []
+        
+        if !TeamController.teams.isEmpty {
+            if TeamController.teams.count > 3 {
+                for index in 0..<3 {
+                    actions.append(UIAction(title: TeamController.teams[index].teamName) { _ in
+                        self.teamController.addPokemonToTeam(pokemon: self.pokemon, toTeam: TeamController.teams[index].id)
+                    })
+                }
+                actions.append(UIAction(title: "Show All Teams") { (_) in })
+            } else {
+                for team in TeamController.teams {
+                    actions.append(UIAction(title: team.teamName) { _ in
+                        self.teamController.addPokemonToTeam(pokemon: self.pokemon, toTeam: team.id)
+                    })
+                }
+            }
+            
+            let menu = UIMenu(title: "Add To Team", children: actions)
+            let rightBarButton = UIBarButtonItem(title: "", image: UIImage(systemName: "plus"), menu: menu)
+            self.navigationItem.rightBarButtonItem = rightBarButton
+            
+        } else {
+            actions.append(UIAction(title: "No Teams") { (_) in })
+            let menu = UIMenu(title: "Add To Team", children: actions)
+            
+            let rightBarButton = UIBarButtonItem(title: "", image: UIImage(systemName: "plus"), menu: menu)
+            self.navigationItem.rightBarButtonItem = rightBarButton
+        }
+        
+        
+        
     }
     
     //MARK: Navigation

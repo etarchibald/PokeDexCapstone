@@ -12,7 +12,7 @@ struct PokemonMove: Codable {
     var version_group_details: [VersionGroupDetails]
     var moveDetail: MoveDetail?
     var name: String? {
-        move.name
+        moveDetail?.name
     }
     var url: URL? {
         move.url
@@ -45,10 +45,10 @@ struct PokemonMove: Codable {
         moveDetail?.type.name
     }
     var levelLearnedAt: Int? {
-        version_group_details.first?.level_learned_at ?? 0
+        version_group_details.first!.level_learned_at
     }
     var moveLearnedMethod: String? {
-        version_group_details.first?.move_learn_method.name ?? ""
+        version_group_details.first!.move_learn_method.name
     }
 }
 
@@ -68,6 +68,7 @@ struct MoveLearnMethod: Codable {
 }
 
 struct MoveDetail: Codable {
+    var name: String
     var accuracy: Int? //in percent
     var effectChance: Int?
     var effectEntries: [EffectEntries]
@@ -79,6 +80,7 @@ struct MoveDetail: Codable {
     var type: APIPokemonType
     
     enum CodingKeys: String, CodingKey {
+        case name = "name"
         case accuracy = "accuracy"
         case effectChance = "effect_chance"
         case effectEntries = "effect_entries"
@@ -93,6 +95,7 @@ struct MoveDetail: Codable {
 
 struct EffectEntries: Codable {
     var effect: String
+    var language: Language
 }
 
 struct DamageClass: Codable {
@@ -100,5 +103,9 @@ struct DamageClass: Codable {
 }
 
 struct Target: Codable {
+    var name: String
+}
+
+struct Language: Codable {
     var name: String
 }

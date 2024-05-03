@@ -18,12 +18,12 @@ class PokemonMovesCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var levelLabel: UILabel!
     
     
-    func setup(moves: PokemonMove) {
-        nameLabel.text = moves.name
-        levelLabel.text = "\(moves.levelLearnedAt ?? 0)"
-        typeLabel = PokemonPrettyController.shared.createLabelForTypeBox(typeLabel, moves.type ?? .normal)
-        typeBackgroundView = PokemonPrettyController.shared.createBackgroundForTypeBox(typeBackgroundView, moves.type ?? .normal)
-        powerLabel.text = "\(moves.power ?? 0)"
-        PPLabel.text = "\(moves.pp ?? 0)"
+    func setup(move: PokemonMove) {
+        nameLabel.text = move.name?.capitalized
+        levelLabel.text = "\(move.levelLearnedAt ?? 0)"
+        typeLabel = PokemonPrettyController.shared.createLabelForTypeBox(typeLabel, move.moveDetail!.type.name)
+        typeBackgroundView = PokemonPrettyController.shared.createBackgroundForTypeBox(typeBackgroundView, move.moveDetail!.type.name)
+        powerLabel.text = "\(move.moveDetail?.power ?? 0)"
+        PPLabel.text = "\(move.pp ?? 0)"
     }
 }

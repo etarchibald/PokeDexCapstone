@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PokemonNetworkController {
     
@@ -51,7 +52,7 @@ class PokemonNetworkController {
             do {
                 await pokemon.append(try fetchAllPokemonInformationUsing(URL: URL(string: "\(API.url)/pokemon/\(batchPokemon.name)")!))
             } catch {
-                print("Pokemon: \(batchPokemon.name) failed to load")
+                print("Pokemon: \(batchPokemon.name) failed to load because \(error)")
                 continue
             }
         }
@@ -77,6 +78,7 @@ class PokemonNetworkController {
         var singlePokemon = try await API.shared.sendRequest(fetchAllRequest)
         
         //API call to get damage relations
+        
         do {
             singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.primaryType ?? .normal)
             singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.secondaryType ?? .normal)
@@ -208,7 +210,7 @@ class PokemonNetworkController {
         
     }
     
-    func fetchImageData(url: URL) async throws -> Data {
+    func fetchImageData(url: URL) async throws -> Data { // return UIImage 
         let session = URLSession.shared
         let request = URLRequest(url: url)
         
@@ -218,6 +220,8 @@ class PokemonNetworkController {
             throw API.APIError.ImageFetchFailed
         }
         
-        return data
+//        let newImage = UIImage(data: data)!
+        
+        return data // Return newImage
     }
 }

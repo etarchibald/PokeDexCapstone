@@ -182,7 +182,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                 let searchedGenPokemonResults = try await PokemonNetworkController.shared.fetchGenerationPokemonResults(gen: searchNumber)
                 
                 
-                let arrayOfGenPokemon = searchedGenPokemonResults.splitIntoEqualParts(numberOfParts: searchedGenPokemonResults.count / 25)
+                let arrayOfGenPokemon = searchedGenPokemonResults.splitIntoEqualParts(numberOfParts: searchedGenPokemonResults.count / 10)
                 
                 let pokemonToAdd = [Pokemon]()
                 self.pokemon = pokemonToAdd
@@ -199,9 +199,6 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                     }
                 }
                 
-                hasSearchedForPokemon = true
-                isFetchingPokemon = true
-                
                 DispatchQueue.main.async {
                     self.navigationItem.title = nil
                 }
@@ -214,6 +211,9 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                 print("Error: \(error)")
             }
         }
+        
+        hasSearchedForPokemon = true
+        isFetchingPokemon = true
     }
     
     func fetchPokemonByNumber(searchNumber: Int) {

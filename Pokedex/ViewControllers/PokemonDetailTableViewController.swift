@@ -99,10 +99,11 @@ class PokemonDetailTableViewController: UITableViewController {
                 }
                 
                 for url in urls {
-                    let data = try await pokemonController.fetchImageData(url: url)
-                    
-                    if let image = UIImage(data: data) {
-                        storedImages.append(image)
+                    if let url {
+                        let data = try await pokemonController.fetchImageData(url: url)
+                        if let image = UIImage(data: data) {
+                            storedImages.append(image)
+                        }
                     }
                 }
             }

@@ -15,7 +15,12 @@ struct PokemonAbilities: Codable {
         ability.name
     }
     var effect: String? {
-        abilityDetails?.effectEntries.last?.effect ?? ""
+        for each in abilityDetails!.effectEntries {
+            if each.language.name == "en" {
+                return each.effect
+            }
+        }
+        return ""
     }
     var flavorText: String? {
         abilityDetails?.flavorTextEntries.first?.flavor_text ?? ""

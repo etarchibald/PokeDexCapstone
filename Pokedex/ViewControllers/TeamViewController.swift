@@ -32,6 +32,11 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let nav = segue.destination as? UINavigationController, let first = nav.viewControllers.first as? AddTeamViewController {
                 first.dismissCompletion = reload
             }
+        } else if let teamVC = segue.destination as? PokemonTeamViewController {
+            if let indexPath = teamTableView.indexPathForSelectedRow {
+                let selectedTeam = filteredTeams[indexPath.row]
+                teamVC.teamPokemon = selectedTeam.pokemon
+            }
         }
     }
     

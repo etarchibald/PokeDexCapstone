@@ -281,6 +281,7 @@
                         <outlet property="specialDefenseLabel" destination="9fJ-Wn-T4A" id="Cbe-Hl-Rh4"/>
                         <outlet property="speedLabel" destination="ZLW-x4-dPU" id="PeI-d3-la0"/>
                         <outlet property="strengthsAndWeaknessesView" destination="rnh-zJ-6i4" id="Waz-8l-uMM"/>
+                        <segue destination="Zn5-i7-E6S" kind="presentation" identifier="presentModalTeams" id="qQ0-Hg-ILp"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7uX-fV-vPb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -295,16 +296,15 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Mb-ef-Tpb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1337" y="-15"/>
+            <point key="canvasLocation" x="1367" y="66"/>
         </scene>
-        <!--View More Teams Table View Controller-->
+        <!--Teams-->
         <scene sceneID="IJJ-ja-KXR">
             <objects>
-                <tableViewController id="Zn5-i7-E6S" customClass="ViewMoreTeamsTableViewController" customModule="Pokedex" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="4sb-Fh-iSV">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                <tableViewController title="Teams" id="Zn5-i7-E6S" customClass="ViewMoreTeamsTableViewController" customModule="Pokedex" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" id="4sb-Fh-iSV">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="G1v-bi-ytS" style="IBUITableViewCellStyleDefault" id="k6V-pd-nqG">
                                 <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
@@ -336,7 +336,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VNy-2u-hkQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="6Rn-1F-k1D" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1946" y="17"/>
+            <point key="canvasLocation" x="1952" y="17"/>
         </scene>
         <!--PokemonMoves-->
         <scene sceneID="uSX-Sp-DOw">
@@ -346,7 +346,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vAF-WM-EUK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1370" y="131"/>
+            <point key="canvasLocation" x="1298" y="138"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ufs-9k-BI6">

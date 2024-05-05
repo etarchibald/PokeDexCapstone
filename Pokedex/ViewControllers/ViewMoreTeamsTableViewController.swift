@@ -9,7 +9,7 @@ import UIKit
 
 class ViewMoreTeamsTableViewController: UITableViewController {
     var teamController = TeamController.shared
-    var selectedIndex: Int?
+    var pokemon: Pokemon?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +34,11 @@ class ViewMoreTeamsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedIndex = indexPath.row
-        performSegue(withIdentifier: "UnwindToDetailView", sender: self)
+        self.dismiss(animated: true) {
+            if let pokemonToAdd = self.pokemon {
+                self.teamController.addPokemonToTeam(pokemon: pokemonToAdd, toTeam: TeamController.teams[indexPath.row].id)
+            }
+        }
     }
 
     /*

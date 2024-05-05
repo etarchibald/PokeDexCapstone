@@ -84,8 +84,7 @@ class PokemonDetailTableViewController: UITableViewController {
                     spriteURLs.frontDefault,
                     spriteURLs.backDefault,
                     spriteURLs.frontShiny,
-                    spriteURLs.backShiny,
-                    
+                    spriteURLs.backShiny
                 ]
                 
                 let officialSprites = pokemon.sprites.other.officialArtwork
@@ -93,19 +92,24 @@ class PokemonDetailTableViewController: UITableViewController {
                 let dreamWorldURLs = pokemon.sprites.other.dreamWorld
                 let showdownURLs = pokemon.sprites.other.showdown
                 
-                if let officialArtwork = officialSprites.frontDefault, let backArtwork = officialSprites.backDefault {
+                if let officialArtwork = officialSprites.frontDefault, let backArtwork = officialSprites.backDefault, let femaleFront = officialSprites.frontFemale, let femaleBack = officialSprites.backFemale {
                     urls.append(officialArtwork)
                     urls.append(backArtwork)
+                    urls.append(femaleFront)
+                    urls.append(femaleBack)
                 }
                 
                 for url in urls {
                     if let url {
                         let newImage = try await pokemonController.fetchImageData(url: url)
                         storedImages.append(newImage)
+                        print(url)
+                        print(storedImages)
                     }
                 }
             }
             pokemonSpritesCollectionView.reloadData()
+            
         }
     }
     
@@ -221,7 +225,7 @@ class PokemonDetailTableViewController: UITableViewController {
                     })
                 }
                 actions.append(UIAction(title: "Show All Teams") { (_) in
-                    
+                    self.performSegue(withIdentifier: "presentModalTeams", sender: self)
                 })
             } else {
                 for team in TeamController.teams {
@@ -259,13 +263,17 @@ class PokemonDetailTableViewController: UITableViewController {
             detailVC.pokemonMoves = pokemon.moves
         }
         
+        if let teamlistVC = segue.destination as? ViewMoreTeamsTableViewController {
+            teamlistVC.pokemon = pokemon
+        }
+        
     }
     
-    @IBAction func unwindToDetailView(sender: UIStoryboardSegue) {
-        if let sourceVC = sender.source as? ViewMoreTeamsTableViewController, let selectedIndex = sourceVC.selectedIndex {
-            teamController.addPokemonToTeam(pokemon: pokemon, toTeam: TeamController.teams[selectedIndex].id)
-        }
-    }
+//    @IBAction func unwindToDetailView(sender: UIStoryboardSegue) {
+//        if let sourceVC = sender.source as? ViewMoreTeamsTableViewController {
+//            teamController.addPokemonToTeam(pokemon: pokemon, toTeam: TeamController.teams[].id)
+//        }
+//    }
 
 }
 

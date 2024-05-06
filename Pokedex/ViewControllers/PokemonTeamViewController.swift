@@ -119,6 +119,8 @@ extension PokemonTeamViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedPokemon = team.pokemon[indexPath.item]
         
+        performSegue(withIdentifier: "showDetailSegue", sender: nil)
+        
 //        if isEditingMode {
 //            team.remove(at: indexPath.item)
 //

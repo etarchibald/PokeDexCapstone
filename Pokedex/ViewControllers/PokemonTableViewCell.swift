@@ -69,7 +69,7 @@ class PokemonTableViewCell: UITableViewCell {
             setup(pokemon: pokemon!)
             FavoritePokemonViewController.favoritePokemon.append(pokemon!)
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
-            //check if it has everything then save it accordingly
+            //check if it has everything then save
             PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
         }
     }

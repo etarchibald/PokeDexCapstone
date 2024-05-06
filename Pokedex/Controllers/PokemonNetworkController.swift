@@ -174,7 +174,6 @@ class PokemonNetworkController {
             throw error
         }
         
-        
         //API call to get species info
         do {
             newPokemon.species = try await fetchPokemonSpecies(id: newPokemon.id)

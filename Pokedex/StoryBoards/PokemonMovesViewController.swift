@@ -22,16 +22,28 @@ class PokemonMovesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpCollectionViewDataSource()
         configureCollectionView()
+        setUpCollectionViewDataSource()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        pokemonTitleLabel.text = "\(pokemon?.name.capitalized ?? "") moves"
         
-        pokemonFilteredMoves = filterPokemonMoves(sender: filterSegmentedControl)
-        applySnapshot(from: pokemonFilteredMoves)
+        Task {
+            do {
+                pokemon = try await PokemonNetworkController.shared.fetchPokemonMoves(pokemon: pokemon!)
+                
+                pokemonMoves = pokemon?.moves ?? []
+                
+                pokemonTitleLabel.text = "\(pokemon?.name.capitalized ?? "") moves"
+                
+                pokemonFilteredMoves = filterPokemonMoves(sender: filterSegmentedControl)
+                applySnapshot(from: pokemonFilteredMoves)
+            } catch {
+                print(error)
+                throw error
+            }
+        }
     }
     
     private func configureCollectionView() {

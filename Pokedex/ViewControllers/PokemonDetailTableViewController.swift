@@ -48,16 +48,26 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
-        
-        setupMenu()
-        setupSwiftUIView()
-        
-        saveImageData()
-        setUpPokemonInfo()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupMenu()
+        Task {
+            do {
+                pokemon = try await PokemonNetworkController.shared.fetchDetailInformation(pokemon: pokemon)
+                print(pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? "ERROR")
+            } catch {
+                //present alert
+                print(error)
+                throw error
+            }
+            
+            setupMenu()
+            setupSwiftUIView()
+            
+            saveImageData()
+            setUpPokemonInfo()
+        }
     }
     
     init?(pokemon: Pokemon, coder: NSCoder) {
@@ -261,7 +271,6 @@ class PokemonDetailTableViewController: UITableViewController {
         
         if let detailVC = segue.destination as? PokemonMovesViewController {
             detailVC.pokemon = pokemon
-            detailVC.pokemonMoves = pokemon.moves
         }
         
         if let teamlistVC = segue.destination as? ViewMoreTeamsTableViewController {

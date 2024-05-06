@@ -23,9 +23,18 @@ class PokemonAbilitiesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonAbility", for: indexPath) as! PokemonAbilityTableViewCell
         
-        let abilities = pokemon?.abilities[indexPath.row]
-        cell.setup(ability: abilities!)
-        cell.selectionStyle = .none
+        Task {
+            do {
+                pokemon = try await PokemonNetworkController.shared.fetchPokemonAbilites(pokemon: pokemon!)
+                let abilities = pokemon?.abilities[indexPath.row]
+                cell.setup(ability: abilities!)
+                cell.selectionStyle = .none
+            } catch {
+                //handle error on surface
+                throw error
+            }
+        }
+        
         return cell
     }
     

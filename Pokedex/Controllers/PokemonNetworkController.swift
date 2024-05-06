@@ -27,7 +27,7 @@ class PokemonNetworkController {
         var pokemon = [Pokemon]()
         for pokemonResult in pokemonGenericSearch.results {
             do {
-                await pokemon.append(try fetchAllPokemonInformationUsing(URL: pokemonResult.url))
+                await pokemon.append(try fetchPokemonInformationUsing(URL: pokemonResult.url))
             } catch {
                 continue
             }
@@ -50,7 +50,7 @@ class PokemonNetworkController {
         
         for batchPokemon in genBatch {
             do {
-                await pokemon.append(try fetchAllPokemonInformationUsing(URL: URL(string: "\(API.url)/pokemon/\(batchPokemon.name)")!))
+                await pokemon.append(try fetchPokemonInformationUsing(URL: URL(string: "\(API.url)/pokemon/\(batchPokemon.name)")!))
             } catch {
                 print("Pokemon: \(batchPokemon.name) failed to load because \(error)")
                 continue
@@ -65,41 +65,73 @@ class PokemonNetworkController {
     /// - Returns: An optional pokemon.
     func getSpecificPokemon(pokemonName name: String) async throws -> Pokemon? {
         do {
-            return try await fetchAllPokemonInformationUsing(URL: URL(string: "\(API.url)/pokemon/\(name.lowercased())")!)
+            return try await fetchPokemonInformationUsing(URL: URL(string: "\(API.url)/pokemon/\(name.lowercased())")!)
         } catch {
             return nil
         }
     }
     
-    func fetchAllPokemonInformationUsing(URL: URL) async throws -> Pokemon {
+    func fetchPokemonInformationUsing(URL: URL) async throws -> Pokemon {
         
         let fetchAllRequest = FetchAllPokemonInfoRequest(url: URL)
         
         var singlePokemon = try await API.shared.sendRequest(fetchAllRequest)
         
-        //API call to get damage relations
-        
-        do {
-            singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.primaryType ?? .normal)
-            singlePokemon.damageRelations = try await fetchPokemonDamageRelations(type: singlePokemon.secondaryType ?? .normal)
-        } catch {
-            throw error
-        }
-        
-        
-        //API call to get species info
-        do {
-            singlePokemon.species = try await fetchPokemonSpecies(id: singlePokemon.id)
-            if let url = singlePokemon.species?.evolutionChain?.url {
-                singlePokemon.evolutionChain = try await fetchEvolutionChain(url: url)
+        for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
+            if eachFavoritedPokemon.name == singlePokemon.name {
+                singlePokemon.isFavorited = true
             }
+        }
+        
+        return singlePokemon
+    }
+    
+    func fetchPokemonMoves(pokemon: Pokemon) async throws -> Pokemon {
+        var newPokemon = pokemon
+        
+        do {
+            let movesDetails = try await withThrowingTaskGroup(of: MoveDetail.self) { moves in
+                for eachMove in newPokemon.moves {
+                    moves.addTask {
+                        do {
+                            return try await self.fetchPokemonMoveDetails(url: eachMove.url!)
+                        } catch {
+                            throw error
+                        }
+                    }
+                }
+                
+                var results = [MoveDetail]()
+                
+                do {
+                    for try await details in moves {
+                        results.append(details)
+                    }
+                } catch {
+                    throw error
+                }
+                
+                return results
+            }
+            
+            for (index, details) in movesDetails.enumerated() {
+                newPokemon.moves[index].moveDetail = details
+            }
+            
         } catch {
+            print(error)
             throw error
         }
+        
+        return newPokemon
+    }
+    
+    func fetchPokemonAbilites(pokemon: Pokemon) async throws -> Pokemon {
+        var newPokemon = pokemon
         
         do {
             let abilitiesDetails = try await withThrowingTaskGroup(of: AbilityDetails.self) { group in
-                for eachAbility in singlePokemon.abilities {
+                for eachAbility in newPokemon.abilities {
                     group.addTask {
                         // Fetch details for each ability
                         do {
@@ -123,55 +155,36 @@ class PokemonNetworkController {
             
             // Update abilityDetails property for each ability
             for (index, details) in abilitiesDetails.enumerated() {
-                singlePokemon.abilities[index].abilityDetails = details
+                newPokemon.abilities[index].abilityDetails = details
             }
         } catch {
             throw error
         }
         
+        return newPokemon
+    }
+    
+    func fetchDetailInformation(pokemon: Pokemon) async throws -> Pokemon {
+        var newPokemon = pokemon
         
         do {
-            let movesDetails = try await withThrowingTaskGroup(of: MoveDetail.self) { moves in
-                for eachMove in singlePokemon.moves {
-                    moves.addTask {
-                        do {
-                            return try await self.fetchPokemonMoveDetails(url: eachMove.url!)
-                        } catch {
-                            throw error
-                        }
-                    }
-                }
-                
-                var resutls = [MoveDetail]()
-                
-                do {
-                    for try await details in moves {
-                        resutls.append(details)
-                    }
-                } catch {
-                    throw error
-                }
-                
-                return resutls
-            }
-            
-            for (index, details) in movesDetails.enumerated() {
-                singlePokemon.moves[index].moveDetail = details
-            }
-            
+            newPokemon.damageRelations = try await fetchPokemonDamageRelations(type: newPokemon.primaryType ?? .normal)
+            newPokemon.damageRelations = try await fetchPokemonDamageRelations(type: newPokemon.secondaryType ?? .normal)
         } catch {
-            print(error)
             throw error
         }
         
-        
-        for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
-            if eachFavoritedPokemon.name == singlePokemon.name {
-                singlePokemon.isFavorited = true
+        //API call to get species info
+        do {
+            newPokemon.species = try await fetchPokemonSpecies(id: newPokemon.id)
+            if let url = newPokemon.species?.evolutionChain?.url {
+                newPokemon.evolutionChain = try await fetchEvolutionChain(url: url)
             }
+        } catch {
+            throw error
         }
         
-        return singlePokemon
+        return newPokemon
     }
     
     func fetchPokemonDamageRelations(type: PokemonType) async throws -> PokemonDamageRelations {

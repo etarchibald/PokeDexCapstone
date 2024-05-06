@@ -27,18 +27,29 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
         filteredTeams = TeamController.teams
     }
     
+    @IBSegueAction func pokemonTeam(_ coder: NSCoder) -> PokemonTeamViewController? {
+        
+        guard let selectedIndexPath = teamTableView.indexPathForSelectedRow else { return nil }
+        let selectedTeam = filteredTeams[selectedIndexPath.row]
+       
+        //pass the team touched into the coder
+        return PokemonTeamViewController(coder: coder, team: selectedTeam)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newTeamSegue" {
             if let nav = segue.destination as? UINavigationController, let first = nav.viewControllers.first as? AddTeamViewController {
                 first.dismissCompletion = reload
             }
-        } else if let teamVC = segue.destination as? PokemonTeamViewController {
-            if let indexPath = teamTableView.indexPathForSelectedRow {
-                let selectedTeam = filteredTeams[indexPath.row]
-                teamVC.teamPokemon = selectedTeam.pokemon
-            }
+        } 
+        
+        //ib asction segue init the pokemontemview with ns coder and team write init of
+//        else if let teamVC = segue.destination as? PokemonTeamViewController {
+//            if let indexPath = teamTableView.indexPathForSelectedRow {
+//                let selectedTeam = filteredTeams[indexPath.row]
+//                teamVC.team = selectedTeam.pokemon
+//            }
         }
-    }
     
     func reload() {
         filteredTeams = TeamController.teams

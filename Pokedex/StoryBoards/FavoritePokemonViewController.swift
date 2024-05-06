@@ -18,7 +18,7 @@ class FavoritePokemonViewController: UIViewController {
         super.viewDidLoad()
         
         //load favorite Pokemon and put in pokemon
-        
+        self.collectionView.register(UINib(nibName: "PokemonCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "favoritePokemonCell")
         collectionView.delegate = self
         collectionView.dataSource = self
         
@@ -40,7 +40,7 @@ class FavoritePokemonViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    @IBSegueAction func toDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
+    @IBSegueAction func showDetailSegue(_ coder: NSCoder) -> UIViewController? {
         
         let indexPath = collectionView.indexPathsForSelectedItems!.first
             
@@ -53,12 +53,16 @@ class FavoritePokemonViewController: UIViewController {
 
 extension FavoritePokemonViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetailSegue", sender: nil)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         FavoritePokemonViewController.favoritePokemon.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! PokemonCollectionViewCell
         
         let pokemon = FavoritePokemonViewController.favoritePokemon[indexPath.item]
         

@@ -6,13 +6,22 @@
 //
 
 import UIKit
-//gotta get the pokemon from the team cell to show here 
+//use teamController
 class PokemonTeamViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var teamPokemon = [Pokemon]()
+    var team: Team
+    var isEditingMode = false
     
+    init?(coder: NSCoder, team: Team) {
+        self.team = team
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +30,9 @@ class PokemonTeamViewController: UIViewController {
         collectionView.reloadData()
         
         configureCollectionView()
+        self.collectionView.register(UINib(nibName: "PokemonCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "favoritePokemonCell")
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
         
     }
     
@@ -39,11 +51,11 @@ class PokemonTeamViewController: UIViewController {
         collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
     
-    @IBSegueAction func toDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
+    @IBSegueAction func showDetailSegue(_ coder: NSCoder) -> UIViewController? {
         
         let indexPath = collectionView.indexPathsForSelectedItems!.first
         
-        let selectedPokemon = teamPokemon[indexPath!.row]
+        let selectedPokemon = team.pokemon[indexPath!.row]
         
         return PokemonDetailTableViewController(pokemon: selectedPokemon, coder: coder)
     }
@@ -55,27 +67,80 @@ class PokemonTeamViewController: UIViewController {
         print()
          if let teamVC = segue.destination as? PokemonDetailTableViewController {
              
-             teamVC.pokemon = teamPokemon[selectedItemIndex[0].row]
+             teamVC.pokemon = team.pokemon[selectedItemIndex[0].row]
         }
     }
     
+    //add x button to cell
+    //hit edit shows x
+    //hit x deletes
+    @objc func editButtonTapped() {
+        isEditingMode = !isEditingMode
+        
+        // Toggle editing mode of the collection view
+        collectionView.isEditing = isEditingMode
+        
+        // Update the UI based on the editing mode
+        let buttonTitle = isEditingMode ? "Done" : "Edit"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: buttonTitle, style: .plain, target: self, action: #selector(editButtonTapped))
+        
+        // Enable or disable collection view interaction based on editing mode
+        collectionView.allowsSelection = !isEditingMode
+    }
+
+//    func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+//        if action == #selector(UIResponderStandardEditActions.delete(_:)) {
+//            // Delete the item from your data source array
+//            //remove from file system
+//            team.pokemon.remove(at: indexPath.item)
+//            
+//            // Update the collection view to reflect the deletion
+//            collectionView.deleteItems(at: [indexPath])
+//        }
+//        
+//        TeamController.saveTeams(teams: [team])
+//    }
+    
+    func deletePokemon(_ pokemon: Pokemon) {
+        // delete from team
+//        team.pokemon.remove(at: indexPath.item)
+//        
+//        collectionView.deleteItems(at: [indexPath])
+        print("Deleteing you!")
+    }
     
 }
 extension PokemonTeamViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        teamPokemon.count
+        team.pokemon.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedPokemon = teamPokemon[indexPath.item]
+        let selectedPokemon = team.pokemon[indexPath.item]
+        
+//        if isEditingMode {
+//            team.remove(at: indexPath.item)
+//
+//            collectionView.deleteItems(at: [indexPath])
+//        } else {
+//            let selectedPokemon = team[indexPath.item]
+//        }
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! FavoritePokemonCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favoritePokemonCell", for: indexPath) as! PokemonCollectionViewCell
         
-        let pokemon = teamPokemon[indexPath.item]
+        cell.isEditing = isEditingMode
+        let pokemon = team.pokemon[indexPath.item]
+        cell.onDelete = {
+            self.deletePokemon(pokemon)
+        }
         cell.updateUI(using: pokemon)
         return cell
     }
+    
 }
+

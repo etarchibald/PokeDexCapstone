@@ -9,6 +9,7 @@ import UIKit
 
 class PokemonMovesViewController: UIViewController {
 
+    @IBOutlet weak var filterSegmentedControl: UISegmentedControl!
     @IBOutlet weak var pokemonTitleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -21,19 +22,28 @@ class PokemonMovesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
-        setUpCollectionViewDataSource()
         configureCollectionView()
-        applySnapshot(from: pokemonFilteredMoves)
-        // Do any additional setup after loading the view.
+        setUpCollectionViewDataSource()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        pokemonTitleLabel.text = "\(pokemon?.name.capitalized ?? "") moves"
         
-        pokemonFilteredMoves = pokemonMoves.sorted { $0.levelLearnedAt! < $1.levelLearnedAt! }
-        applySnapshot(from: pokemonFilteredMoves)
+        Task {
+            do {
+                pokemon = try await PokemonNetworkController.shared.fetchPokemonMoves(pokemon: pokemon!)
+                
+                pokemonMoves = pokemon?.moves ?? []
+                
+                pokemonTitleLabel.text = "\(pokemon?.name.capitalized ?? "") moves"
+                
+                pokemonFilteredMoves = filterPokemonMoves(sender: filterSegmentedControl)
+                applySnapshot(from: pokemonFilteredMoves)
+            } catch {
+                print(error)
+                throw error
+            }
+        }
     }
     
     private func configureCollectionView() {

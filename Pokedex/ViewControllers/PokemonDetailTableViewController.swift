@@ -47,13 +47,9 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
+        
         setupMenu()
-        
         setupSwiftUIView()
-        
-        var frame = CGRect.zero
-        frame.size.height = .leastNormalMagnitude
-        self.tableView.tableHeaderView = UIView(frame: frame)
         
         saveImageData()
         setUpPokemonInfo()
@@ -176,10 +172,6 @@ class PokemonDetailTableViewController: UITableViewController {
         
     }
     
-//    func setupSheetView() {
-//        let sheetViewController = UISheetPresentationController(presentedViewController: <#T##UIViewController#>, presenting: <#T##UIViewController?#>)
-//    }
-    
     // MARK: SwiftUIView
     
     func setupSwiftUIView() {
@@ -248,7 +240,6 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
         
-        
     }
     
     //MARK: Navigation
@@ -268,12 +259,6 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
     }
-    
-//    @IBAction func unwindToDetailView(sender: UIStoryboardSegue) {
-//        if let sourceVC = sender.source as? ViewMoreTeamsTableViewController {
-//            teamController.addPokemonToTeam(pokemon: pokemon, toTeam: TeamController.teams[].id)
-//        }
-//    }
 
 }
 

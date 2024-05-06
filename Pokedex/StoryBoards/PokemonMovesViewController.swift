@@ -9,6 +9,7 @@ import UIKit
 
 class PokemonMovesViewController: UIViewController {
 
+    @IBOutlet weak var filterSegmentedControl: UISegmentedControl!
     @IBOutlet weak var pokemonTitleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -21,18 +22,15 @@ class PokemonMovesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
         setUpCollectionViewDataSource()
         configureCollectionView()
-        applySnapshot(from: pokemonFilteredMoves)
-        // Do any additional setup after loading the view.
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         pokemonTitleLabel.text = "\(pokemon?.name.capitalized ?? "") moves"
         
-        pokemonFilteredMoves = pokemonMoves.sorted { $0.levelLearnedAt! < $1.levelLearnedAt! }
+        pokemonFilteredMoves = filterPokemonMoves(sender: filterSegmentedControl)
         applySnapshot(from: pokemonFilteredMoves)
     }
     

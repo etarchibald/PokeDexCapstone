@@ -199,6 +199,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="rXW-Nj-7Up" id="38X-hT-vj3"/>
+                        <outlet property="filterSegmentedControl" destination="oY0-vn-g16" id="IFd-xd-DTP"/>
                         <outlet property="pokemonTitleLabel" destination="men-5d-kgd" id="cHu-5n-xqh"/>
                     </connections>
                 </viewController>

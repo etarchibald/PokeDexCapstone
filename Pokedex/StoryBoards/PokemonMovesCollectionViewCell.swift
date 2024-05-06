@@ -25,5 +25,9 @@ class PokemonMovesCollectionViewCell: UICollectionViewCell {
         typeBackgroundView = PokemonPrettyController.shared.createBackgroundForTypeBox(typeBackgroundView, move.moveDetail!.type.name)
         powerLabel.text = "\(move.moveDetail?.power ?? 0)"
         PPLabel.text = "\(move.pp ?? 0)"
+        
+        self.layer.borderColor = UIColor(hex: PokemonPrettyController.shared.getBackgroundColorHex(type: move.type!)).cgColor
+        self.layer.borderWidth = 2
+        self.layer.cornerRadius = 10
     }
 }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MovesDetailSwiftUIView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var move: PokemonMove
     
     var isLightText: Bool {
@@ -88,37 +90,62 @@ struct MovesDetailSwiftUIView: View {
                 ZStack {
                     
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(typeColor.opacity(0.1))
+                        .fill(colorScheme == .light ? .white : .black)
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("Learned:")
-                                .foregroundStyle(typeColor)
-                            Text(move.moveLearnedMethod ?? "")
+                    HStack(alignment: .top) {
+                        VStack(alignment: .leading, spacing: 20) {
+                            
+                            if let learnedMethod = move.moveLearnedMethod {
+                                HStack {
+                                    Text("Learned:")
+                                        .foregroundStyle(typeColor)
+                                    Text(learnedMethod.capitalized)
+                                        .font(.title2)
+                                    
+                                }
+                            }
+                            
+                            if let damageClass = move.damageClass {
+                                HStack {
+                                    Text("Damage Class:")
+                                        .foregroundStyle(typeColor)
+                                    Text(damageClass.capitalized)
+                                        .font(.title2)
+                                }
+                            }
+                            
+                            if let effectChance = move.effectChance {
+                                HStack {
+                                    Text("Effect Chance:")
+                                        .foregroundStyle(typeColor)
+                                    Text("\(effectChance)%")
+                                        .font(.title2)
+                                }
+                            }
+                            
+                            if let effectEntries = move.effectEntries {
+                                VStack(alignment: .leading) {
+                                    Text("Effect:")
+                                        .foregroundStyle(typeColor)
+                                    Text(effectEntries)
+                                        .font(.title3)
+                                }
+                            }
                             
                         }
+                        .padding(5)
                         
-                        VStack {
-                            Text("Damage Class:")
-                            Text(move.damageClass ?? "")
-                        }
-                        
-                        VStack {
-                            Text("Effect:")
-                            Text(move.effectEntries ?? "")
-                        }
-                        
-                        VStack {
-                            Text("Effect Chance:")
-                            Text("\(move.effectChance ?? 0)")
-                        }
+                        Spacer()
                     }
                 }
                 .padding()
             }
+            .padding()
             
             Spacer()
         }
+        .background(RoundedRectangle(cornerRadius: 10).fill(.gray.opacity(0.3)))
+
     }
 }
 

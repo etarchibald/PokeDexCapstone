@@ -109,3 +109,13 @@ struct Target: Codable {
 struct Language: Codable {
     var name: String
 }
+
+extension PokemonMove: Equatable, Hashable {
+    static func == (lhs: PokemonMove, rhs: PokemonMove) -> Bool {
+        lhs.name == rhs.name
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        return hasher.combine(name)
+    }
+}

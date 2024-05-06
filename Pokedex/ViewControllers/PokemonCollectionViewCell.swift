@@ -8,12 +8,15 @@
 import UIKit
 import SwiftUI
 
-class FavoritePokemonCollectionViewCell: UICollectionViewCell {
+class PokemonCollectionViewCell: UICollectionViewCell {
     
-
+    @IBOutlet weak var xButton: UIButton!
+    
     @IBOutlet var cellBackgroundView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
+    var isEditing = false
+    var onDelete: (( ) -> Void)?
     
     private let prettyControllerShared = PokemonPrettyController.shared
     
@@ -38,5 +41,11 @@ class FavoritePokemonCollectionViewCell: UICollectionViewCell {
         }
         
         imageView.load(url: pokemon.sprites.frontDefault)
+        xButton.isHidden = !isEditing
     }
+    
+    @IBAction func deleteButtonPressed(_ sender: Any) {
+        onDelete?()
+    }
+    
 }

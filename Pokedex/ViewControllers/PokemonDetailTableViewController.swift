@@ -10,6 +10,7 @@ import UIKit
 
 class PokemonDetailTableViewController: UITableViewController {
     
+    @IBOutlet var staticTableView: UITableView!
     // Outlets relating to Pokemon images
     @IBOutlet weak var pokemonNameLabel: UILabel!
     @IBOutlet weak var favoritedButton: UIButton!
@@ -47,13 +48,9 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
+        
         setupMenu()
-        
         setupSwiftUIView()
-        
-        var frame = CGRect.zero
-        frame.size.height = .leastNormalMagnitude
-        self.tableView.tableHeaderView = UIView(frame: frame)
         
         saveImageData()
         setUpPokemonInfo()
@@ -92,12 +89,17 @@ class PokemonDetailTableViewController: UITableViewController {
                 let dreamWorldURLs = pokemon.sprites.other.dreamWorld
                 let showdownURLs = pokemon.sprites.other.showdown
                 
-                if let officialArtwork = officialSprites.frontDefault, let backArtwork = officialSprites.backDefault, let femaleFront = officialSprites.frontFemale, let femaleBack = officialSprites.backFemale {
-                    urls.append(officialArtwork)
+                if let frontofficialArtwork = officialSprites.frontDefault, let backArtwork = officialSprites.backDefault {
+                    urls.append(frontofficialArtwork)
                     urls.append(backArtwork)
-                    urls.append(femaleFront)
-                    urls.append(femaleBack)
                 }
+                
+                if let dreamWorldFront = dreamWorldURLs.frontDefault, let dreamWorldBack = dreamWorldURLs.backDefault {
+                    urls.append(dreamWorldFront)
+                    urls.append(dreamWorldBack)
+                }
+                
+                
                 
                 for url in urls {
                     if let url {
@@ -111,6 +113,10 @@ class PokemonDetailTableViewController: UITableViewController {
             pokemonSpritesCollectionView.reloadData()
             
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return nil
     }
     
     // MARK: Favorite Button
@@ -175,10 +181,6 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
     }
-    
-//    func setupSheetView() {
-//        let sheetViewController = UISheetPresentationController(presentedViewController: <#T##UIViewController#>, presenting: <#T##UIViewController?#>)
-//    }
     
     // MARK: SwiftUIView
     
@@ -248,7 +250,6 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
         
-        
     }
     
     //MARK: Navigation
@@ -268,12 +269,6 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
     }
-    
-//    @IBAction func unwindToDetailView(sender: UIStoryboardSegue) {
-//        if let sourceVC = sender.source as? ViewMoreTeamsTableViewController {
-//            teamController.addPokemonToTeam(pokemon: pokemon, toTeam: TeamController.teams[].id)
-//        }
-//    }
 
 }
 

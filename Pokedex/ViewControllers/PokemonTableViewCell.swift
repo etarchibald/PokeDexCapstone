@@ -53,6 +53,10 @@ class PokemonTableViewCell: UITableViewCell {
         pokemonImage.load(url: pokemon.sprites.frontDefault)
         favoriteButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
     }
+    
+    func updateAndSave(pokemon: Pokemon) {
+        
+    }
 
     @IBAction func favoritebuttonTapped(_ sender: UIButton) {
         

@@ -162,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				4A6BBBFF2BCED41500ACE001 /* TeamView.storyboard */,
+				316C7C462BE93D1A00B0924B /* PokemonCollectionViewCell.xib */,
 				4A893BD92BE1334300CCDE0B /* PokemonMoves.storyboard */,
 				317B72072BDFE5550049A06D /* AbilitiesView.storyboard */,
 				4A6BBBFC2BCECF6C00ACE001 /* FavoritePokemonView.storyboard */,
@@ -251,7 +252,6 @@
 				4A893BDD2BE148DB00CCDE0B /* PokemonMovesCollectionViewCell.swift */,
 				4A6BBC082BD0176300ACE001 /* FavoritePokemonViewController.swift */,
 				316C7C452BE93D1A00B0924B /* PokemonCollectionViewCell.swift */,
-				316C7C462BE93D1A00B0924B /* PokemonCollectionViewCell.xib */,
 				A38B130A2B4EF8E4003D33D8 /* PokemonTableViewCell.swift */,
 				A38B12F62B4EEB43003D33D8 /* PokemonSearchViewController.swift */,
 				F25835762BD8042000D3E972 /* PokemonDetailTableViewController.swift */,

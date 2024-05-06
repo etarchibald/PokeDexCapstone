@@ -210,7 +210,7 @@ class PokemonNetworkController {
         
     }
     
-    func fetchImageData(url: URL) async throws -> Data { // return UIImage 
+    func fetchImageData(url: URL) async throws -> UIImage {
         let session = URLSession.shared
         let request = URLRequest(url: url)
         
@@ -220,8 +220,8 @@ class PokemonNetworkController {
             throw API.APIError.ImageFetchFailed
         }
         
-//        let newImage = UIImage(data: data)!
+        let newImage = UIImage(data: data)!
         
-        return data // Return newImage
+        return newImage
     }
 }

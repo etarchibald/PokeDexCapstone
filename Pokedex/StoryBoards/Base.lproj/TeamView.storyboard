@@ -186,6 +186,7 @@
                                             <outlet property="cellBackgroundView" destination="LeY-Bl-tZa" id="ISe-Rl-Xaj"/>
                                             <outlet property="imageView" destination="tsB-E9-cN0" id="s0K-6t-td8"/>
                                             <outlet property="nameLabel" destination="awa-Of-jq4" id="fmT-1K-00f"/>
+                                            <segue destination="gDd-A7-5rU" kind="show" destinationCreationSelector="toDetailSegueAction:" id="2Ux-fy-zio"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -215,6 +216,16 @@
             </objects>
             <point key="canvasLocation" x="2552" y="-359"/>
         </scene>
+        <!--PokemonDetail-->
+        <scene sceneID="Jlc-Eh-QHt">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PokemonDetail" referencedIdentifier="PokemonDetail" id="gDd-A7-5rU" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="rwM-VC-NXL"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4qv-mW-SJv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3519" y="-69"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="LC1-sf-z7l">
             <objects>
@@ -229,7 +240,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M0u-um-nb3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3401" y="-359"/>
+            <point key="canvasLocation" x="4538" y="-359"/>
         </scene>
         <!--Add Team View Controller-->
         <scene sceneID="WFn-kN-gAQ">

@@ -64,4 +64,9 @@ class TeamController {
         TeamController.saveTeams(teams: TeamController.teams)
     }
     
+    
+    func deletePokemonFromTeam(pokemon: Pokemon, fromTeam: Team) {
+        
+    }
+    
 }

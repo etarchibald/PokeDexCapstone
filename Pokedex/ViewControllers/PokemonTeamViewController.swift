@@ -97,7 +97,7 @@ class PokemonTeamViewController: UIViewController {
             return
         }
        
-        TeamController.shared.deletePokemonFromTeam(pokemon: pokemon, fromTeam: team)
+//        TeamController.shared.deletePokemonFromTeam(pokemon: pokemon, fromTeam: team)
         
         // Update the collection view to reflect the deletion
         collectionView.performBatchUpdates({

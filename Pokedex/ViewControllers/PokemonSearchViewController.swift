@@ -127,18 +127,19 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         snapshot.appendSections([0])
         snapshot.appendItems(pokemon)
         dataSource.apply(snapshot, animatingDifferences: true)
-        tableView.reloadData()
     }
     
-    func reload(_ pokemon: Pokemon) {
-        var snapshot  = dataSource.snapshot()
-        snapshot.reloadItems([pokemon])
+    func reload(_ pokemon: [Pokemon]) {
+        var snapshot = dataSource.snapshot()
+        snapshot.reloadItems(pokemon)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     @IBSegueAction func pokemonDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
         
         let pokemon = pokemon[tableView.indexPathForSelectedRow!.row]
+        
+        self.navigationItem.title = nil
         
         return PokemonDetailTableViewController(pokemon: pokemon, coder: coder)
     }
@@ -258,9 +259,8 @@ extension PokemonSearchViewController: FavoritePokemon {
     func addPokemonToFavorite(pokemon: Pokemon) {
         for (index, eachPokemon) in self.pokemon.enumerated() {
             if eachPokemon.id == pokemon.id {
-                print("COMFORM: \(pokemon.name)")
                 self.pokemon[index] = pokemon
-//                applySnapshot(from: self.pokemon)
+                self.applySnapshot(from: self.pokemon)
             }
         }
     }

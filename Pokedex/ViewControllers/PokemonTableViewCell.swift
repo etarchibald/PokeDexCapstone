@@ -56,14 +56,16 @@ class PokemonTableViewCell: UITableViewCell {
         
         let newImage = UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart")
         
-        UIView.transition(with: favoriteButton, duration: 2, options: .transitionCrossDissolve, animations: {
-            self.favoriteButton.setImage(newImage, for: .normal)
+        UIView.animate(withDuration: 0.3, delay: 0, options: .autoreverse, animations: {
+            self.favoriteButton.imageView?.contentMode = pokemon.isFavorited ?? false ? .scaleAspectFill : .scaleAspectFit
+            UIView.transition(with: self.favoriteButton, duration: 0.375, options: .transitionCrossDissolve, animations: {
+                self.favoriteButton.setImage(newImage, for: .normal)
+            }, completion: nil)
         }, completion: nil)
         
     }
 
     @IBAction func favoritebuttonTapped(_ sender: UIButton) {
-        
         
         if pokemon?.isFavorited ?? false {
             self.pokemon?.isFavorited = false
@@ -72,7 +74,6 @@ class PokemonTableViewCell: UITableViewCell {
                 pokemon?.name != eachPokemon.name ? true : false
             }
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
-            print("delegate triggered \(pokemon?.name)")
             PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
         } else {
             self.pokemon?.isFavorited = true

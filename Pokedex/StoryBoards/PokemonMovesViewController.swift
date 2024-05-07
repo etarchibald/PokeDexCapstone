@@ -120,7 +120,6 @@ extension PokemonMovesViewController {
         snapshot.appendSections(["MainSection"])
         snapshot.appendItems(pokemon)
         dataSource.apply(snapshot, animatingDifferences: true)
-        collectionView.reloadData()
     }
     
 }

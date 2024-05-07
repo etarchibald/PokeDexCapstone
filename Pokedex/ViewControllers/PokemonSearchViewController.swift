@@ -138,7 +138,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
     
     @IBSegueAction func pokemonDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
         
-        var pokemon = pokemon[tableView.indexPathForSelectedRow!.row]
+        let pokemon = pokemon[tableView.indexPathForSelectedRow!.row]
         
         return PokemonDetailTableViewController(pokemon: pokemon, coder: coder)
     }

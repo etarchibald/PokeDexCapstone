@@ -12,6 +12,8 @@ class PokemonNetworkController {
     
     static var shared = PokemonNetworkController()
     
+    
+    //MARK: API Calls 
     /// An API call to get a list of 20 pokemon. No searching involved.
     /// - Parameter page: An optional parameter to get 20 more pokemon after the initial 20.
     /// - Returns: An array of usable pokemon objects
@@ -186,6 +188,8 @@ class PokemonNetworkController {
         
         return newPokemon
     }
+    
+    //MARK: SubFunctions for API Calls
     
     func fetchPokemonDamageRelations(type: PokemonType) async throws -> PokemonDamageRelations {
         let damageRelationsRequest = FetchDamageRelationsRequest(type: type)

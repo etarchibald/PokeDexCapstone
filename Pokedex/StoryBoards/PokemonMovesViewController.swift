@@ -29,20 +29,33 @@ class PokemonMovesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        Task {
-            do {
-                pokemon = try await PokemonNetworkController.shared.fetchPokemonMoves(pokemon: pokemon!)
-                
-                pokemonMoves = pokemon?.moves ?? []
-                
-                pokemonTitleLabel.text = "\(pokemon?.name.capitalized ?? "") moves"
-                
-                pokemonFilteredMoves = filterPokemonMoves(sender: filterSegmentedControl)
-                applySnapshot(from: pokemonFilteredMoves)
-            } catch {
-                print(error)
-                throw error
+        pokemonMoves = pokemon?.moves ?? []
+        
+        if pokemonMoves.first?.moveDetail == nil {
+            Task {
+                do {
+                    let newPokemon = try await PokemonNetworkController.shared.fetchPokemonMoves(pokemon: pokemon!)
+                    pokemonMoves = newPokemon.moves
+                    
+                    pokemonTitleLabel.text = "\(pokemon?.name.capitalized ?? "") moves"
+                    
+                    pokemonFilteredMoves = filterPokemonMoves(sender: filterSegmentedControl)
+                    applySnapshot(from: pokemonFilteredMoves)
+                    
+                } catch {
+                    throw error
+                }
             }
+        } else {
+            
+            if let moves = pokemon?.moves {
+                pokemonMoves = moves
+            }
+            
+            pokemonTitleLabel.text = "\(pokemon?.name.capitalized ?? "Error loading") moves"
+            
+            pokemonFilteredMoves = filterPokemonMoves(sender: filterSegmentedControl)
+            applySnapshot(from: pokemonFilteredMoves)
         }
     }
     

@@ -258,8 +258,9 @@ extension PokemonSearchViewController: FavoritePokemon {
     func addPokemonToFavorite(pokemon: Pokemon) {
         for (index, eachPokemon) in self.pokemon.enumerated() {
             if eachPokemon.id == pokemon.id {
+                print("COMFORM: \(pokemon.name)")
                 self.pokemon[index] = pokemon
-                applySnapshot(from: self.pokemon)
+//                applySnapshot(from: self.pokemon)
             }
         }
     }

@@ -79,6 +79,12 @@ class PokemonNetworkController {
         
         var singlePokemon = try await API.shared.sendRequest(fetchAllRequest)
         
+        do {
+            singlePokemon.species = try await fetchPokemonSpecies(id: singlePokemon.id)
+        } catch {
+            throw error
+        }
+        
         for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
             if eachFavoritedPokemon.name == singlePokemon.name {
                 singlePokemon.isFavorited = true
@@ -176,14 +182,8 @@ class PokemonNetworkController {
             throw error
         }
         
-        //API call to get species info
-        do {
-            newPokemon.species = try await fetchPokemonSpecies(id: newPokemon.id)
-            if let url = newPokemon.species?.evolutionChain?.url {
-                newPokemon.evolutionChain = try await fetchEvolutionChain(url: url)
-            }
-        } catch {
-            throw error
+        if let url = newPokemon.species?.evolutionChain?.url {
+            newPokemon.evolutionChain = try await fetchEvolutionChain(url: url)
         }
         
         return newPokemon

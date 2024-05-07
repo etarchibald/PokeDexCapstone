@@ -53,6 +53,10 @@ class PokemonTableViewCell: UITableViewCell {
         pokemonImage.load(url: pokemon.sprites.frontDefault)
         favoriteButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
     }
+    
+    func updateAndSave(pokemon: Pokemon) {
+        
+    }
 
     @IBAction func favoritebuttonTapped(_ sender: UIButton) {
         
@@ -69,7 +73,7 @@ class PokemonTableViewCell: UITableViewCell {
             setup(pokemon: pokemon!)
             FavoritePokemonViewController.favoritePokemon.append(pokemon!)
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
-            //check if it has everything then save it accordingly
+            //check if it has everything then save
             PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
         }
     }

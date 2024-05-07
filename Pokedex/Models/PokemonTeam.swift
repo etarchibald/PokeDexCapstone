@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Team: Codable {
+class Team: Codable {
     var pokemon: [Pokemon] = []
     var id: UUID = UUID()
     var typeOfTeam: String
@@ -15,5 +15,12 @@ struct Team: Codable {
     
     var numberOfCards: Int {
         pokemon.count
+    }
+    
+    init(pokemon: [Pokemon], id: UUID, typeOfTeam: String, teamName: String) {
+        self.pokemon = pokemon
+        self.id = id
+        self.typeOfTeam = typeOfTeam
+        self.teamName = teamName
     }
 }

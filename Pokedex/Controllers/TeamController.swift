@@ -65,8 +65,13 @@ class TeamController {
     }
     
     
-    func deletePokemonFromTeam(pokemon: Pokemon, fromTeam: Team) {
-        
-    }
+    func deletePokemonFromTeam(pokemon: Pokemon, fromTeam team: Team) {
+        var mutableTeam = team
+           if let index = mutableTeam.pokemon.firstIndex(of: pokemon) {
+               mutableTeam.pokemon.remove(at: index)
+               // Optionally, save the updated team to persistent storage
+               TeamController.saveTeams(teams: TeamController.teams)
+           }
+       }
     
 }

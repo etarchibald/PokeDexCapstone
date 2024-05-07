@@ -10,7 +10,6 @@ import UIKit
 class PokemonTeamViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    //edit teams directly and replace them, reach into staic and find team using id
     var team: Team
     var isEditingMode = false
     
@@ -62,13 +61,11 @@ class PokemonTeamViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         guard let selectedItemIndex = self.collectionView.indexPathsForSelectedItems
         else {return}
         print()
-         if let teamVC = segue.destination as? PokemonDetailTableViewController {
-             
-             teamVC.pokemon = team.pokemon[selectedItemIndex[0].row]
+        if let teamVC = segue.destination as? PokemonDetailTableViewController {
+            teamVC.pokemon = team.pokemon[selectedItemIndex[0].row]
         }
     }
     
@@ -85,10 +82,6 @@ class PokemonTeamViewController: UIViewController {
         // Enable or disable collection view interaction based on editing mode
         collectionView.allowsSelection = !isEditingMode
         
-//        collectionView.visibleCells.forEach { cell in
-//                guard let pokemonCell = cell as? PokemonCollectionViewCell else { return }
-//                pokemonCell.isEditing = isEditingMode
-//            }
         collectionView.reloadData()
     }
     
@@ -96,8 +89,6 @@ class PokemonTeamViewController: UIViewController {
         guard let index = team.pokemon.firstIndex(of: pokemon) else {
             return
         }
-       
-//        TeamController.shared.deletePokemonFromTeam(pokemon: pokemon, fromTeam: team)
         
         // Update the collection view to reflect the deletion
         collectionView.performBatchUpdates({
@@ -105,8 +96,8 @@ class PokemonTeamViewController: UIViewController {
             collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
         }, completion: nil)
         
-        print("Array count: \(team.pokemon.count)")
-        print("Index: \(index)")
+        //print("Array count: \(team.pokemon.count)")
+        //print("Index: \(index)")
         
         TeamController.saveTeams(teams: TeamController.teams)
     }
@@ -122,16 +113,6 @@ extension PokemonTeamViewController: UICollectionViewDelegate, UICollectionViewD
         let selectedPokemon = team.pokemon[indexPath.item]
         
         performSegue(withIdentifier: "showDetailSegue", sender: nil)
-        
-//        if isEditingMode {
-//            team.remove(at: indexPath.item)
-//
-//            collectionView.deleteItems(at: [indexPath])
-//        } else {
-//            let selectedPokemon = team[indexPath.item]
-//        }
-        
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

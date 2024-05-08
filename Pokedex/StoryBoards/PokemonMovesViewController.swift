@@ -13,8 +13,8 @@ class PokemonMovesViewController: UIViewController {
     @IBOutlet weak var pokemonTitleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var pokemonMoves = [PokemonMove]() //Source of truth
-    var pokemonFilteredMoves = [PokemonMove]() //edits based on filter
+    var pokemonMoves = [PokemonMove]() ////Source of truth
+    var pokemonFilteredMoves = [PokemonMove]() ////edits based on filter
     var pokemon: Pokemon?
     
     var dataSource: UICollectionViewDiffableDataSource<String, PokemonMove>!
@@ -29,9 +29,7 @@ class PokemonMovesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        pokemonMoves = pokemon?.moves ?? []
-        
-        if pokemonMoves.first?.moveDetail == nil {
+        if pokemon?.moves.first?.moveDetail == nil {
             Task {
                 do {
                     let newPokemon = try await PokemonNetworkController.shared.fetchPokemonMoves(pokemon: pokemon!)

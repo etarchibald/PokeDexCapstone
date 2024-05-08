@@ -11,9 +11,7 @@ class Team: Codable {
     var pokemon: [Pokemon] = []
     var id: UUID = UUID()
     var typeOfTeam: String
-    //var typesOfPokemon = [PokemonType]()
     var teamName: String
-    //var typeImage: URL
     
     var numberOfCards: Int {
         pokemon.count

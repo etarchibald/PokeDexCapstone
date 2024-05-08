@@ -79,6 +79,14 @@ class PokemonDetailTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        20
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        0
+    }
+    
     // MARK: Displaying Images
     
     func saveImageData() {

@@ -49,4 +49,26 @@ class PokemonPersistenceController {
         }
     }
     
+    func fetchInformationToSave(pokemon: Pokemon) async throws -> Pokemon {
+        var newPokemon = pokemon
+        
+        if newPokemon.moves.first?.moveDetail != nil {
+            do {
+                newPokemon = try await PokemonNetworkController.shared.fetchPokemonMoves(pokemon: newPokemon)
+            } catch {
+                throw error
+            }
+        }
+        
+        if newPokemon.abilities.first?.abilityDetails != nil {
+            do {
+                newPokemon = try await PokemonNetworkController.shared.fetchPokemonAbilites(pokemon: newPokemon)
+            } catch {
+                
+            }
+        }
+        
+        return newPokemon
+    }
+    
 }

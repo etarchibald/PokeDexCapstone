@@ -20,6 +20,8 @@ class PokemonTableViewCell: UITableViewCell {
     
     private var favoritePokemonView = FavoritePokemonViewController()
     private var pokemonPrettyController = PokemonPrettyController.shared
+    private var imageLoaded = false
+    
     var pokemon: Pokemon?
     
     var delegate: FavoritePokemon?
@@ -49,32 +51,47 @@ class PokemonTableViewCell: UITableViewCell {
         }
         
         generationLabel.text = "Gen: \(PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? ""))"
-        
+
         pokemonImage.load(url: pokemon.sprites.frontDefault)
-        favoriteButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
-    }
-    
-    func updateAndSave(pokemon: Pokemon) {
+        
+        let newImage = UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart")
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .autoreverse, animations: {
+            self.favoriteButton.imageView?.contentMode = pokemon.isFavorited ?? false ? .scaleAspectFill : .scaleAspectFit
+            UIView.transition(with: self.favoriteButton, duration: 0.375, options: .transitionCrossDissolve, animations: {
+                self.favoriteButton.setImage(newImage, for: .normal)
+            }, completion: nil)
+        }, completion: nil)
         
     }
 
     @IBAction func favoritebuttonTapped(_ sender: UIButton) {
         
         if pokemon?.isFavorited ?? false {
-            pokemon?.isFavorited = false
+            self.pokemon?.isFavorited = false
             setup(pokemon: pokemon!)
             FavoritePokemonViewController.favoritePokemon = FavoritePokemonViewController.favoritePokemon.filter { eachPokemon in
-               pokemon?.name != eachPokemon.name ? true : false
+                pokemon?.name != eachPokemon.name ? true : false
             }
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
             PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
         } else {
-            pokemon?.isFavorited = true
+            self.pokemon?.isFavorited = true
             setup(pokemon: pokemon!)
             FavoritePokemonViewController.favoritePokemon.append(pokemon!)
             delegate?.addPokemonToFavorite(pokemon: pokemon!)
             //check if it has everything then save
-            PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
+            if let pokemon = self.pokemon {
+                Task {
+                    do {
+                        self.pokemon = try await PokemonPersistenceController.shared.fetchInformationToSave(pokemon: pokemon)
+                        PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
+                    } catch {
+                        //handle errors
+                    }
+                }
+            }
         }
+        
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 //decoding for the details
-struct Pokemon {
+class Pokemon: Codable, Identifiable, Hashable {
     var id: Int
     var name: String
     var isFavorited: Bool?
@@ -31,24 +31,8 @@ struct Pokemon {
     var species: PokemonSpecies?
     var evolutionChain: PokemonEvolution?
     var moves: [PokemonMove]
-}
-
-extension Pokemon: Codable {
     
-    enum PokemonCodingKeys: CodingKey {
-        case id, name, isFavorited, primaryType, types, sprites, abilities, stats, height, weight, damageRelations, species, evolutionChain, moves
-    }
-        
-    enum PokemonTypeContainerCodingKeys: CodingKey {
-        case slot
-        case type
-    }
-
-    enum PokemonTypeCodingKeys: CodingKey {
-        case name
-    }
-    
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: PokemonCodingKeys.self)
         self.id = try container.decode(Int.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name)
@@ -66,9 +50,20 @@ extension Pokemon: Codable {
         self.evolutionChain = try container.decodeIfPresent(PokemonEvolution.self, forKey: .evolutionChain)
         self.moves = try container.decode([PokemonMove].self, forKey: .moves)
     }
-}
+    
+    enum PokemonCodingKeys: CodingKey {
+        case id, name, isFavorited, primaryType, types, sprites, abilities, stats, height, weight, damageRelations, species, evolutionChain, moves
+    }
+        
+    enum PokemonTypeContainerCodingKeys: CodingKey {
+        case slot
+        case type
+    }
 
-extension Pokemon: Identifiable, Hashable {
+    enum PokemonTypeCodingKeys: CodingKey {
+        case name
+    }
+    
     var identifier: Int {
         return id
     }
@@ -80,4 +75,35 @@ extension Pokemon: Identifiable, Hashable {
     static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
         return lhs.identifier == rhs.identifier
     }
+    
 }
+
+//extension Pokemon: Codable {
+//    
+//    enum PokemonCodingKeys: CodingKey {
+//        case id, name, isFavorited, primaryType, types, sprites, abilities, stats, height, weight, damageRelations, species, evolutionChain, moves
+//    }
+//        
+//    enum PokemonTypeContainerCodingKeys: CodingKey {
+//        case slot
+//        case type
+//    }
+//
+//    enum PokemonTypeCodingKeys: CodingKey {
+//        case name
+//    }
+//}
+
+//extension Pokemon: Identifiable, Hashable {
+//    var identifier: Int {
+//        return id
+//    }
+//    
+//    func hash(into hasher: inout Hasher) {
+//        return hasher.combine(identifier)
+//    }
+//    
+//    static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
+//        return lhs.identifier == rhs.identifier
+//    }
+//}

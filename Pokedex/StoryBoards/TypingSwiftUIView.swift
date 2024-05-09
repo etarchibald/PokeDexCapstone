@@ -14,21 +14,21 @@ struct TypingSwiftUIView: View {
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                VStack {
-                    Text("Strengths")
-                        .font(.largeTitle)
-                        
-                    LazyVGrid(columns: columns, content: {
-                        setupGrid(for: strengths)
-                    })
-                    
-                }
-                .padding()
-                .frame(width: 350)
-                .background(.gray.opacity(0.7), in: RoundedRectangle(cornerRadius: 10))
-                .shadow(radius: 5)
+//        ScrollView(.horizontal) {
+//            HStack {
+//                VStack {
+//                    Text("Strengths")
+//                        .font(.largeTitle)
+//                        
+//                    LazyVGrid(columns: columns, content: {
+//                        setupGrid(for: strengths)
+//                    })
+//                    
+//                }
+//                .padding()
+//                .frame(width: 350)
+//                .background(.gray.opacity(0.5), in: RoundedRectangle(cornerRadius: 10))
+//                .shadow(radius: 5)
                 
                 VStack {
                     Text("Weaknesses")
@@ -40,14 +40,14 @@ struct TypingSwiftUIView: View {
                 }
                 .padding()
                 .frame(width: 350)
-                .background(.gray.opacity(0.7), in: RoundedRectangle(cornerRadius: 10))
+                .background(.gray.opacity(0.5), in: RoundedRectangle(cornerRadius: 10))
                 .shadow(radius: 5)
                 
-            }
-            .scrollTargetLayout()
-        }
-        .contentMargins(10, for: .scrollContent)
-        .scrollTargetBehavior(.viewAligned)
+//            }
+//            .scrollTargetLayout()
+//        }
+//        .contentMargins(10, for: .scrollContent)
+//        .scrollTargetBehavior(.viewAligned)
         
     }
 }

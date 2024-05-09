@@ -326,6 +326,7 @@ extension PokemonDetailTableViewController: UICollectionViewDelegate, UICollecti
         }
         
         cell.background.layer.cornerRadius = 15
+        cell.background.alpha = 0.5
         
         return cell
     }

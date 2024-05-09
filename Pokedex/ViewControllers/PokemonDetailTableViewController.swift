@@ -30,9 +30,10 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var speedLabel: UILabel!
     
     // Damage relations labels
-    @IBOutlet weak var strengthsAndWeaknessesView: UIView!
+    @IBOutlet weak var strengthSwiftUIView: UIView!
     
     @IBOutlet weak var pokemonSpritesCollectionView: UICollectionView!
+    @IBOutlet weak var weaknessSwiftUIView: UIView!
     
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
@@ -65,7 +66,7 @@ class PokemonDetailTableViewController: UITableViewController {
             }
             
             setupMenu()
-            setupSwiftUIView()
+            setupStrengthSwiftUIView()
             
             saveImageData()
             setUpPokemonInfo()
@@ -221,7 +222,7 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // MARK: SwiftUIView
     
-    func setupSwiftUIView() {
+    func setupStrengthSwiftUIView() {
         let strengthAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
         var strengths: [PokemonType] = []
         for strength in strengthAPITyping {
@@ -233,22 +234,34 @@ class PokemonDetailTableViewController: UITableViewController {
             weaknesses.append(weakness.name)
         }
         
-        let strengthsView = UIHostingController(rootView: TypingSwiftUIView(strengths: strengths, weaknesses: weaknesses))
-        let strengthSwiftUIView = strengthsView.view!
+        let weaknessViewHC = UIHostingController(rootView: TypingSwiftUIView(types: weaknesses))
+        let strengthsViewHC = UIHostingController(rootView: TypingSwiftUIView(types: strengths))
+        let weaknessInnerView = weaknessViewHC.view!
+        let strengthsInnerView = strengthsViewHC.view!
         
-        strengthSwiftUIView.translatesAutoresizingMaskIntoConstraints = false
+        strengthsInnerView.translatesAutoresizingMaskIntoConstraints = false
+        weaknessInnerView.translatesAutoresizingMaskIntoConstraints = false
         
-        addChild(strengthsView)
-        strengthsAndWeaknessesView.addSubview(strengthSwiftUIView)
+        addChild(weaknessViewHC)
+        addChild(strengthsViewHC)
+        strengthSwiftUIView.addSubview(strengthsInnerView)
+        weaknessSwiftUIView.addSubview(weaknessInnerView)
         
         NSLayoutConstraint.activate([
-            strengthSwiftUIView.leadingAnchor.constraint(equalTo: strengthsAndWeaknessesView.leadingAnchor),
-            strengthSwiftUIView.topAnchor.constraint(equalTo: strengthsAndWeaknessesView.topAnchor),
-            strengthSwiftUIView.trailingAnchor.constraint(equalTo: strengthsAndWeaknessesView.trailingAnchor),
-            strengthSwiftUIView.bottomAnchor.constraint(equalTo: strengthsAndWeaknessesView.bottomAnchor)
+            strengthsInnerView.leadingAnchor.constraint(equalTo: strengthSwiftUIView.leadingAnchor),
+            strengthsInnerView.topAnchor.constraint(equalTo: strengthSwiftUIView.topAnchor),
+            strengthsInnerView.trailingAnchor.constraint(equalTo: strengthSwiftUIView.trailingAnchor),
+            strengthsInnerView.bottomAnchor.constraint(equalTo: strengthSwiftUIView.bottomAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            weaknessInnerView.leadingAnchor.constraint(equalTo: weaknessSwiftUIView.leadingAnchor),
+            weaknessInnerView.topAnchor.constraint(equalTo: weaknessSwiftUIView.topAnchor),
+            weaknessInnerView.trailingAnchor.constraint(equalTo: weaknessSwiftUIView.trailingAnchor),
+            weaknessInnerView.bottomAnchor.constraint(equalTo: weaknessSwiftUIView.bottomAnchor)
         ])
         
-        strengthsView.didMove(toParent: self)
+        strengthsViewHC.didMove(toParent: self)
+        weaknessViewHC.didMove(toParent: self)
     }
     
     // MARK: Menu Setup

@@ -109,7 +109,7 @@ class PokemonDetailTableViewController: UITableViewController {
                 let officialSprites = pokemon.sprites.other.officialArtwork
                 let homeURLs = pokemon.sprites.other.home
                 let dreamWorldURLs = pokemon.sprites.other.dreamWorld
-                let showdownURLs = pokemon.sprites.other.showdown
+//                let showdownURLs = pokemon.sprites.other.showdown
                 
                 if let frontofficialArtwork = officialSprites.frontDefault, let backArtwork = officialSprites.backDefault {
                     urls.append(frontofficialArtwork)

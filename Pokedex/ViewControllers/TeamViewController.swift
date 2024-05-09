@@ -35,7 +35,7 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
         //pass the team touched into the coder
         return PokemonTeamViewController(coder: coder, team: selectedTeam)
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newTeamSegue" {
             if let nav = segue.destination as? UINavigationController, let first = nav.viewControllers.first as? AddTeamViewController {

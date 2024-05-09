@@ -17,11 +17,11 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var pokemonTypingLabel: UILabel!
     
     // Evolution chain data labels
-//    @IBOutlet weak var previousEvolutionLabel: UILabel!
-//    @IBOutlet weak var nextEvolutionLabel: UILabel!
+    //    @IBOutlet weak var previousEvolutionLabel: UILabel!
+    //    @IBOutlet weak var nextEvolutionLabel: UILabel!
     
     // Base stats labels
-//    @IBOutlet weak var weightAndHeightLabel: UILabel!
+    //    @IBOutlet weak var weightAndHeightLabel: UILabel!
     @IBOutlet weak var hpStatLabel: UILabel!
     @IBOutlet weak var attackLabel: UILabel!
     @IBOutlet weak var defenseLabel: UILabel!
@@ -38,12 +38,14 @@ class PokemonDetailTableViewController: UITableViewController {
     var pokemonController = PokemonNetworkController.shared
     var teamController = TeamController.shared
     var storedImages: [UIImage] = []
-//    var arrayOfTypingView: [UIHostingController<TypingSwiftUIView>] = []
+    var delegate: FavoritePokemon? 
     
     // MARK: ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    
         
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
@@ -79,13 +81,23 @@ class PokemonDetailTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        20
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        0
+    }
+    
+    
+    
     // MARK: Displaying Images
     
     func saveImageData() {
         Task {
             do {
                 let spriteURLs = pokemon.sprites
-
+                
                 var urls =
                 [
                     spriteURLs.frontDefault,
@@ -97,7 +109,7 @@ class PokemonDetailTableViewController: UITableViewController {
                 let officialSprites = pokemon.sprites.other.officialArtwork
                 let homeURLs = pokemon.sprites.other.home
                 let dreamWorldURLs = pokemon.sprites.other.dreamWorld
-                let showdownURLs = pokemon.sprites.other.showdown
+//                let showdownURLs = pokemon.sprites.other.showdown
                 
                 if let frontofficialArtwork = officialSprites.frontDefault, let backArtwork = officialSprites.backDefault {
                     urls.append(frontofficialArtwork)
@@ -115,8 +127,6 @@ class PokemonDetailTableViewController: UITableViewController {
                     if let url {
                         let newImage = try await pokemonController.fetchImageData(url: url)
                         storedImages.append(newImage)
-                        print(url)
-                        print(storedImages)
                     }
                 }
             }
@@ -135,20 +145,37 @@ class PokemonDetailTableViewController: UITableViewController {
         if pokemon.isFavorited ?? false {
             pokemon.isFavorited = false
             FavoritePokemonViewController.favoritePokemon = FavoritePokemonViewController.favoritePokemon.filter { eachPokemon in
-               pokemon.name != eachPokemon.name ? true : false
+                pokemon.name != eachPokemon.name ? true : false
             }
+            delegate?.addPokemonToFavorite(pokemon: pokemon)
             PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
         } else {
             pokemon.isFavorited = true
             FavoritePokemonViewController.favoritePokemon.append(pokemon)
-            PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
+            delegate?.addPokemonToFavorite(pokemon: pokemon)
+            
+            Task {
+                do {
+                    self.pokemon = try await PokemonPersistenceController.shared.fetchInformationToSave(pokemon: pokemon)
+                    PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
+                } catch {
+                    //handle errors
+                }
+            }
+            
+            
         }
         
-        favoritedButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
+        UIView.animate(withDuration: 0.3, delay: 0, options: .autoreverse, animations: {
+            self.favoritedButton.imageView?.contentMode = self.pokemon.isFavorited ?? false ? .scaleAspectFill : .scaleAspectFit
+            UIView.transition(with: self.favoritedButton, duration: 0.375, options: .transitionCrossDissolve, animations: {
+                self.favoritedButton.setImage(UIImage(systemName: self.pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
+            }, completion: nil)
+        }, completion: nil)
     }
     
     // MARK: Setting up Labels, etc.
-        
+    
     func setUpPokemonInfo() {
         var pokemonTyping = ""
         
@@ -223,7 +250,7 @@ class PokemonDetailTableViewController: UITableViewController {
         
         strengthsView.didMove(toParent: self)
     }
-
+    
     // MARK: Menu Setup
     
     func setupMenu() {
@@ -278,7 +305,7 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
     }
-
+    
 }
 
 // MARK: CollectionView

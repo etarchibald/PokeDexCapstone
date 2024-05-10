@@ -318,17 +318,27 @@ class PokemonDetailTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let detailVC = segue.destination as? PokemonAbilitiesTableViewController {
+            let spinner = UIActivityIndicatorView(style: .large)
+            spinner.startAnimating()
+            tableView.tableHeaderView = spinner
+            
             if pokemon.abilities.first?.abilityDetails == nil {
                 Task {
                     do{
                         let pokemon = try await PokemonNetworkController.shared.fetchPokemonAbilites(pokemon: pokemon)
                         detailVC.pokemon = pokemon
+                        spinner.stopAnimating()
+                        tableView.tableHeaderView = nil
                     } catch {
                         print("Error fetching data: \(error)")
+                        spinner.stopAnimating()
+                        tableView.tableHeaderView = nil
                     }
                 }
             } else {
                 detailVC.pokemon = pokemon
+                spinner.stopAnimating()
+                tableView.tableHeaderView = nil
             }
         }
         

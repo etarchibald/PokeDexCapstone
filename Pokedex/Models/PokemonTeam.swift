@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Team: Codable {
+class Team: Codable, Equatable {
     var pokemon: [Pokemon] = []
     var id: UUID = UUID()
     var typeOfTeam: String
@@ -22,5 +22,9 @@ class Team: Codable {
         self.id = id
         self.typeOfTeam = typeOfTeam
         self.teamName = teamName
+    }
+    
+    static func == (lhs: Team, rhs: Team) -> Bool {
+        lhs.id < rhs.id
     }
 }

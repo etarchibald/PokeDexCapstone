@@ -93,5 +93,10 @@ class PokemonTableViewCell: UITableViewCell {
             }
         }
         
+        if let pokemon, let isFavorited = pokemon.isFavorited {
+            TeamController.shared.searchPokemonInTeams(pokemon)
+        }
+        
+        TeamController.saveTeams(teams: TeamController.teams)
     }
 }

@@ -30,9 +30,10 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var speedLabel: UILabel!
     
     // Damage relations labels
-    @IBOutlet weak var strengthsAndWeaknessesView: UIView!
+    @IBOutlet weak var strengthSwiftUIView: UIView!
     
     @IBOutlet weak var pokemonSpritesCollectionView: UICollectionView!
+    @IBOutlet weak var weaknessSwiftUIView: UIView!
     
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
@@ -44,8 +45,6 @@ class PokemonDetailTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-    
         
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
@@ -64,11 +63,10 @@ class PokemonDetailTableViewController: UITableViewController {
                 throw error
             }
             
-            setupMenu()
-            setupSwiftUIView()
-            
-            saveImageData()
             setUpPokemonInfo()
+            saveImageData()
+            setupStrengthsAndWeaknessesSwiftUIView()
+            
         }
     }
     
@@ -81,6 +79,22 @@ class PokemonDetailTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: TableView Overrides
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard [0, 3, 4].contains(indexPath.section) else {
+            return UITableView.automaticDimension
+        }
+        
+        if indexPath.row == 1 {
+            return 150
+        } else if indexPath.row == 0 && indexPath.section != 0 {
+            return 150
+        }
+        
+        return UITableView.automaticDimension
+    }
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         20
     }
@@ -88,8 +102,6 @@ class PokemonDetailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         0
     }
-    
-    
     
     // MARK: Displaying Images
     
@@ -221,7 +233,7 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // MARK: SwiftUIView
     
-    func setupSwiftUIView() {
+    func setupStrengthsAndWeaknessesSwiftUIView() {
         let strengthAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
         var strengths: [PokemonType] = []
         for strength in strengthAPITyping {
@@ -233,33 +245,46 @@ class PokemonDetailTableViewController: UITableViewController {
             weaknesses.append(weakness.name)
         }
         
-        let strengthsView = UIHostingController(rootView: TypingSwiftUIView(strengths: strengths, weaknesses: weaknesses))
-        let strengthSwiftUIView = strengthsView.view!
+        let weaknessViewHC = UIHostingController(rootView: TypingSwiftUIView(types: weaknesses))
+        let strengthsViewHC = UIHostingController(rootView: TypingSwiftUIView(types: strengths))
+        let weaknessInnerView = weaknessViewHC.view!
+        let strengthsInnerView = strengthsViewHC.view!
         
-        strengthSwiftUIView.translatesAutoresizingMaskIntoConstraints = false
+        strengthsInnerView.translatesAutoresizingMaskIntoConstraints = false
+        weaknessInnerView.translatesAutoresizingMaskIntoConstraints = false
         
-        addChild(strengthsView)
-        strengthsAndWeaknessesView.addSubview(strengthSwiftUIView)
+        addChild(weaknessViewHC)
+        addChild(strengthsViewHC)
+        strengthSwiftUIView.addSubview(strengthsInnerView)
+        weaknessSwiftUIView.addSubview(weaknessInnerView)
         
         NSLayoutConstraint.activate([
-            strengthSwiftUIView.leadingAnchor.constraint(equalTo: strengthsAndWeaknessesView.leadingAnchor),
-            strengthSwiftUIView.topAnchor.constraint(equalTo: strengthsAndWeaknessesView.topAnchor),
-            strengthSwiftUIView.trailingAnchor.constraint(equalTo: strengthsAndWeaknessesView.trailingAnchor),
-            strengthSwiftUIView.bottomAnchor.constraint(equalTo: strengthsAndWeaknessesView.bottomAnchor)
+            strengthsInnerView.leadingAnchor.constraint(equalTo: strengthSwiftUIView.leadingAnchor),
+            strengthsInnerView.topAnchor.constraint(equalTo: strengthSwiftUIView.topAnchor),
+            strengthsInnerView.trailingAnchor.constraint(equalTo: strengthSwiftUIView.trailingAnchor),
+            strengthsInnerView.bottomAnchor.constraint(equalTo: strengthSwiftUIView.bottomAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            weaknessInnerView.leadingAnchor.constraint(equalTo: weaknessSwiftUIView.leadingAnchor),
+            weaknessInnerView.topAnchor.constraint(equalTo: weaknessSwiftUIView.topAnchor),
+            weaknessInnerView.trailingAnchor.constraint(equalTo: weaknessSwiftUIView.trailingAnchor),
+            weaknessInnerView.bottomAnchor.constraint(equalTo: weaknessSwiftUIView.bottomAnchor)
         ])
         
-        strengthsView.didMove(toParent: self)
+        strengthsViewHC.didMove(toParent: self)
+        weaknessViewHC.didMove(toParent: self)
     }
     
     // MARK: Menu Setup
     
     func setupMenu() {
         var actions: [UIAction] = []
+        let teams = TeamController.loadTeams()
         
-        if !TeamController.teams.isEmpty {
-            if TeamController.teams.count > 3 {
+        if !teams.isEmpty {
+            if teams.count > 3 {
                 for index in 0..<3 {
-                    actions.append(UIAction(title: TeamController.teams[index].teamName) { _ in
+                    actions.append(UIAction(title: teams[index].teamName) { _ in
                         self.teamController.addPokemonToTeam(pokemon: self.pokemon, toTeam: TeamController.teams[index].id)
                     })
                 }
@@ -267,7 +292,7 @@ class PokemonDetailTableViewController: UITableViewController {
                     self.performSegue(withIdentifier: "presentModalTeams", sender: self)
                 })
             } else {
-                for team in TeamController.teams {
+                for team in teams {
                     actions.append(UIAction(title: team.teamName) { _ in
                         self.teamController.addPokemonToTeam(pokemon: self.pokemon, toTeam: team.id)
                     })
@@ -293,7 +318,18 @@ class PokemonDetailTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let detailVC = segue.destination as? PokemonAbilitiesTableViewController {
-            detailVC.pokemon = pokemon
+            if pokemon.abilities.first?.abilityDetails == nil {
+                Task {
+                    do{
+                        let pokemon = try await PokemonNetworkController.shared.fetchPokemonAbilites(pokemon: pokemon)
+                        detailVC.pokemon = pokemon
+                    } catch {
+                        print("Error fetching data: \(error)")
+                    }
+                }
+            } else {
+                detailVC.pokemon = pokemon
+            }
         }
         
         if let detailVC = segue.destination as? PokemonMovesViewController {
@@ -326,6 +362,7 @@ extension PokemonDetailTableViewController: UICollectionViewDelegate, UICollecti
         }
         
         cell.background.layer.cornerRadius = 15
+        cell.background.alpha = 0.5
         
         return cell
     }

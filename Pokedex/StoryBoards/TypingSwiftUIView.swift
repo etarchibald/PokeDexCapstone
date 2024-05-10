@@ -8,52 +8,27 @@
 import SwiftUI
 
 struct TypingSwiftUIView: View {
-    var strengths: [PokemonType]
-    var weaknesses: [PokemonType]
+    //    var strengths: [PokemonType]
+    var types: [PokemonType]
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                VStack {
-                    Text("Strengths")
-                        .font(.largeTitle)
-                        
-                    LazyVGrid(columns: columns, content: {
-                        setupGrid(for: strengths)
-                    })
-                    
-                }
-                .padding()
-                .frame(width: 350)
-                .background(.gray.opacity(0.7), in: RoundedRectangle(cornerRadius: 10))
-                .shadow(radius: 5)
-                
-                VStack {
-                    Text("Weaknesses")
-                        .font(.largeTitle)
-                    
-                    LazyVGrid(columns: columns, content: {
-                        setupGrid(for: weaknesses)
-                    })
-                }
-                .padding()
-                .frame(width: 350)
-                .background(.gray.opacity(0.7), in: RoundedRectangle(cornerRadius: 10))
-                .shadow(radius: 5)
-                
-            }
-            .scrollTargetLayout()
+        VStack {
+            LazyVGrid(columns: columns, content: {
+                setupGrid(for: types)
+            })
         }
-        .contentMargins(10, for: .scrollContent)
-        .scrollTargetBehavior(.viewAligned)
+        .padding()
+        .frame(width: 350)
+        .background(.gray.opacity(0.25), in: RoundedRectangle(cornerRadius: 10))
+        .shadow(radius: 5)
         
     }
 }
 
 #Preview {
-    TypingSwiftUIView(strengths: [.ice, .dark, .bug, .dragon, .electric, .fairy, .fighting, .fire, .ground, .flying, .ghost, .grass, .poison, .psychic, .rock, .steel, .normal], weaknesses: [.ice, .dark, .bug, .dragon, .electric, .fairy, .fighting, .fire, .ground, .flying, .ghost, .grass, .poison, .psychic, .rock, .steel, .normal] )
+    TypingSwiftUIView(types: [.ice, .dark, .bug, .dragon, .electric, .fairy, .fighting, .fire, .ground, .flying, .ghost, .grass, .poison, .psychic, .rock, .steel, .normal] )
 }
 
 //@ViewBuilder

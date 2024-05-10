@@ -18,6 +18,17 @@ class FavoritePokemonViewController: UIViewController {
         super.viewDidLoad()
         
         //load favorite Pokemon and put in pokemon
+        setUpCollectionView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        //load favorite pokemon and put in pokemon
+        collectionView.reloadData()
+    }
+    
+    
+    func setUpCollectionView() {
         self.collectionView.register(UINib(nibName: "PokemonCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "favoritePokemonCell")
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -32,12 +43,6 @@ class FavoritePokemonViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         
         collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-        //load favorite pokemon and put in pokemon
-        collectionView.reloadData()
     }
     
     @IBSegueAction func showDetailSegue(_ coder: NSCoder) -> UIViewController? {

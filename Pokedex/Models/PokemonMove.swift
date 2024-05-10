@@ -45,10 +45,10 @@ struct PokemonMove: Codable {
         moveDetail?.type.name
     }
     var levelLearnedAt: Int? {
-        version_group_details.first!.level_learned_at
+        version_group_details.last?.level_learned_at
     }
     var moveLearnedMethod: String? {
-        version_group_details.first!.move_learn_method.name
+        version_group_details.last?.move_learn_method.name
     }
 }
 

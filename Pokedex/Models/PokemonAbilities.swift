@@ -23,7 +23,12 @@ struct PokemonAbilities: Codable {
         return ""
     }
     var flavorText: String? {
-        abilityDetails?.flavorTextEntries.first?.flavor_text ?? ""
+        for each in abilityDetails!.flavorTextEntries {
+            if each.language.name == "en" {
+                return each.flavor_text
+            }
+        }
+        return ""
     }
 }
 
@@ -44,4 +49,5 @@ struct AbilityDetails: Codable {
 
 struct FlavorTextEntries: Codable {
     var flavor_text: String
+    var language: Language
 }

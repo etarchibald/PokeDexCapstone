@@ -29,7 +29,7 @@ class TeamController {
         let jsonDecoder = JSONDecoder()
         do {
             let retrievedTeamsData = try Data(contentsOf: teamArchiveURL)
-            let decodedTeams = try jsonDecoder.decode(Array<Team>.self, from: retrievedTeamsData)
+            let decodedTeams = try jsonDecoder.decode([Team].self, from: retrievedTeamsData)
             return decodedTeams
         } catch {
             print("errorLoadingTeams: \(error)")
@@ -56,6 +56,17 @@ class TeamController {
     
     func deletePokemonFromTeam(pokemon: Pokemon, fromTeam team: Team) {
         TeamController.teams.first(where: { $0.id == team.id })?.pokemon.removeAll(where: { $0.id == pokemon.id })
+    }
+    
+    func searchPokemonInTeams(_ pokemon: Pokemon) {
+        ////figure out better way later if possible
+        for (teamIndex, eachTeam) in TeamController.teams.enumerated() {
+            for (index, eachPokemon) in eachTeam.pokemon.enumerated() {
+                if eachPokemon.id == pokemon.id {
+                    TeamController.teams[teamIndex].pokemon[index] = pokemon
+                }
+            }
+        }
     }
 }
 

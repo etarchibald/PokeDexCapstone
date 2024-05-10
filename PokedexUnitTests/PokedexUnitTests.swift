@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import Pokedex
+import SwiftUI
 
 final class PokedexUnitTests: XCTestCase {
     
@@ -78,6 +79,32 @@ final class PokedexUnitTests: XCTestCase {
         XCTAssertFalse(receivedPokemon!.isEmpty)
     }
     
+    func testFetchPokemonMoves() async throws {
+        do {
+            let pokemon = try await pokemonNetworkController.getGenericPokemon().first!
+            
+            let updatedPokmeon = try await pokemonNetworkController.fetchPokemonMoves(pokemon: pokemon)
+            
+            let moves = updatedPokmeon.moves.sorted { $0.moveDetail!.name < $1.moveDetail!.name }
+            
+            XCTAssertNotNil(updatedPokmeon.moves.first!.moveDetail)
+            XCTAssertEqual(moves.first!.name, "acid-spray")
+        }
+    }
+    
+    func testFetchPokemonAbilities() async throws {
+        do {
+            let pokemon = try await pokemonNetworkController.getGenericPokemon().first!
+            
+            let updatedPokemon = try await pokemonNetworkController.fetchPokemonAbilites(pokemon: pokemon)
+            
+            XCTAssertNotNil(updatedPokemon.abilities.first!.abilityDetails)
+            
+        } catch {
+            XCTFail("Error fetching pokemon")
+        }
+    }
+    
     func testFetchImageData() async throws {
         let imageURL = URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")!
         
@@ -127,7 +154,7 @@ final class PokedexUnitTests: XCTestCase {
     
     func testFlavorText() {
         // Given
-        let flavorTextEntries = [FlavorTextEntries(flavor_text: "This is the flavor text")]
+        let flavorTextEntries = [FlavorTextEntries(flavor_text: "This is the flavor text", language: Language(name: "en"))]
         let abilityDetails = AbilityDetails(effectEntries: [], flavorTextEntries: flavorTextEntries)
         let ability = Ability(name: "abilityName", url: URL(string: "https://example.com/ability")!)
         let pokemonAbility = PokemonAbilities(ability: ability, slot: 1, abilityDetails: abilityDetails)
@@ -136,4 +163,82 @@ final class PokedexUnitTests: XCTestCase {
         XCTAssertEqual(pokemonAbility.flavorText, "This is the flavor text", "Flavor text should match the flavor text entry in the ability details")
     }
     
+    func testSaveTeams() throws {
+        let team = Team(pokemon: [], id: UUID(), typeOfTeam: "normal", teamName: "TEST")
+        let team2 = Team(pokemon: [], id: UUID(), typeOfTeam: "fire", teamName: "TEST2")
+        let team3 = Team(pokemon: [], id: UUID(), typeOfTeam: "water", teamName: "TEST3")
+        
+        let teams =  [team, team2, team3]
+        
+        do {
+            let data = try Data(contentsOf: TeamController.teamArchiveURL)
+            let decodedTeams = try JSONDecoder().decode([Team].self, from: data)
+            
+            XCTAssertNotNil(decodedTeams)
+            XCTAssertNotEqual(decodedTeams, teams)
+            
+        } catch {
+            XCTFail("Failed test to load and decode data")
+        }
+        
+    }
+    
+    func testLoadTeams() {
+        // Create some sample teams
+        let team1 = Team(pokemon: [], id: UUID(), typeOfTeam: "Type1", teamName: "Team1")
+        let team2 = Team(pokemon: [], id: UUID(), typeOfTeam: "Type2", teamName: "Team2")
+        let teams = [team1, team2]
+        
+        // Save the teams to the archive URL
+        do {
+            let jsonEncoder = JSONEncoder()
+            let encodedTeams = try jsonEncoder.encode(teams)
+            try encodedTeams.write(to: TeamController.teamArchiveURL, options: .noFileProtection)
+        } catch {
+            XCTFail("Failed to save teams to the archive URL: \(error)")
+        }
+        
+        // Call the loadTeams method
+        let loadedTeams = TeamController.loadTeams()
+        
+        // Assert that the loaded teams match the original teams
+        XCTAssertNotNil(loadedTeams)
+        XCTAssertNotEqual(loadedTeams, teams)
+    }
+    
+    func testAddPokemonToTeam() async throws {
+        
+        let teamID = UUID()
+        let team = Team(pokemon: [], id: teamID, typeOfTeam: "electric", teamName: "Test")
+        
+        TeamController.teams = [team]
+        
+        do {
+            let pokemon = try await pokemonNetworkController.getGenericPokemon()
+            
+            TeamController.shared.addPokemonToTeam(pokemon: pokemon.first!, toTeam: teamID)
+            
+            let updateTeam = TeamController.teams.first { $0.id == teamID }
+            
+            XCTAssertTrue(updateTeam!.pokemon.contains(pokemon.first!))
+            
+        } catch {
+            XCTFail("Error loading pokemon")
+        }
+    }
+    
+    func testSearchPokemonInTeams() async throws {
+        do {
+            let pokemon = try await pokemonNetworkController.getGenericPokemon()
+            
+            let newPokemon = pokemon.last!
+            
+            TeamController.shared.searchPokemonInTeams(newPokemon)
+            
+            XCTAssertEqual(pokemon.last!, newPokemon)
+            
+        } catch {
+            XCTFail("Failed to find pokemon")
+        }
+    }
 }

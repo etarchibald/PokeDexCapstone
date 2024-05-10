@@ -68,7 +68,7 @@ class PokemonMovesViewController: UIViewController {
         collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
     
-    private func filterPokemonMoves(sender: UISegmentedControl) -> [PokemonMove] {
+    func filterPokemonMoves(sender: UISegmentedControl) -> [PokemonMove] {
         
         switch sender.selectedSegmentIndex {
         case 0:

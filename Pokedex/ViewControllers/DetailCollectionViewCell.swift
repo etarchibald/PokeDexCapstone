@@ -10,4 +10,6 @@ import UIKit
 class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var background: UIView!
     @IBOutlet weak var pokemonSpriteImageView: UIImageView!
+    
+    
 }

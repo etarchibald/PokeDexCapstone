@@ -318,7 +318,18 @@ class PokemonDetailTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let detailVC = segue.destination as? PokemonAbilitiesTableViewController {
-            detailVC.pokemon = pokemon
+            if pokemon.abilities.first?.abilityDetails == nil {
+                Task {
+                    do{
+                        let pokemon = try await PokemonNetworkController.shared.fetchPokemonAbilites(pokemon: pokemon)
+                        detailVC.pokemon = pokemon
+                    } catch {
+                        print("Error fetching data: \(error)")
+                    }
+                }
+            } else {
+                detailVC.pokemon = pokemon
+            }
         }
         
         if let detailVC = segue.destination as? PokemonMovesViewController {

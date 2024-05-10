@@ -8,43 +8,21 @@
 import SwiftUI
 
 struct TypingSwiftUIView: View {
-//    var strengths: [PokemonType]
+    //    var strengths: [PokemonType]
     var types: [PokemonType]
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
-//        ScrollView(.horizontal) {
-//            HStack {
-//                VStack {
-//                    Text("Strengths")
-//                        .font(.largeTitle)
-//                        
-//                    LazyVGrid(columns: columns, content: {
-//                        setupGrid(for: strengths)
-//                    })
-//                    
-//                }
-//                .padding()
-//                .frame(width: 350)
-//                .background(.gray.opacity(0.5), in: RoundedRectangle(cornerRadius: 10))
-//                .shadow(radius: 5)
-                
-                VStack {
-                    LazyVGrid(columns: columns, content: {
-                        setupGrid(for: types)
-                    })
-                }
-                .padding()
-                .frame(width: 350)
-                .background(.gray.opacity(0.5), in: RoundedRectangle(cornerRadius: 10))
-                .shadow(radius: 5)
-                
-//            }
-//            .scrollTargetLayout()
-//        }
-//        .contentMargins(10, for: .scrollContent)
-//        .scrollTargetBehavior(.viewAligned)
+        VStack {
+            LazyVGrid(columns: columns, content: {
+                setupGrid(for: types)
+            })
+        }
+        .padding()
+        .frame(width: 350)
+        .background(.gray.opacity(0.25), in: RoundedRectangle(cornerRadius: 10))
+        .shadow(radius: 5)
         
     }
 }

@@ -46,8 +46,6 @@ class PokemonDetailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
-        
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
@@ -65,11 +63,10 @@ class PokemonDetailTableViewController: UITableViewController {
                 throw error
             }
             
-            setupMenu()
-            setupStrengthSwiftUIView()
-            
-            saveImageData()
             setUpPokemonInfo()
+            saveImageData()
+            setupStrengthsAndWeaknessesSwiftUIView()
+            
         }
     }
     
@@ -82,6 +79,22 @@ class PokemonDetailTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: TableView Overrides
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard [0, 3, 4].contains(indexPath.section) else {
+            return UITableView.automaticDimension
+        }
+        
+        if indexPath.row == 1 {
+            return 150
+        } else if indexPath.row == 0 && indexPath.section != 0 {
+            return 150
+        }
+        
+        return UITableView.automaticDimension
+    }
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         20
     }
@@ -89,8 +102,6 @@ class PokemonDetailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         0
     }
-    
-    
     
     // MARK: Displaying Images
     
@@ -222,7 +233,7 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // MARK: SwiftUIView
     
-    func setupStrengthSwiftUIView() {
+    func setupStrengthsAndWeaknessesSwiftUIView() {
         let strengthAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
         var strengths: [PokemonType] = []
         for strength in strengthAPITyping {
@@ -268,11 +279,12 @@ class PokemonDetailTableViewController: UITableViewController {
     
     func setupMenu() {
         var actions: [UIAction] = []
+        let teams = TeamController.loadTeams()
         
-        if !TeamController.teams.isEmpty {
-            if TeamController.teams.count > 3 {
+        if !teams.isEmpty {
+            if teams.count > 3 {
                 for index in 0..<3 {
-                    actions.append(UIAction(title: TeamController.teams[index].teamName) { _ in
+                    actions.append(UIAction(title: teams[index].teamName) { _ in
                         self.teamController.addPokemonToTeam(pokemon: self.pokemon, toTeam: TeamController.teams[index].id)
                     })
                 }
@@ -280,7 +292,7 @@ class PokemonDetailTableViewController: UITableViewController {
                     self.performSegue(withIdentifier: "presentModalTeams", sender: self)
                 })
             } else {
-                for team in TeamController.teams {
+                for team in teams {
                     actions.append(UIAction(title: team.teamName) { _ in
                         self.teamController.addPokemonToTeam(pokemon: self.pokemon, toTeam: team.id)
                     })

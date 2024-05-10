@@ -72,14 +72,14 @@ struct MovesDetailSwiftUIView: View {
                     }
                     
                     VStack {
-                        Text("\(move.pp!)")
+                        Text("\(move.pp ?? 25)")
                             .font(.title2)
                         Text("PP")
                             .foregroundStyle(typeColor)
                     }
                     
                     VStack {
-                        Text("\(move.priority!)")
+                        Text("\(move.priority ?? 0)")
                             .font(.title2)
                         Text("Priority")
                             .foregroundStyle(typeColor)

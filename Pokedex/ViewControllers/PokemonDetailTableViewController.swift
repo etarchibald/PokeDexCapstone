@@ -22,6 +22,14 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // Base stats labels
     //    @IBOutlet weak var weightAndHeightLabel: UILabel!
+    
+    @IBOutlet weak var hpProgressBar: CustomProgressBar!
+    @IBOutlet weak var attackProgressBar: CustomProgressBar!
+    @IBOutlet weak var defenseProgressBar: CustomProgressBar!
+    @IBOutlet weak var spAttackProgressBar: CustomProgressBar!
+    @IBOutlet weak var spDefenseProgressBar: CustomProgressBar!
+    @IBOutlet weak var speedProgressBar: CustomProgressBar!
+    
     @IBOutlet weak var hpStatLabel: UILabel!
     @IBOutlet weak var attackLabel: UILabel!
     @IBOutlet weak var defenseLabel: UILabel!
@@ -82,12 +90,14 @@ class PokemonDetailTableViewController: UITableViewController {
     // MARK: TableView Overrides
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard [0, 3, 4].contains(indexPath.section) else {
+        guard [0, 2,  3, 4].contains(indexPath.section) else {
             return UITableView.automaticDimension
         }
         
         if indexPath.row == 1 {
             return 150
+        } else if indexPath.section == 2 && indexPath.row == 0 {
+            return 220
         } else if indexPath.row == 0 && indexPath.section != 0 {
             return 150
         }
@@ -213,17 +223,23 @@ class PokemonDetailTableViewController: UITableViewController {
             let statDataToAppend = String(stat.base_stat)
             switch stat.stat.name {
             case "hp":
-                hpStatLabel.text! += " \(statDataToAppend)"
+                hpStatLabel.text! = " \(statDataToAppend)"
+                hpProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             case "attack":
-                attackLabel.text! += " \(statDataToAppend)"
+                attackLabel.text! = " \(statDataToAppend)"
+                attackProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             case "defense":
-                defenseLabel.text! += " \(statDataToAppend)"
+                defenseLabel.text! = " \(statDataToAppend)"
+                defenseProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             case "special-attack":
-                specialAttackLabel.text! += " \(statDataToAppend)"
+                specialAttackLabel.text! = " \(statDataToAppend)"
+                spAttackProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             case "special-defense":
-                specialDefenseLabel.text! += " \(statDataToAppend)"
+                specialDefenseLabel.text! = " \(statDataToAppend)"
+                spDefenseProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             case "speed":
-                speedLabel.text! += " \(statDataToAppend)"
+                speedLabel.text! = " \(statDataToAppend)"
+                speedProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             default:
                 break
             }

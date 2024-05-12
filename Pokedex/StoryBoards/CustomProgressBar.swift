@@ -9,9 +9,10 @@ import UIKit
 
 class CustomProgressBar: UIView {
     private let progressView = UIView()
-    private var progress: CGFloat = 0.0 {
+    var progress: CGFloat = 0.0 {
         didSet {
             updateProgress()
+            updateProgressColor()
         }
     }
 
@@ -26,8 +27,8 @@ class CustomProgressBar: UIView {
     }
     
     private func setupProgressBar() {
-        backgroundColor = .lightGray
-        progressView.backgroundColor = .blue
+        backgroundColor = .gray.withAlphaComponent(0.35)
+        progressView.backgroundColor = .red
         
         addSubview(progressView)
     }
@@ -43,6 +44,19 @@ class CustomProgressBar: UIView {
         progress = min(max(value, 0), 255)
     }
     
+    private func updateProgressColor() {
+            if progress < 15 {
+                progressView.backgroundColor = .red
+            } else if progress <= 90 {
+                progressView.backgroundColor = .yellow
+            } else if progress <= 120 {
+                progressView.backgroundColor = UIColor(red: 144/255, green: 238/255, blue: 144/255, alpha: 1.0) // Light green
+            } else if progress <= 150 {
+                progressView.backgroundColor = .green
+            } else {
+                progressView.backgroundColor = UIColor(red: 64/255, green: 224/255, blue: 208/255, alpha: 1.0) // Turquoise
+            }
+        }
     
     
     

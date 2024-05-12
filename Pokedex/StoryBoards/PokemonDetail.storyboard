@@ -328,17 +328,17 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rnh-zJ-6i4">
-                                                    <rect key="frame" x="0.0" y="3" width="393" height="89"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="393" height="95"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="rnh-zJ-6i4" secondAttribute="bottom" constant="-8" id="EGx-tC-cBh"/>
-                                                <constraint firstAttribute="trailing" secondItem="rnh-zJ-6i4" secondAttribute="trailing" id="EvL-P6-wtP"/>
-                                                <constraint firstItem="rnh-zJ-6i4" firstAttribute="top" secondItem="fI9-wg-5gV" secondAttribute="topMargin" constant="-8" id="JVw-Oa-r6K"/>
-                                                <constraint firstItem="rnh-zJ-6i4" firstAttribute="centerX" secondItem="fI9-wg-5gV" secondAttribute="centerX" id="b5L-X6-Grc"/>
-                                                <constraint firstItem="rnh-zJ-6i4" firstAttribute="centerY" secondItem="fI9-wg-5gV" secondAttribute="centerY" id="hdu-8Z-X4i"/>
-                                                <constraint firstItem="rnh-zJ-6i4" firstAttribute="leading" secondItem="fI9-wg-5gV" secondAttribute="leading" id="pqs-QQ-8r7"/>
+                                                <constraint firstItem="rnh-zJ-6i4" firstAttribute="centerY" secondItem="fI9-wg-5gV" secondAttribute="centerY" id="A45-tC-BDP"/>
+                                                <constraint firstItem="rnh-zJ-6i4" firstAttribute="top" secondItem="fI9-wg-5gV" secondAttribute="top" id="bBZ-xs-C6X"/>
+                                                <constraint firstItem="rnh-zJ-6i4" firstAttribute="leading" secondItem="fI9-wg-5gV" secondAttribute="leading" id="eYA-A9-XGs"/>
+                                                <constraint firstAttribute="bottom" secondItem="rnh-zJ-6i4" secondAttribute="bottom" id="jaF-1g-Qrp"/>
+                                                <constraint firstAttribute="trailing" secondItem="rnh-zJ-6i4" secondAttribute="trailing" id="oLQ-fd-vxH"/>
+                                                <constraint firstItem="rnh-zJ-6i4" firstAttribute="centerX" secondItem="fI9-wg-5gV" secondAttribute="centerX" id="rXg-Od-PHm"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -359,12 +359,12 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="ZLQ-3o-UdR" secondAttribute="bottom" id="C69-iW-RO0"/>
-                                                <constraint firstItem="ZLQ-3o-UdR" firstAttribute="centerX" secondItem="CPW-dc-cUD" secondAttribute="centerX" id="FAr-NK-VAT"/>
-                                                <constraint firstAttribute="trailing" secondItem="ZLQ-3o-UdR" secondAttribute="trailing" id="SaN-d3-xkZ"/>
-                                                <constraint firstItem="ZLQ-3o-UdR" firstAttribute="top" secondItem="CPW-dc-cUD" secondAttribute="top" id="kYD-ky-Nwu"/>
-                                                <constraint firstItem="ZLQ-3o-UdR" firstAttribute="centerY" secondItem="CPW-dc-cUD" secondAttribute="centerY" id="q2o-ra-o62"/>
-                                                <constraint firstItem="ZLQ-3o-UdR" firstAttribute="leading" secondItem="CPW-dc-cUD" secondAttribute="leading" id="ycD-rH-ClU"/>
+                                                <constraint firstItem="ZLQ-3o-UdR" firstAttribute="centerY" secondItem="CPW-dc-cUD" secondAttribute="centerY" id="7Xg-A9-k5G"/>
+                                                <constraint firstItem="ZLQ-3o-UdR" firstAttribute="leading" secondItem="CPW-dc-cUD" secondAttribute="leading" id="9Ko-K9-9gW"/>
+                                                <constraint firstAttribute="bottom" secondItem="ZLQ-3o-UdR" secondAttribute="bottom" id="Aju-Wu-Y68"/>
+                                                <constraint firstItem="ZLQ-3o-UdR" firstAttribute="top" secondItem="CPW-dc-cUD" secondAttribute="top" id="DJc-in-d80"/>
+                                                <constraint firstItem="ZLQ-3o-UdR" firstAttribute="centerX" secondItem="CPW-dc-cUD" secondAttribute="centerX" id="FYs-MC-2Lk"/>
+                                                <constraint firstAttribute="trailing" secondItem="ZLQ-3o-UdR" secondAttribute="trailing" id="inV-uN-HK2"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -379,7 +379,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="184"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQ4-hT-0X8">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQ4-hT-0X8">
                                                     <rect key="frame" x="157" y="42" width="110" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="CVv-ys-XoD"/>
@@ -391,7 +391,7 @@
                                                         <segue destination="FBo-qb-Fpg" kind="show" identifier="moveToAbilites" id="HP0-Mt-Yum"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ssM-59-EkJ">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ssM-59-EkJ">
                                                     <rect key="frame" x="157" y="102" width="110" height="40.000000000000014"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="110" id="MLp-Sd-tim"/>

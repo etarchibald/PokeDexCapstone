@@ -57,6 +57,8 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,6 +77,7 @@ class PokemonDetailTableViewController: UITableViewController {
             saveImageData()
             setupStrengthsAndWeaknessesSwiftUIView()
             
+            staticTableView.reloadData()
         }
     }
     
@@ -94,19 +97,28 @@ class PokemonDetailTableViewController: UITableViewController {
             return UITableView.automaticDimension
         }
         
-        if indexPath.row == 1 {
-            return 150
-        } else if indexPath.section == 2 && indexPath.row == 0 {
-            return 220
-        } else if indexPath.row == 0 && indexPath.section != 0 {
-            return 150
+        switch indexPath.section {
+        case 0:
+            if indexPath.row == 1 {
+                return 150
+            }
+        case 2:
+            if indexPath.row == 0 {
+                return 220
+            }
+        case 3:
+            return UITableView.automaticDimension
+        case 4:
+            return UITableView.automaticDimension
+        default:
+            return UITableView.automaticDimension
         }
         
         return UITableView.automaticDimension
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        20
+        17
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -280,6 +292,7 @@ class PokemonDetailTableViewController: UITableViewController {
             strengthsInnerView.trailingAnchor.constraint(equalTo: strengthSwiftUIView.trailingAnchor),
             strengthsInnerView.bottomAnchor.constraint(equalTo: strengthSwiftUIView.bottomAnchor)
         ])
+        
         NSLayoutConstraint.activate([
             weaknessInnerView.leadingAnchor.constraint(equalTo: weaknessSwiftUIView.leadingAnchor),
             weaknessInnerView.topAnchor.constraint(equalTo: weaknessSwiftUIView.topAnchor),
@@ -289,6 +302,12 @@ class PokemonDetailTableViewController: UITableViewController {
         
         strengthsViewHC.didMove(toParent: self)
         weaknessViewHC.didMove(toParent: self)
+        
+        strengthsViewHC.sizingOptions = [.intrinsicContentSize]
+        weaknessViewHC.sizingOptions = [.intrinsicContentSize]
+        
+        strengthsViewHC.view.layoutIfNeeded()
+        weaknessViewHC.view.layoutIfNeeded()
     }
     
     // MARK: Menu Setup

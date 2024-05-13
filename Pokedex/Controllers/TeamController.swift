@@ -63,7 +63,7 @@ class TeamController {
         for (teamIndex, eachTeam) in TeamController.teams.enumerated() {
             for (index, eachPokemon) in eachTeam.pokemon.enumerated() {
                 if eachPokemon.id == pokemon.id {
-                    TeamController.teams[teamIndex].pokemon[index] = pokemon
+                    TeamController.teams[teamIndex].pokemon[index].isFavorited = pokemon.isFavorited!
                 }
             }
         }

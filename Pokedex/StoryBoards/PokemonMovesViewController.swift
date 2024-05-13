@@ -72,11 +72,23 @@ class PokemonMovesViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
         case 0:
-            return pokemonMoves.sorted { $0.levelLearnedAt! > $1.levelLearnedAt! }
+            return pokemonMoves.sorted { (move1, move2) in
+                if move1.levelLearnedAt == move2.levelLearnedAt {
+                    return move1.name! < move2.name!
+                } else {
+                    return move1.levelLearnedAt! > move2.levelLearnedAt!
+                }
+            }
         case 1:
             return pokemonMoves.sorted { $0.moveDetail!.name < $1.moveDetail!.name }
         case 2:
-            return pokemonMoves.sorted { $0.moveDetail!.type.name.rawValue < $1.moveDetail!.type.name.rawValue }
+            return pokemonMoves.sorted {(move1, move2) in
+                if move1.moveDetail?.type.name == move2.moveDetail?.type.name {
+                    return move1.name! < move2.name!
+                } else {
+                    return move1.moveDetail!.type.name.rawValue < move2.moveDetail!.type.name.rawValue
+                }
+            }
         case 3:
             return pokemonMoves.sorted { $0.moveDetail!.power ?? 0 > $1.moveDetail!.power ?? 0 }
         default:

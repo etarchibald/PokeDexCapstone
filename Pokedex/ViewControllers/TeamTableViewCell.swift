@@ -73,6 +73,8 @@ class TeamTableViewCell: UITableViewCell {
             let xOffset = CGFloat(index) * (gradientWidth + gradientSpacing) // Adjust the width and spacing as needed
             gradient.frame = CGRect(x: xOffset, y: 0, width: gradientWidth, height: typeBackgroundView.bounds.height)
             
+            gradient.cornerRadius = 5
+            
             typeBackgroundView.clipsToBounds = false
             typeBackgroundView.layer.cornerRadius = 10
             typeBackgroundView.layer.addSublayer(gradient)

@@ -67,7 +67,7 @@ class PokemonDetailTableViewController: UITableViewController {
         Task {
             do {
                 pokemon = try await PokemonNetworkController.shared.fetchDetailInformation(pokemon: pokemon)
-                print(pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? "ERROR")
+//                print(pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? "ERROR")
             } catch {
                 //present alert
                 print(error)
@@ -259,22 +259,69 @@ class PokemonDetailTableViewController: UITableViewController {
         
     }
     
-    // MARK: SwiftUIView
+    // MARK: SwiftUIView & Related Func
     
-    func setupStrengthsAndWeaknessesSwiftUIView() {
-        let strengthAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
+    func setupStrengthsAndWeaknesses() -> [[PokemonType]] {
+        let strengthAPITyping = pokemon.firstTypeDamageRelations?.damageRelations.doubleDamageTo ?? []
+        let secondaryTypeStrength = pokemon.secondTypeDamageRelations?.damageRelations.doubleDamageTo ?? []
         var strengths: [PokemonType] = []
-        for strength in strengthAPITyping {
-            strengths.append(strength.name)
-        }
-        let weaknessesAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
-        var weaknesses: [PokemonType] = []
-        for weakness in weaknessesAPITyping {
-            weaknesses.append(weakness.name)
+        
+        if pokemon.primaryType != pokemon.secondaryType {
+            for strength in secondaryTypeStrength {
+                strengths.append(strength.name)
+            }
         }
         
-        let weaknessViewHC = UIHostingController(rootView: TypingSwiftUIView(types: weaknesses))
-        let strengthsViewHC = UIHostingController(rootView: TypingSwiftUIView(types: strengths))
+        for strength in strengthAPITyping {
+            if !strengths.contains(strength.name) {
+                strengths.append(strength.name)
+            }
+            
+        }
+        
+        let weaknessesAPITyping = pokemon.firstTypeDamageRelations?.damageRelations.doubleDamageFrom ?? []
+        let secondaryTypeWeaknesses = pokemon.secondTypeDamageRelations?.damageRelations.doubleDamageFrom ?? []
+        var weaknesses: [PokemonType] = []
+        
+        if pokemon.primaryType != pokemon.secondaryType {
+            for weakness in secondaryTypeWeaknesses {
+                weaknesses.append(weakness.name)
+            }
+        }
+        
+        for weakness in weaknessesAPITyping {
+            if !weaknesses.contains(weakness.name) {
+                weaknesses.append(weakness.name)
+            }
+        }
+        
+        var modifiedWeaknesses = weaknesses
+        var modifiedStrengths = strengths
+        
+        for weakness in weaknesses {
+            if strengths.contains(weakness) || weakness == pokemon.primaryType || weakness == pokemon.secondaryType {
+                modifiedStrengths.removeAll(where: {$0 == weakness})
+                modifiedWeaknesses.removeAll(where: {$0 == weakness})
+            }
+        }
+        
+        for strength in strengths {
+            if weaknesses.contains(strength) || strength == pokemon.primaryType || strength == pokemon.secondaryType {
+                modifiedStrengths.removeAll(where: {$0 == strength})
+                modifiedWeaknesses.removeAll(where: {$0 == strength})
+            }
+        }
+        
+        return [modifiedStrengths, modifiedWeaknesses]
+    }
+    
+    
+    func setupStrengthsAndWeaknessesSwiftUIView() {
+        
+        let arrayOfArrayOfTypes = setupStrengthsAndWeaknesses()
+        
+        let weaknessViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[1]))
+        let strengthsViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[0]))
         let weaknessInnerView = weaknessViewHC.view!
         let strengthsInnerView = strengthsViewHC.view!
         

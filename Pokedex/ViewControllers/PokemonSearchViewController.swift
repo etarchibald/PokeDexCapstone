@@ -189,13 +189,12 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                 
                 let arrayOfGenPokemon = searchedGenPokemonResults.splitIntoEqualParts(numberOfParts: searchedGenPokemonResults.count / 10)
                 
-                let pokemonToAdd = [Pokemon]()
+                var pokemonToAdd = [Pokemon]()
                 self.pokemon = pokemonToAdd
                 
                 for batchArray in arrayOfGenPokemon {
-                    print(batchArray.count)
                     Task {
-                        let pokemonToAdd = await PokemonNetworkController.shared.fetchGenerationBatch(genBatch: batchArray)
+                        pokemonToAdd = await PokemonNetworkController.shared.fetchGenerationBatch(genBatch: batchArray)
                         
                         spinner.stopAnimating()
                         self.tableView.tableHeaderView = nil

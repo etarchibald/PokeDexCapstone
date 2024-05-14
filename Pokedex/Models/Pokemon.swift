@@ -27,7 +27,10 @@ class Pokemon: Codable, Identifiable, Hashable {
     //weight in hectograms according to the API
     var weight: Int
     
-    var damageRelations: PokemonDamageRelations?
+    var firstTypeDamageRelations: PokemonDamageRelations?
+    
+    var secondTypeDamageRelations: PokemonDamageRelations?
+    
     var species: PokemonSpecies?
     var evolutionChain: PokemonEvolution?
     var moves: [PokemonMove]
@@ -45,7 +48,8 @@ class Pokemon: Codable, Identifiable, Hashable {
         self.stats = try container.decode([Stats].self, forKey: .stats)
         self.height = try container.decode(Int.self, forKey: .height)
         self.weight = try container.decode(Int.self, forKey: .weight)
-        self.damageRelations = try container.decodeIfPresent(PokemonDamageRelations.self, forKey: .damageRelations)
+        self.firstTypeDamageRelations = try container.decodeIfPresent(PokemonDamageRelations.self, forKey: .damageRelations)
+        self.secondTypeDamageRelations = try container.decodeIfPresent(PokemonDamageRelations.self, forKey: .damageRelations)
         self.species = try container.decodeIfPresent(PokemonSpecies.self, forKey: .species)
         self.evolutionChain = try container.decodeIfPresent(PokemonEvolution.self, forKey: .evolutionChain)
         self.moves = try container.decode([PokemonMove].self, forKey: .moves)

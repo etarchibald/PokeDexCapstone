@@ -173,11 +173,11 @@ class PokemonNetworkController {
     }
     
     func fetchDetailInformation(pokemon: Pokemon) async throws -> Pokemon {
-        var newPokemon = pokemon
+        let newPokemon = pokemon
         
         do {
-            newPokemon.damageRelations = try await fetchPokemonDamageRelations(type: newPokemon.primaryType ?? .normal)
-            newPokemon.damageRelations = try await fetchPokemonDamageRelations(type: newPokemon.secondaryType ?? .normal)
+            newPokemon.firstTypeDamageRelations = try await fetchPokemonDamageRelations(type: newPokemon.primaryType!)
+            newPokemon.secondTypeDamageRelations = try await fetchPokemonDamageRelations(type: newPokemon.secondaryType!)
         } catch {
             throw error
         }

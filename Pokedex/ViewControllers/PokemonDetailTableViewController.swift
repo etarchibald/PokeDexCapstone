@@ -21,7 +21,8 @@ class PokemonDetailTableViewController: UITableViewController {
     //    @IBOutlet weak var nextEvolutionLabel: UILabel!
     
     // Base stats labels
-    //    @IBOutlet weak var weightAndHeightLabel: UILabel!
+//    @IBOutlet weak var heightLabel: UILabel!
+//    @IBOutlet weak var weightLabel: UILabel!
     
     @IBOutlet weak var hpProgressBar: CustomProgressBar!
     @IBOutlet weak var attackProgressBar: CustomProgressBar!
@@ -106,10 +107,6 @@ class PokemonDetailTableViewController: UITableViewController {
             if indexPath.row == 0 {
                 return 220
             }
-        case 3:
-            return UITableView.automaticDimension
-        case 4:
-            return UITableView.automaticDimension
         default:
             return UITableView.automaticDimension
         }
@@ -118,7 +115,7 @@ class PokemonDetailTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        17
+        20
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -229,6 +226,9 @@ class PokemonDetailTableViewController: UITableViewController {
             pokemonTypingLabel.text = "\(pokemonTyping) Type Pokemon"
         }
         
+//        weightLabel.text = "\(pokemon.weight * 10) Kilograms "
+//        heightLabel.text = "\(pokemon.height * 10) Meters "
+        
         pokemonNameLabel.text = pokemon.name.capitalized
         
         for stat in pokemon.stats {
@@ -300,14 +300,12 @@ class PokemonDetailTableViewController: UITableViewController {
             weaknessInnerView.bottomAnchor.constraint(equalTo: weaknessSwiftUIView.bottomAnchor)
         ])
         
-        strengthsViewHC.didMove(toParent: self)
-        weaknessViewHC.didMove(toParent: self)
-        
         strengthsViewHC.sizingOptions = [.intrinsicContentSize]
         weaknessViewHC.sizingOptions = [.intrinsicContentSize]
         
-        strengthsViewHC.view.layoutIfNeeded()
-        weaknessViewHC.view.layoutIfNeeded()
+        strengthsViewHC.didMove(toParent: self)
+        weaknessViewHC.didMove(toParent: self)
+        
     }
     
     // MARK: Menu Setup

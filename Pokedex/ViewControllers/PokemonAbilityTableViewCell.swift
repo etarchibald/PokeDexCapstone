@@ -16,12 +16,13 @@ class PokemonAbilityTableViewCell: UITableViewCell {
     @IBOutlet weak var effectBackgroundView: UIView!
     @IBOutlet weak var flavorTextBackgroundView: UIView!
     
+    @IBOutlet weak var abilityNameLabelBackgroundView: UIView!
     func setup(ability: PokemonAbilities) {
         abilityNameLabel.text = ability.name
-        
-        abilityNameLabel.layer.borderColor = UIColor(hex: "#ff0000").cgColor
-        abilityNameLabel.layer.borderWidth = 2
-        abilityNameLabel.layer.cornerRadius = 10
+        //"  " + (ability.name ?? "")
+//        abilityNameLabelBackgroundView.layer.borderColor = UIColor(hex: "#ff0000").cgColor
+//        abilityNameLabelBackgroundView.layer.borderWidth = 2
+//        abilityNameLabelBackgroundView.layer.cornerRadius = 10
         
         effectDescriptionLabel.text = ability.effect
         flavorTextLabel.text = ability.flavorText

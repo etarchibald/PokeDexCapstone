@@ -85,7 +85,7 @@ class PokemonPrettyController {
     func createLabelForTypeBox(_ label: UILabel, _ type: PokemonType) -> UILabel {
         label.text = type.rawValue.capitalized
         
-        if type == .dark || type == .fighting || type == .poison || type == .ghost {
+        if type == .dark || type == .fighting || type == .poison || type == .ghost || type == .fire {
             label.textColor = .white
         } else {
             label.textColor = .black

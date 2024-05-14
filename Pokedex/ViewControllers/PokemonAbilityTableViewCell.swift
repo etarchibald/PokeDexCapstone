@@ -18,7 +18,7 @@ class PokemonAbilityTableViewCell: UITableViewCell {
     
     @IBOutlet weak var abilityNameLabelBackgroundView: UIView!
     func setup(ability: PokemonAbilities) {
-        abilityNameLabel.text = ability.name
+        abilityNameLabel.text = ability.name?.capitalized
         //"  " + (ability.name ?? "")
 //        abilityNameLabelBackgroundView.layer.borderColor = UIColor(hex: "#ff0000").cgColor
 //        abilityNameLabelBackgroundView.layer.borderWidth = 2

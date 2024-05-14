@@ -68,10 +68,12 @@ class TeamTableViewCell: UITableViewCell {
                 UIColor(hex: prettyControllerShared.getBackgroundColorHex(type: pokemon.primaryType ?? .normal)).cgColor,
                 UIColor(hex: prettyControllerShared.getBackgroundColorHex(type: pokemon.secondaryType ?? .normal)).cgColor
             ]
-            let gradientWidth: CGFloat = 30
+            let gradientWidth: CGFloat = 20
             let gradientSpacing: CGFloat = 2
             let xOffset = CGFloat(index) * (gradientWidth + gradientSpacing) // Adjust the width and spacing as needed
             gradient.frame = CGRect(x: xOffset, y: 0, width: gradientWidth, height: typeBackgroundView.bounds.height)
+            
+            gradient.cornerRadius = 5
             
             typeBackgroundView.clipsToBounds = false
             typeBackgroundView.layer.cornerRadius = 10

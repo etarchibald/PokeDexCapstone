@@ -21,7 +21,16 @@ class PokemonDetailTableViewController: UITableViewController {
     //    @IBOutlet weak var nextEvolutionLabel: UILabel!
     
     // Base stats labels
-    //    @IBOutlet weak var weightAndHeightLabel: UILabel!
+//    @IBOutlet weak var heightLabel: UILabel!
+//    @IBOutlet weak var weightLabel: UILabel!
+    
+    @IBOutlet weak var hpProgressBar: CustomProgressBar!
+    @IBOutlet weak var attackProgressBar: CustomProgressBar!
+    @IBOutlet weak var defenseProgressBar: CustomProgressBar!
+    @IBOutlet weak var spAttackProgressBar: CustomProgressBar!
+    @IBOutlet weak var spDefenseProgressBar: CustomProgressBar!
+    @IBOutlet weak var speedProgressBar: CustomProgressBar!
+    
     @IBOutlet weak var hpStatLabel: UILabel!
     @IBOutlet weak var attackLabel: UILabel!
     @IBOutlet weak var defenseLabel: UILabel!
@@ -49,6 +58,8 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,7 +67,7 @@ class PokemonDetailTableViewController: UITableViewController {
         Task {
             do {
                 pokemon = try await PokemonNetworkController.shared.fetchDetailInformation(pokemon: pokemon)
-                print(pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? "ERROR")
+//                print(pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? "ERROR")
             } catch {
                 //present alert
                 print(error)
@@ -67,6 +78,7 @@ class PokemonDetailTableViewController: UITableViewController {
             saveImageData()
             setupStrengthsAndWeaknessesSwiftUIView()
             
+            staticTableView.reloadData()
         }
     }
     
@@ -82,14 +94,21 @@ class PokemonDetailTableViewController: UITableViewController {
     // MARK: TableView Overrides
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard [0, 3, 4].contains(indexPath.section) else {
+        guard [0, 2,  3, 4].contains(indexPath.section) else {
             return UITableView.automaticDimension
         }
         
-        if indexPath.row == 1 {
-            return 150
-        } else if indexPath.row == 0 && indexPath.section != 0 {
-            return 150
+        switch indexPath.section {
+        case 0:
+            if indexPath.row == 1 {
+                return 150
+            }
+        case 2:
+            if indexPath.row == 0 {
+                return 220
+            }
+        default:
+            return UITableView.automaticDimension
         }
         
         return UITableView.automaticDimension
@@ -207,23 +226,32 @@ class PokemonDetailTableViewController: UITableViewController {
             pokemonTypingLabel.text = "\(pokemonTyping) Type Pokemon"
         }
         
+//        weightLabel.text = "\(pokemon.weight * 10) Kilograms "
+//        heightLabel.text = "\(pokemon.height * 10) Meters "
+        
         pokemonNameLabel.text = pokemon.name.capitalized
         
         for stat in pokemon.stats {
             let statDataToAppend = String(stat.base_stat)
             switch stat.stat.name {
             case "hp":
-                hpStatLabel.text! += " \(statDataToAppend)"
+                hpStatLabel.text! = " \(statDataToAppend)"
+                hpProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             case "attack":
-                attackLabel.text! += " \(statDataToAppend)"
+                attackLabel.text! = " \(statDataToAppend)"
+                attackProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             case "defense":
-                defenseLabel.text! += " \(statDataToAppend)"
+                defenseLabel.text! = " \(statDataToAppend)"
+                defenseProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             case "special-attack":
-                specialAttackLabel.text! += " \(statDataToAppend)"
+                specialAttackLabel.text! = " \(statDataToAppend)"
+                spAttackProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             case "special-defense":
-                specialDefenseLabel.text! += " \(statDataToAppend)"
+                specialDefenseLabel.text! = " \(statDataToAppend)"
+                spDefenseProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             case "speed":
-                speedLabel.text! += " \(statDataToAppend)"
+                speedLabel.text! = " \(statDataToAppend)"
+                speedProgressBar.progress = CGFloat(Int(statDataToAppend) ?? 0)
             default:
                 break
             }
@@ -231,22 +259,69 @@ class PokemonDetailTableViewController: UITableViewController {
         
     }
     
-    // MARK: SwiftUIView
+    // MARK: SwiftUIView & Related Func
     
-    func setupStrengthsAndWeaknessesSwiftUIView() {
-        let strengthAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageTo ?? []
+    func setupStrengthsAndWeaknesses() -> [[PokemonType]] {
+        let strengthAPITyping = pokemon.firstTypeDamageRelations?.damageRelations.doubleDamageTo ?? []
+        let secondaryTypeStrength = pokemon.secondTypeDamageRelations?.damageRelations.doubleDamageTo ?? []
         var strengths: [PokemonType] = []
-        for strength in strengthAPITyping {
-            strengths.append(strength.name)
-        }
-        let weaknessesAPITyping = pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? []
-        var weaknesses: [PokemonType] = []
-        for weakness in weaknessesAPITyping {
-            weaknesses.append(weakness.name)
+        
+        if pokemon.primaryType != pokemon.secondaryType {
+            for strength in secondaryTypeStrength {
+                strengths.append(strength.name)
+            }
         }
         
-        let weaknessViewHC = UIHostingController(rootView: TypingSwiftUIView(types: weaknesses))
-        let strengthsViewHC = UIHostingController(rootView: TypingSwiftUIView(types: strengths))
+        for strength in strengthAPITyping {
+            if !strengths.contains(strength.name) {
+                strengths.append(strength.name)
+            }
+            
+        }
+        
+        let weaknessesAPITyping = pokemon.firstTypeDamageRelations?.damageRelations.doubleDamageFrom ?? []
+        let secondaryTypeWeaknesses = pokemon.secondTypeDamageRelations?.damageRelations.doubleDamageFrom ?? []
+        var weaknesses: [PokemonType] = []
+        
+        if pokemon.primaryType != pokemon.secondaryType {
+            for weakness in secondaryTypeWeaknesses {
+                weaknesses.append(weakness.name)
+            }
+        }
+        
+        for weakness in weaknessesAPITyping {
+            if !weaknesses.contains(weakness.name) {
+                weaknesses.append(weakness.name)
+            }
+        }
+        
+        var modifiedWeaknesses = weaknesses
+        var modifiedStrengths = strengths
+        
+        for weakness in weaknesses {
+            if strengths.contains(weakness) || weakness == pokemon.primaryType || weakness == pokemon.secondaryType {
+                modifiedStrengths.removeAll(where: {$0 == weakness})
+                modifiedWeaknesses.removeAll(where: {$0 == weakness})
+            }
+        }
+        
+        for strength in strengths {
+            if weaknesses.contains(strength) || strength == pokemon.primaryType || strength == pokemon.secondaryType {
+                modifiedStrengths.removeAll(where: {$0 == strength})
+                modifiedWeaknesses.removeAll(where: {$0 == strength})
+            }
+        }
+        
+        return [modifiedStrengths, modifiedWeaknesses]
+    }
+    
+    
+    func setupStrengthsAndWeaknessesSwiftUIView() {
+        
+        let arrayOfArrayOfTypes = setupStrengthsAndWeaknesses()
+        
+        let weaknessViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[1]))
+        let strengthsViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[0]))
         let weaknessInnerView = weaknessViewHC.view!
         let strengthsInnerView = strengthsViewHC.view!
         
@@ -264,6 +339,7 @@ class PokemonDetailTableViewController: UITableViewController {
             strengthsInnerView.trailingAnchor.constraint(equalTo: strengthSwiftUIView.trailingAnchor),
             strengthsInnerView.bottomAnchor.constraint(equalTo: strengthSwiftUIView.bottomAnchor)
         ])
+        
         NSLayoutConstraint.activate([
             weaknessInnerView.leadingAnchor.constraint(equalTo: weaknessSwiftUIView.leadingAnchor),
             weaknessInnerView.topAnchor.constraint(equalTo: weaknessSwiftUIView.topAnchor),
@@ -271,8 +347,12 @@ class PokemonDetailTableViewController: UITableViewController {
             weaknessInnerView.bottomAnchor.constraint(equalTo: weaknessSwiftUIView.bottomAnchor)
         ])
         
+        strengthsViewHC.sizingOptions = [.intrinsicContentSize]
+        weaknessViewHC.sizingOptions = [.intrinsicContentSize]
+        
         strengthsViewHC.didMove(toParent: self)
         weaknessViewHC.didMove(toParent: self)
+        
     }
     
     // MARK: Menu Setup
@@ -318,17 +398,27 @@ class PokemonDetailTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let detailVC = segue.destination as? PokemonAbilitiesTableViewController {
+            let spinner = UIActivityIndicatorView(style: .large)
+            spinner.startAnimating()
+            tableView.tableHeaderView = spinner
+            
             if pokemon.abilities.first?.abilityDetails == nil {
                 Task {
                     do{
                         let pokemon = try await PokemonNetworkController.shared.fetchPokemonAbilites(pokemon: pokemon)
                         detailVC.pokemon = pokemon
+                        spinner.stopAnimating()
+                        tableView.tableHeaderView = nil
                     } catch {
                         print("Error fetching data: \(error)")
+                        spinner.stopAnimating()
+                        tableView.tableHeaderView = nil
                     }
                 }
             } else {
                 detailVC.pokemon = pokemon
+                spinner.stopAnimating()
+                tableView.tableHeaderView = nil
             }
         }
         

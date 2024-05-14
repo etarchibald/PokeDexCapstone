@@ -50,6 +50,9 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
 //                teamVC.team = selectedTeam.pokemon
 //            }
         }
+    override func viewWillAppear(_ animated: Bool) {
+        teamTableView.reloadData()
+    }
     
     func reload() {
         filteredTeams = TeamController.teams

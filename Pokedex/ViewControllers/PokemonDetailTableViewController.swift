@@ -59,7 +59,7 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.dataSource = self
         
         
-        
+        staticTableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,16 +94,16 @@ class PokemonDetailTableViewController: UITableViewController {
     // MARK: TableView Overrides
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard [0, 2,  3, 4].contains(indexPath.section) else {
-            return UITableView.automaticDimension
-        }
+//        guard [0, 2, 3, 4].contains(indexPath.section) else {
+//            return UITableView.automaticDimension
+//        }
         
         switch indexPath.section {
         case 0:
             if indexPath.row == 1 {
-                return 150
+                return 180
             }
-        case 2:
+        case 1:
             if indexPath.row == 0 {
                 return 220
             }
@@ -112,6 +112,10 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
         return UITableView.automaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        200
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -138,21 +142,11 @@ class PokemonDetailTableViewController: UITableViewController {
                 ]
                 
                 let officialSprites = pokemon.sprites.other.officialArtwork
-                let homeURLs = pokemon.sprites.other.home
-                let dreamWorldURLs = pokemon.sprites.other.dreamWorld
-//                let showdownURLs = pokemon.sprites.other.showdown
                 
                 if let frontofficialArtwork = officialSprites.frontDefault, let backArtwork = officialSprites.backDefault {
                     urls.append(frontofficialArtwork)
                     urls.append(backArtwork)
                 }
-                
-                if let dreamWorldFront = dreamWorldURLs.frontDefault, let dreamWorldBack = dreamWorldURLs.backDefault {
-                    urls.append(dreamWorldFront)
-                    urls.append(dreamWorldBack)
-                }
-                
-                
                 
                 for url in urls {
                     if let url {
@@ -353,6 +347,8 @@ class PokemonDetailTableViewController: UITableViewController {
         strengthsViewHC.didMove(toParent: self)
         weaknessViewHC.didMove(toParent: self)
         
+//        strengthsViewHC.view.layoutIfNeeded()
+//        weaknessViewHC.view.layoutIfNeeded()
     }
     
     // MARK: Menu Setup

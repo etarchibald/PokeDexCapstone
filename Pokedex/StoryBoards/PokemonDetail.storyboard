@@ -348,6 +348,9 @@
                                                     <rect key="frame" x="20" y="11" width="353" height="32"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="Show All Abilities"/>
+                                                    <connections>
+                                                        <segue destination="FBo-qb-Fpg" kind="show" identifier="" id="sKg-LA-jUf"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -447,6 +450,9 @@
                                                     <rect key="frame" x="20" y="11" width="353" height="37"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="Show All Moves"/>
+                                                    <connections>
+                                                        <segue destination="oye-FI-reG" kind="show" id="r4z-jx-Acd"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -471,16 +477,19 @@
                     <navigationItem key="navigationItem" id="Beo-cw-vjC"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="abilityLabel" destination="trR-if-rHM" id="05B-fw-YEr"/>
                         <outlet property="attackLabel" destination="Hsb-am-h9L" id="NdC-cB-ny7"/>
                         <outlet property="attackProgressBar" destination="efQ-Th-eEA" id="ujZ-x8-Cui"/>
                         <outlet property="defenseLabel" destination="r0X-cK-bNc" id="nBl-1p-xE8"/>
                         <outlet property="defenseProgressBar" destination="A9w-go-bWg" id="Xic-Td-OaH"/>
                         <outlet property="favoritedButton" destination="BEv-yr-aee" id="1D2-oS-B71"/>
+                        <outlet property="firstMoveLabel" destination="yi7-jA-oXg" id="cJg-U8-vKq"/>
                         <outlet property="hpProgressBar" destination="YrH-Og-Stb" id="0d5-wq-KZw"/>
                         <outlet property="hpStatLabel" destination="2sH-Hv-VPn" id="1Fg-4m-aud"/>
                         <outlet property="pokemonNameLabel" destination="x8F-lB-fZ1" id="QGM-Ur-Ed7"/>
                         <outlet property="pokemonSpritesCollectionView" destination="mrx-lK-JDR" id="I18-we-aYf"/>
                         <outlet property="pokemonTypingLabel" destination="jqs-PG-fp9" id="PUP-tw-F7N"/>
+                        <outlet property="secondMoveLabel" destination="ugb-zO-G17" id="dyM-ze-Bpx"/>
                         <outlet property="spAttackProgressBar" destination="NeU-u3-5cB" id="EYd-D0-eB0"/>
                         <outlet property="spDefenseProgressBar" destination="amI-Js-sPr" id="lXy-dN-jov"/>
                         <outlet property="specialAttackLabel" destination="p8u-9f-4Zx" id="GQC-Jv-NTg"/>
@@ -489,6 +498,7 @@
                         <outlet property="speedProgressBar" destination="cat-8t-cgu" id="Ok2-S0-TIX"/>
                         <outlet property="staticTableView" destination="h2L-tE-rr5" id="a53-Oh-Jw8"/>
                         <outlet property="strengthSwiftUIView" destination="rnh-zJ-6i4" id="h7s-M1-S7r"/>
+                        <outlet property="thirdMoveLabel" destination="IGT-vi-vw2" id="59C-es-AFb"/>
                         <outlet property="weaknessSwiftUIView" destination="ZLQ-3o-UdR" id="wgY-PH-00x"/>
                         <segue destination="Zn5-i7-E6S" kind="presentation" identifier="presentModalTeams" id="qQ0-Hg-ILp"/>
                     </connections>

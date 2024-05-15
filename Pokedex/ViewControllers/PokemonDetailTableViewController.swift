@@ -44,6 +44,12 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var pokemonSpritesCollectionView: UICollectionView!
     @IBOutlet weak var weaknessSwiftUIView: UIView!
     
+    // Abilites and Moves Labels
+    @IBOutlet weak var abilityLabel: UILabel!
+    @IBOutlet weak var firstMoveLabel: UILabel!
+    @IBOutlet weak var secondMoveLabel: UILabel!
+    @IBOutlet weak var thirdMoveLabel: UILabel!
+    
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
     var teamController = TeamController.shared
@@ -63,11 +69,11 @@ class PokemonDetailTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        fetchMoves()
         setupMenu()
         Task {
             do {
                 pokemon = try await PokemonNetworkController.shared.fetchDetailInformation(pokemon: pokemon)
-//                print(pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? "ERROR")
             } catch {
                 //present alert
                 print(error)
@@ -94,9 +100,6 @@ class PokemonDetailTableViewController: UITableViewController {
     // MARK: TableView Overrides
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        guard [0, 2, 3, 4].contains(indexPath.section) else {
-//            return UITableView.automaticDimension
-//        }
         
         switch indexPath.section {
         case 0:
@@ -114,16 +117,21 @@ class PokemonDetailTableViewController: UITableViewController {
         return UITableView.automaticDimension
     }
     
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        200
-    }
-    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         20
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         0
+    }
+    
+    func fetchMoves() {
+        Task {
+            do {
+                pokemon = try await pokemonController.fetchPokemonMoves(pokemon: pokemon)
+            }
+            reloadMoves()
+        }
     }
     
     // MARK: Displaying Images
@@ -201,6 +209,12 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // MARK: Setting up Labels, etc.
     
+    func reloadMoves() {
+        firstMoveLabel.text = pokemon.moves[0].name?.capitalized
+        secondMoveLabel.text = pokemon.moves[1].name?.capitalized
+        thirdMoveLabel.text = pokemon.moves[2].name?.capitalized
+    }
+    
     func setUpPokemonInfo() {
         var pokemonTyping = ""
         
@@ -220,8 +234,11 @@ class PokemonDetailTableViewController: UITableViewController {
             pokemonTypingLabel.text = "\(pokemonTyping) Type Pokemon"
         }
         
-//        weightLabel.text = "\(pokemon.weight * 10) Kilograms "
-//        heightLabel.text = "\(pokemon.height * 10) Meters "
+        abilityLabel.text = "\(pokemon.abilities[0].name?.capitalized ?? "N/A")"
+        
+        firstMoveLabel.text = pokemon.moves[0].name?.capitalized
+        secondMoveLabel.text = pokemon.moves[1].name?.capitalized
+        thirdMoveLabel.text = pokemon.moves[2].name?.capitalized
         
         pokemonNameLabel.text = pokemon.name.capitalized
         
@@ -347,8 +364,6 @@ class PokemonDetailTableViewController: UITableViewController {
         strengthsViewHC.didMove(toParent: self)
         weaknessViewHC.didMove(toParent: self)
         
-//        strengthsViewHC.view.layoutIfNeeded()
-//        weaknessViewHC.view.layoutIfNeeded()
     }
     
     // MARK: Menu Setup

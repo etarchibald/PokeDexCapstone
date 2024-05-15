@@ -9,32 +9,44 @@ import UIKit
 
 class PokemonAbilityTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var effectTextLabel: UILabel!
+    @IBOutlet weak var abilityTextLabel: UILabel!
+    
+    @IBOutlet weak var extraTextLabel: UILabel!
     @IBOutlet weak var abilityNameLabel: UILabel!
     @IBOutlet weak var effectDescriptionLabel: UILabel!
     @IBOutlet weak var flavorTextLabel: UILabel!
     @IBOutlet weak var abilityBackgroundView: UIView!
     @IBOutlet weak var effectBackgroundView: UIView!
     @IBOutlet weak var flavorTextBackgroundView: UIView!
-    
     @IBOutlet weak var abilityNameLabelBackgroundView: UIView!
+    @IBOutlet weak var cellBackgroundView: UIView!
     func setup(ability: PokemonAbilities) {
         abilityNameLabel.text = ability.name?.capitalized
+        abilityTextLabel.textColor = UIColor(hex: "#CC0000")
         effectDescriptionLabel.text = ability.effect
         flavorTextLabel.text = ability.flavorText
+        effectTextLabel.textColor = UIColor(hex: "#1E90FF")
+        extraTextLabel.textColor = UIColor(hex: "#006600")
         
-        abilityBackgroundView.backgroundColor = UIColor(hex: "#C0C0C0")
+        
+        abilityBackgroundView.backgroundColor = UIColor(hex: "#ECECEC")
         abilityBackgroundView.layer.cornerRadius = 10
-        abilityBackgroundView.addLightningEffect()
+        abilityNameLabelBackgroundView.backgroundColor = UIColor(hex: "#ECECEC")
+        //abilityBackgroundView.addLightningEffect()
         
-        effectBackgroundView.backgroundColor = UIColor(hex: "#ADD8E6")
+        effectBackgroundView.backgroundColor = UIColor(hex: "#ECECEC")
         effectBackgroundView.layer.cornerRadius = 10
         
-        effectBackgroundView.addLightningEffect()
+        //effectBackgroundView.addLightningEffect()
         
         
-        flavorTextBackgroundView.backgroundColor = UIColor(hex: "#009900")
+        flavorTextBackgroundView.backgroundColor = UIColor(hex: "#ECECEC")
         flavorTextBackgroundView.layer.cornerRadius = 10
-        flavorTextBackgroundView.addLightningEffect()
+        //flavorTextBackgroundView.addLightningEffect()
+        
+        cellBackgroundView.backgroundColor = UIColor(hex: "#ECECEC")
+        cellBackgroundView.layer.cornerRadius = 10
     }
     
     

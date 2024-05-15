@@ -11,19 +11,18 @@ import UIKit
 class PokemonDetailTableViewController: UITableViewController {
     
     @IBOutlet var staticTableView: UITableView!
+    
     // Outlets relating to Pokemon images
     @IBOutlet weak var pokemonNameLabel: UILabel!
     @IBOutlet weak var favoritedButton: UIButton!
     @IBOutlet weak var pokemonTypingLabel: UILabel!
     
-    // Evolution chain data labels
-    //    @IBOutlet weak var previousEvolutionLabel: UILabel!
-    //    @IBOutlet weak var nextEvolutionLabel: UILabel!
+    @IBOutlet weak var primaryTypeBackground: UIView!
+    @IBOutlet weak var primaryTypeLabel: UILabel!
+    @IBOutlet weak var secondaryTypeBackground: UIView!
+    @IBOutlet weak var secondaryTypeLabel: UILabel!
     
-    // Base stats labels
-//    @IBOutlet weak var heightLabel: UILabel!
-//    @IBOutlet weak var weightLabel: UILabel!
-    
+    // Base Stat Labels and Views
     @IBOutlet weak var hpProgressBar: CustomProgressBar!
     @IBOutlet weak var attackProgressBar: CustomProgressBar!
     @IBOutlet weak var defenseProgressBar: CustomProgressBar!
@@ -40,7 +39,6 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // Damage relations labels
     @IBOutlet weak var strengthSwiftUIView: UIView!
-    
     @IBOutlet weak var pokemonSpritesCollectionView: UICollectionView!
     @IBOutlet weak var weaknessSwiftUIView: UIView!
     
@@ -222,20 +220,25 @@ class PokemonDetailTableViewController: UITableViewController {
     func setUpPokemonInfo() {
         var pokemonTyping = ""
         
-        if pokemon.primaryType?.rawValue == pokemon.secondaryType?.rawValue {
-            pokemonTyping = "\(pokemon.primaryType!.rawValue)".capitalized
-        } else {
-            pokemonTyping = "\(pokemon.primaryType!.rawValue), \(pokemon.secondaryType?.rawValue ?? "")".capitalized
+        primaryTypeLabel = PokemonPrettyController.shared.createLabelForTypeBox(primaryTypeLabel, pokemon.primaryType!)
+        primaryTypeBackground = PokemonPrettyController.shared.createBackgroundForTypeBox(primaryTypeBackground, pokemon.primaryType!)
+        
+        if pokemon.secondaryType != pokemon.primaryType {
+            secondaryTypeLabel = PokemonPrettyController.shared.createLabelForTypeBox(secondaryTypeLabel, pokemon.secondaryType!)
+            secondaryTypeBackground = PokemonPrettyController.shared.createBackgroundForTypeBox(secondaryTypeBackground, pokemon.secondaryType!)
+        } else if pokemon.primaryType == pokemon.secondaryType {
+            secondaryTypeLabel.isHidden = true
+            secondaryTypeBackground.isHidden = true
         }
         
         favoritedButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
         
         if pokemon.species?.isMythical ?? false {
-            pokemonTypingLabel.text = "Mythical \(pokemonTyping) Type Pokemon"
+            pokemonTypingLabel.text = "Mythical"
         } else if pokemon.species?.isLegendary ?? false {
-            pokemonTypingLabel.text = "Legendary \(pokemonTyping) Type Pokemon"
+            pokemonTypingLabel.text = "Legendary"
         } else {
-            pokemonTypingLabel.text = "\(pokemonTyping) Type Pokemon"
+            pokemonTypingLabel.text = ""
         }
         
         abilityLabel.text = "\(pokemon.abilities[0].name?.capitalized ?? "N/A")"

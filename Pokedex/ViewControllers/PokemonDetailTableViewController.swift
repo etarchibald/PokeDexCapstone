@@ -221,7 +221,6 @@ class PokemonDetailTableViewController: UITableViewController {
     }
     
     func setUpPokemonInfo() {
-        var pokemonTyping = ""
         
         primaryTypeLabel = PokemonPrettyController.shared.createLabelForTypeBox(primaryTypeLabel, pokemon.primaryType!)
         primaryTypeBackground = PokemonPrettyController.shared.createBackgroundForTypeBox(primaryTypeBackground, pokemon.primaryType!)

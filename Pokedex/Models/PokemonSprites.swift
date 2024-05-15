@@ -8,9 +8,9 @@
 import Foundation
 
 struct PokemonSprites {
-    var frontDefault: URL
+    var frontDefault: URL?
     var backDefault: URL?
-    var frontShiny: URL
+    var frontShiny: URL?
     var backShiny: URL?
     var other: OtherSprites
 }

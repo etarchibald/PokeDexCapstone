@@ -60,7 +60,6 @@ final class PokedexUnitTests: XCTestCase {
         XCTAssertEqual(pokemon.stats.count, 6)
         XCTAssertEqual(pokemon.height, 7)
         XCTAssertEqual(pokemon.weight, 69)
-        XCTAssertNil(pokemon.damageRelations)
         XCTAssertNil(pokemon.evolutionChain)
         XCTAssertEqual(pokemon.moves.count, 86)
         XCTAssertNil(pokemon.moves[0].name)

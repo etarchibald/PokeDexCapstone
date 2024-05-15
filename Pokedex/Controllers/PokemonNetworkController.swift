@@ -38,6 +38,30 @@ class PokemonNetworkController {
         return pokemon
     }
     
+    func fetchGenericPokemonByType(type: String) async throws -> [PokemonTypeSearchResults] {
+        
+        let pokemonByTypeRequest = FetchSameTypePokmeon(type: type)
+        
+        let pokemonResults = try await API.shared.sendRequest(pokemonByTypeRequest)
+        
+        return pokemonResults.pokemon
+        
+    }
+    
+    func fetchGenericPokemonByTypeBatch(batch: [PokemonTypeSearchResults]) async throws -> [Pokemon] {
+        var pokemon = [Pokemon]()
+        for eachPokemon in batch {
+            do {
+                await pokemon.append(try fetchPokemonInformationUsing(URL: eachPokemon.pokemon.url))
+            } catch {
+                print("Pokemon: \(eachPokemon.pokemon.name) failed to load")
+                continue
+            }
+        }
+        
+        return pokemon
+    }
+    
     func fetchGenerationPokemonResults(gen: Int) async throws -> [PokemonGenericSearchResults] {
         
         let fetchGenerationPokemonRequest = FetchGenerationPokemonRequest(genNumber: gen)
@@ -80,10 +104,20 @@ class PokemonNetworkController {
         var singlePokemon = try await API.shared.sendRequest(fetchAllRequest)
         
         do {
+            
             singlePokemon.species = try await fetchPokemonSpecies(id: singlePokemon.id)
+            
         } catch {
-            throw error
+            
+            for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
+                if eachFavoritedPokemon.name == singlePokemon.name {
+                    singlePokemon.isFavorited = true
+                }
+            }
+            
+            return singlePokemon
         }
+        
         
         for eachFavoritedPokemon in await FavoritePokemonViewController.favoritePokemon {
             if eachFavoritedPokemon.name == singlePokemon.name {
@@ -95,7 +129,7 @@ class PokemonNetworkController {
     }
     
     func fetchPokemonMoves(pokemon: Pokemon) async throws -> Pokemon {
-        var newPokemon = pokemon
+        let newPokemon = pokemon
         
         do {
             let movesDetails = try await withThrowingTaskGroup(of: MoveDetail.self) { moves in
@@ -135,7 +169,7 @@ class PokemonNetworkController {
     }
     
     func fetchPokemonAbilites(pokemon: Pokemon) async throws -> Pokemon {
-        var newPokemon = pokemon
+        let newPokemon = pokemon
         
         do {
             let abilitiesDetails = try await withThrowingTaskGroup(of: AbilityDetails.self) { group in

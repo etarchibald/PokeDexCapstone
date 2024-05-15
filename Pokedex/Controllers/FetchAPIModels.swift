@@ -24,6 +24,20 @@ struct FetchGenericPokemonRequest: APIRequest {
     }
 }
 
+struct FetchSameTypePokmeon: APIRequest {
+    var type: String
+    
+    var urlRequest: URLRequest {
+        let url = URL(string: "https://pokeapi.co/api/v2/type/\(type.lowercased())/")!
+        
+        return URLRequest(url: url)
+    }
+    
+    func decodeData(_ data: Data) throws -> PokemonTypeSearch {
+        return try JSONDecoder().decode(PokemonTypeSearch.self, from: data)
+    }
+}
+
 struct FetchGenerationPokemonRequest: APIRequest {
     var genNumber: Int
     

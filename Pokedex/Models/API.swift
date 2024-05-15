@@ -30,9 +30,7 @@ class API {
     
     func sendRequest<Request: APIRequest>(_ request: Request) async throws -> Request.Response {
         let session = URLSession.shared
-        let (data, response) = try await session.data(for: request.urlRequest)
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 else { throw APIError.APIRequestFailed }
+        let (data, _) = try await session.data(for: request.urlRequest)
         return try request.decodeData(data)
     }
-    
 }

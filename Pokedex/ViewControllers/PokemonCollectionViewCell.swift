@@ -40,7 +40,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
             nameLabel.textColor = .black
         }
         
-        imageView.load(url: pokemon.sprites.frontDefault)
+        imageView.load(url: pokemon.sprites.frontDefault ?? URL(string: "")!)
         xButton.isHidden = !isEditing
     }
     

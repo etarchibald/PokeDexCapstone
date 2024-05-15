@@ -217,6 +217,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         }
         
         hasSearchedForPokemon = true
+        tableView.tableFooterView = nil
         isFetchingPokemon = true
     }
     
@@ -262,7 +263,6 @@ extension PokemonSearchViewController: FavoritePokemon {
                 self.pokemon[index] = pokemon
                 self.applySnapshot(from: self.pokemon)
                 self.reload(pokemon)
-//                self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
             }
         }
     }

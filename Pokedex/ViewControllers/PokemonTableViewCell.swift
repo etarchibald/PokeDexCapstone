@@ -50,9 +50,15 @@ class PokemonTableViewCell: UITableViewCell {
             type2BackgroundView = pokemonPrettyController.createBackgroundForTypeBox(type2BackgroundView, pokemon.secondaryType ?? .normal)
         }
         
-        generationLabel.text = "Gen: \(PokemonPrettyController.shared.prettyPrintGen(gen: pokemon.species?.generation?.name ?? ""))"
+        if let generation = pokemon.species?.generation {
+            generationLabel.text = "Gen: \(pokemonPrettyController.prettyPrintGen(gen: generation.name))"
+        } else {
+            generationLabel.text = ""
+        }
 
-        pokemonImage.load(url: pokemon.sprites.frontDefault)
+        if let frontDefault = pokemon.sprites.frontDefault {
+            pokemonImage.load(url: frontDefault)
+        }
         
         let newImage = UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart")
         

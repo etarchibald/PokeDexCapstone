@@ -64,7 +64,6 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
-        
         staticTableView.reloadData()
     }
     
@@ -159,7 +158,12 @@ class PokemonDetailTableViewController: UITableViewController {
                 for url in urls {
                     if let url {
                         let newImage = try await pokemonController.fetchImageData(url: url)
-                        storedImages.append(newImage)
+                        if storedImages.count == 4 {
+                            pokemonSpritesCollectionView.reloadData()
+                            return
+                        } else if storedImages.count < 5 {
+                            storedImages.append(newImage)
+                        }
                     }
                 }
             }

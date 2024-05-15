@@ -44,6 +44,12 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var pokemonSpritesCollectionView: UICollectionView!
     @IBOutlet weak var weaknessSwiftUIView: UIView!
     
+    // Abilites and Moves Labels
+    @IBOutlet weak var abilityLabel: UILabel!
+    @IBOutlet weak var firstMoveLabel: UILabel!
+    @IBOutlet weak var secondMoveLabel: UILabel!
+    @IBOutlet weak var thirdMoveLabel: UILabel!
+    
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
     var teamController = TeamController.shared
@@ -59,15 +65,15 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.dataSource = self
         
         
-        
+        staticTableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        fetchMoves()
         setupMenu()
         Task {
             do {
                 pokemon = try await PokemonNetworkController.shared.fetchDetailInformation(pokemon: pokemon)
-//                print(pokemon.damageRelations?.damageRelations.doubleDamageFrom ?? "ERROR")
             } catch {
                 //present alert
                 print(error)
@@ -94,16 +100,13 @@ class PokemonDetailTableViewController: UITableViewController {
     // MARK: TableView Overrides
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard [0, 2,  3, 4].contains(indexPath.section) else {
-            return UITableView.automaticDimension
-        }
         
         switch indexPath.section {
         case 0:
             if indexPath.row == 1 {
-                return 150
+                return 180
             }
-        case 2:
+        case 1:
             if indexPath.row == 0 {
                 return 220
             }
@@ -122,6 +125,15 @@ class PokemonDetailTableViewController: UITableViewController {
         0
     }
     
+    func fetchMoves() {
+        Task {
+            do {
+                pokemon = try await pokemonController.fetchPokemonMoves(pokemon: pokemon)
+            }
+            reloadMoves()
+        }
+    }
+    
     // MARK: Displaying Images
     
     func saveImageData() {
@@ -138,21 +150,11 @@ class PokemonDetailTableViewController: UITableViewController {
                 ]
                 
                 let officialSprites = pokemon.sprites.other.officialArtwork
-                let homeURLs = pokemon.sprites.other.home
-                let dreamWorldURLs = pokemon.sprites.other.dreamWorld
-//                let showdownURLs = pokemon.sprites.other.showdown
                 
                 if let frontofficialArtwork = officialSprites.frontDefault, let backArtwork = officialSprites.backDefault {
                     urls.append(frontofficialArtwork)
                     urls.append(backArtwork)
                 }
-                
-                if let dreamWorldFront = dreamWorldURLs.frontDefault, let dreamWorldBack = dreamWorldURLs.backDefault {
-                    urls.append(dreamWorldFront)
-                    urls.append(dreamWorldBack)
-                }
-                
-                
                 
                 for url in urls {
                     if let url {
@@ -207,6 +209,12 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // MARK: Setting up Labels, etc.
     
+    func reloadMoves() {
+        firstMoveLabel.text = pokemon.moves[0].name?.capitalized
+        secondMoveLabel.text = pokemon.moves[1].name?.capitalized
+        thirdMoveLabel.text = pokemon.moves[2].name?.capitalized
+    }
+    
     func setUpPokemonInfo() {
         var pokemonTyping = ""
         
@@ -226,8 +234,11 @@ class PokemonDetailTableViewController: UITableViewController {
             pokemonTypingLabel.text = "\(pokemonTyping) Type Pokemon"
         }
         
-//        weightLabel.text = "\(pokemon.weight * 10) Kilograms "
-//        heightLabel.text = "\(pokemon.height * 10) Meters "
+        abilityLabel.text = "\(pokemon.abilities[0].name?.capitalized ?? "N/A")"
+        
+        firstMoveLabel.text = pokemon.moves[0].name?.capitalized
+        secondMoveLabel.text = pokemon.moves[1].name?.capitalized
+        thirdMoveLabel.text = pokemon.moves[2].name?.capitalized
         
         pokemonNameLabel.text = pokemon.name.capitalized
         

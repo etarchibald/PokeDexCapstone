@@ -47,6 +47,8 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var firstMoveLabel: UILabel!
     @IBOutlet weak var secondMoveLabel: UILabel!
     @IBOutlet weak var thirdMoveLabel: UILabel!
+    @IBOutlet weak var showAllAbilitiesButton: UIButton!
+    @IBOutlet weak var showAllMovesButton: UIButton!
     
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
@@ -74,8 +76,13 @@ class PokemonDetailTableViewController: UITableViewController {
                 pokemon = try await PokemonNetworkController.shared.fetchDetailInformation(pokemon: pokemon)
             } catch {
                 //present alert
-                print(error)
-                throw error
+                let alertController = UIAlertController(title: "Loading Failed", message: "Unable to Fetch Pokemon details at this time. Please try again later.", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "OK", style: .cancel)
+                
+                alertController.addAction(okayAction)
+                showAllMovesButton.isEnabled = false
+                showAllAbilitiesButton.isEnabled = false
+                present(alertController, animated: true)
             }
             
             setUpPokemonInfo()
@@ -129,6 +136,10 @@ class PokemonDetailTableViewController: UITableViewController {
         Task {
             do {
                 pokemon = try await pokemonController.fetchPokemonMoves(pokemon: pokemon)
+                
+            }
+            if pokemon.moves.isEmpty {
+                showAllMovesButton.isEnabled = false
             }
             reloadMoves()
         }
@@ -167,6 +178,12 @@ class PokemonDetailTableViewController: UITableViewController {
                         }
                     }
                 }
+            } catch {
+                let alertController = UIAlertController(title: "Loading Failed", message: "Unable to Fetch Pokemon images at this time. Please try again later.", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "OK", style: .cancel)
+                
+                alertController.addAction(okayAction)
+                present(alertController, animated: true)
             }
             pokemonSpritesCollectionView.reloadData()
             
@@ -198,6 +215,11 @@ class PokemonDetailTableViewController: UITableViewController {
                     PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
                 } catch {
                     //handle errors
+                    let alertController = UIAlertController(title: "Saving Failed", message: "Unable to Save Pokemon at this time. Please try again later.", preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: "OK", style: .cancel)
+                    
+                    alertController.addAction(okayAction)
+                    present(alertController, animated: true)
                 }
             }
             

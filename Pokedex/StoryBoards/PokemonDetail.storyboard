@@ -541,6 +541,8 @@
                         <outlet property="secondMoveLabel" destination="ugb-zO-G17" id="dyM-ze-Bpx"/>
                         <outlet property="secondaryTypeBackground" destination="bbp-gu-JqO" id="GFD-7J-4dQ"/>
                         <outlet property="secondaryTypeLabel" destination="hRt-rd-zAr" id="HQu-pX-hsD"/>
+                        <outlet property="showAllAbilitiesButton" destination="IO6-ZI-x8D" id="Dw1-KN-AjT"/>
+                        <outlet property="showAllMovesButton" destination="532-Nh-4qJ" id="jVR-Rw-z8N"/>
                         <outlet property="spAttackProgressBar" destination="NeU-u3-5cB" id="EYd-D0-eB0"/>
                         <outlet property="spDefenseProgressBar" destination="amI-Js-sPr" id="lXy-dN-jov"/>
                         <outlet property="specialAttackLabel" destination="p8u-9f-4Zx" id="GQC-Jv-NTg"/>

@@ -8,16 +8,22 @@
 import SwiftUI
 
 struct TypingSwiftUIView: View {
-    //    var strengths: [PokemonType]
     var types: [PokemonType]
+    var isStrengths: Bool
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
         VStack {
-            LazyVGrid(columns: columns, content: {
-                setupGrid(for: types)
-            })
+            if !types.isEmpty {
+                LazyVGrid(columns: columns, content: {
+                    setupGrid(for: types)
+                })
+            } else if isStrengths {
+                Text("No Strengths")
+            } else {
+                Text("No Weaknesses")
+            }
         }
         .padding()
         .frame(width: 350)
@@ -28,7 +34,7 @@ struct TypingSwiftUIView: View {
 }
 
 #Preview {
-    TypingSwiftUIView(types: [.ice, .dark, .bug, .dragon, .electric, .fairy, .fighting, .fire, .ground, .flying, .ghost, .grass, .poison, .psychic, .rock, .steel, .normal] )
+    TypingSwiftUIView(types: [.ice, .dark, .bug, .dragon, .electric, .fairy, .fighting, .fire, .ground, .flying, .ghost, .grass, .poison, .psychic, .rock, .steel, .normal], isStrengths: true )
 }
 
 //@ViewBuilder
@@ -44,7 +50,6 @@ func setupGrid(for types: [PokemonType]) -> some View {
             .frame(width: 75)
             .padding(10)
             .background(color, in: RoundedRectangle(cornerRadius: 10))
-        
     }
 }
 

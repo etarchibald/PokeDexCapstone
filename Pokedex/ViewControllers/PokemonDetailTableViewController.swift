@@ -335,8 +335,8 @@ class PokemonDetailTableViewController: UITableViewController {
         
         let arrayOfArrayOfTypes = setupStrengthsAndWeaknesses()
         
-        let weaknessViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[1]))
-        let strengthsViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[0]))
+        let weaknessViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[1], isStrengths: false))
+        let strengthsViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[0], isStrengths: true))
         let weaknessInnerView = weaknessViewHC.view!
         let strengthsInnerView = strengthsViewHC.view!
         

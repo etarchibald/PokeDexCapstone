@@ -115,6 +115,14 @@ class PokemonDetailTableViewController: UITableViewController {
             if indexPath.row == 0 {
                 return 220
             }
+        case 5:
+            if indexPath.row == 0 {
+                return 50
+            }
+            if pokemon.moves.isEmpty {
+                return 0
+            }
+            
         default:
             return UITableView.automaticDimension
         }
@@ -140,8 +148,9 @@ class PokemonDetailTableViewController: UITableViewController {
             }
             if pokemon.moves.isEmpty {
                 showAllMovesButton.isEnabled = false
+            } else if !pokemon.moves.isEmpty {
+                reloadMoves()
             }
-            reloadMoves()
         }
     }
     
@@ -260,9 +269,14 @@ class PokemonDetailTableViewController: UITableViewController {
         
         abilityLabel.text = "\(pokemon.abilities[0].name?.capitalized ?? "N/A")"
         
-        firstMoveLabel.text = pokemon.moves[0].name?.capitalized
-        secondMoveLabel.text = pokemon.moves[1].name?.capitalized
-        thirdMoveLabel.text = pokemon.moves[2].name?.capitalized
+        if !pokemon.moves.isEmpty {
+            firstMoveLabel.text = pokemon.moves[0].name?.capitalized
+            secondMoveLabel.text = pokemon.moves[1].name?.capitalized
+            thirdMoveLabel.text = pokemon.moves[2].name?.capitalized
+        } else if pokemon.moves.isEmpty {
+            firstMoveLabel.text = "No Moves to List"
+            showAllMovesButton.isEnabled = false
+        }
         
         pokemonNameLabel.text = pokemon.name.capitalized
         

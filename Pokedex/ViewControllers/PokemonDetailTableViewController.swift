@@ -15,12 +15,12 @@ class PokemonDetailTableViewController: UITableViewController {
     // Outlets relating to Pokemon images
     @IBOutlet weak var pokemonNameLabel: UILabel!
     @IBOutlet weak var favoritedButton: UIButton!
-    @IBOutlet weak var pokemonTypingLabel: UILabel!
     
     @IBOutlet weak var primaryTypeBackground: UIView!
     @IBOutlet weak var primaryTypeLabel: UILabel!
     @IBOutlet weak var secondaryTypeBackground: UIView!
     @IBOutlet weak var secondaryTypeLabel: UILabel!
+    @IBOutlet weak var ampersandLabel: UILabel!
     
     // Base Stat Labels and Views
     @IBOutlet weak var hpProgressBar: CustomProgressBar!
@@ -52,7 +52,7 @@ class PokemonDetailTableViewController: UITableViewController {
     var pokemonController = PokemonNetworkController.shared
     var teamController = TeamController.shared
     var storedImages: [UIImage] = []
-    var delegate: FavoritePokemon? 
+    var delegate: FavoritePokemon?
     
     // MARK: ViewDidLoad
     
@@ -68,6 +68,7 @@ class PokemonDetailTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         fetchMoves()
         setupMenu()
+        
         Task {
             do {
                 pokemon = try await PokemonNetworkController.shared.fetchDetailInformation(pokemon: pokemon)
@@ -121,6 +122,8 @@ class PokemonDetailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         0
     }
+    
+    // MARK: Fetching Moves
     
     func fetchMoves() {
         Task {
@@ -227,19 +230,12 @@ class PokemonDetailTableViewController: UITableViewController {
             secondaryTypeLabel = PokemonPrettyController.shared.createLabelForTypeBox(secondaryTypeLabel, pokemon.secondaryType!)
             secondaryTypeBackground = PokemonPrettyController.shared.createBackgroundForTypeBox(secondaryTypeBackground, pokemon.secondaryType!)
         } else if pokemon.primaryType == pokemon.secondaryType {
+            ampersandLabel.isHidden = true
             secondaryTypeLabel.isHidden = true
             secondaryTypeBackground.isHidden = true
         }
         
         favoritedButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
-        
-        if pokemon.species?.isMythical ?? false {
-            pokemonTypingLabel.text = "Mythical"
-        } else if pokemon.species?.isLegendary ?? false {
-            pokemonTypingLabel.text = "Legendary"
-        } else {
-            pokemonTypingLabel.text = ""
-        }
         
         abilityLabel.text = "\(pokemon.abilities[0].name?.capitalized ?? "N/A")"
         

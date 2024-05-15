@@ -39,20 +39,14 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="KSN-au-COg">
-                                                                    <rect key="frame" x="0.0" y="43" width="293" height="35"/>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KSN-au-COg">
+                                                                    <rect key="frame" x="0.0" y="43" width="215.33333333333334" height="35"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Typing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xn6-dF-wzA">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="51.333333333333336" height="35"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                            <nil key="textColor"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                        </label>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V5M-Km-bZb">
-                                                                            <rect key="frame" x="58.333333333333321" y="0.0" width="70.666666666666686" height="35"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="57.333333333333336" height="35"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OJK-i6-Cir">
-                                                                                    <rect key="frame" x="7.9999999999999964" y="8" width="54.666666666666657" height="19"/>
+                                                                                    <rect key="frame" x="8" y="8" width="41.333333333333336" height="19"/>
                                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                                     <nil key="textColor"/>
                                                                                     <nil key="highlightedColor"/>
@@ -66,11 +60,17 @@
                                                                                 <constraint firstItem="OJK-i6-Cir" firstAttribute="leading" secondItem="V5M-Km-bZb" secondAttribute="leadingMargin" id="y85-2t-Lho"/>
                                                                             </constraints>
                                                                         </view>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&amp;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tq6-wU-oU3">
+                                                                            <rect key="frame" x="62.333333333333321" y="0.0" width="11.666666666666664" height="35"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbp-gu-JqO">
-                                                                            <rect key="frame" x="136" y="0.0" width="75" height="35"/>
+                                                                            <rect key="frame" x="79" y="0.0" width="60.333333333333343" height="35"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRt-rd-zAr">
-                                                                                    <rect key="frame" x="8" y="8" width="59" height="19"/>
+                                                                                    <rect key="frame" x="8" y="8" width="44.333333333333336" height="19"/>
                                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                                     <nil key="textColor"/>
                                                                                     <nil key="highlightedColor"/>
@@ -85,8 +85,8 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Pokemon" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jqs-PG-fp9">
-                                                                            <rect key="frame" x="218" y="0.0" width="75" height="35"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                                            <rect key="frame" x="144.33333333333334" y="0.0" width="71" height="35"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
@@ -525,6 +525,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="abilityLabel" destination="trR-if-rHM" id="05B-fw-YEr"/>
+                        <outlet property="ampersandLabel" destination="tq6-wU-oU3" id="5qB-X5-aiX"/>
                         <outlet property="attackLabel" destination="Hsb-am-h9L" id="NdC-cB-ny7"/>
                         <outlet property="attackProgressBar" destination="efQ-Th-eEA" id="ujZ-x8-Cui"/>
                         <outlet property="defenseLabel" destination="r0X-cK-bNc" id="nBl-1p-xE8"/>
@@ -535,7 +536,6 @@
                         <outlet property="hpStatLabel" destination="2sH-Hv-VPn" id="1Fg-4m-aud"/>
                         <outlet property="pokemonNameLabel" destination="x8F-lB-fZ1" id="QGM-Ur-Ed7"/>
                         <outlet property="pokemonSpritesCollectionView" destination="mrx-lK-JDR" id="I18-we-aYf"/>
-                        <outlet property="pokemonTypingLabel" destination="Xn6-dF-wzA" id="iLt-ZS-7yT"/>
                         <outlet property="primaryTypeBackground" destination="V5M-Km-bZb" id="NY3-Ez-TFX"/>
                         <outlet property="primaryTypeLabel" destination="OJK-i6-Cir" id="NSj-xT-ffC"/>
                         <outlet property="secondMoveLabel" destination="ugb-zO-G17" id="dyM-ze-Bpx"/>

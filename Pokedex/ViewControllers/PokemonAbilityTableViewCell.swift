@@ -19,11 +19,6 @@ class PokemonAbilityTableViewCell: UITableViewCell {
     @IBOutlet weak var abilityNameLabelBackgroundView: UIView!
     func setup(ability: PokemonAbilities) {
         abilityNameLabel.text = ability.name?.capitalized
-        //"  " + (ability.name ?? "")
-//        abilityNameLabelBackgroundView.layer.borderColor = UIColor(hex: "#ff0000").cgColor
-//        abilityNameLabelBackgroundView.layer.borderWidth = 2
-//        abilityNameLabelBackgroundView.layer.cornerRadius = 10
-        
         effectDescriptionLabel.text = ability.effect
         flavorTextLabel.text = ability.flavorText
         
@@ -31,7 +26,7 @@ class PokemonAbilityTableViewCell: UITableViewCell {
         abilityBackgroundView.layer.cornerRadius = 10
         abilityBackgroundView.addLightningEffect()
         
-        effectBackgroundView.backgroundColor = UIColor(hex: "#0068B8")
+        effectBackgroundView.backgroundColor = UIColor(hex: "#ADD8E6")
         effectBackgroundView.layer.cornerRadius = 10
         
         effectBackgroundView.addLightningEffect()
@@ -41,6 +36,7 @@ class PokemonAbilityTableViewCell: UITableViewCell {
         flavorTextBackgroundView.layer.cornerRadius = 10
         flavorTextBackgroundView.addLightningEffect()
     }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

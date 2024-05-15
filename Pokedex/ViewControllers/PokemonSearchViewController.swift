@@ -170,6 +170,8 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         case 2:
             searchBar.keyboardType = .numberPad
             fetchPokemonByGen(searchNumber: Int(searchBar.text ?? "") ?? 1)
+        case 3:
+            fetchPokemonByType(type: searchBar.text ?? "normal")
         default:
             break
         }
@@ -253,6 +255,50 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         
         isFetchingPokemon = true
         hasSearchedForPokemon = true
+    }
+    
+    func fetchPokemonByType(type: String) {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.frame = CGRect(x: 0.0, y: 0.0, width: tableView.bounds.width, height: 80)
+        spinner.startAnimating()
+        tableView.tableHeaderView = spinner
+        
+        Task {
+            do {
+                let searchedByTypePokemonResults = try await PokemonNetworkController.shared.fetchGenericPokemonByType(type: type)
+                
+                let arrayOfTypePokemon = searchedByTypePokemonResults.splitIntoEqualParts(numberOfParts: searchedByTypePokemonResults.count / 10)
+                
+                var pokemonToAdd = [Pokemon]()
+                self.pokemon = pokemonToAdd
+                
+                for batchArray in arrayOfTypePokemon {
+                    Task {
+                        pokemonToAdd = try await PokemonNetworkController.shared.fetchGenericPokemonByTypeBatch(batch: batchArray)
+                        
+                        spinner.stopAnimating()
+                        self.tableView.tableHeaderView = nil
+                        self.pokemon.append(contentsOf: pokemonToAdd)
+                        self.applySnapshot(from: self.pokemon)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.navigationItem.title = nil
+                }
+                    
+            } catch {
+                // TODO: Handle errors
+                DispatchQueue.main.async {
+                    self.navigationItem.title = "No Results Found in this Generation"
+                }
+                print("Error: \(error)")
+            }
+        }
+        
+        hasSearchedForPokemon = true
+        tableView.tableFooterView = nil
+        isFetchingPokemon = true
     }
 }
 

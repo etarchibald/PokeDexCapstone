@@ -21,11 +21,15 @@ class PokemonAbilityTableViewCell: UITableViewCell {
     @IBOutlet weak var flavorTextBackgroundView: UIView!
     @IBOutlet weak var abilityNameLabelBackgroundView: UIView!
     @IBOutlet weak var cellBackgroundView: UIView!
+    
     func setup(ability: PokemonAbilities) {
         abilityNameLabel.text = ability.name?.capitalized
+        abilityNameLabel.textColor = .black
         abilityTextLabel.textColor = UIColor(hex: "#CC0000")
         effectDescriptionLabel.text = ability.effect
+        effectDescriptionLabel.textColor = .black
         flavorTextLabel.text = ability.flavorText
+        flavorTextLabel.textColor = .black
         effectTextLabel.textColor = UIColor(hex: "#1E90FF")
         extraTextLabel.textColor = UIColor(hex: "#006600")
         

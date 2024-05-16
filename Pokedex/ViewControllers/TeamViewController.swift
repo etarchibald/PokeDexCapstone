@@ -22,6 +22,7 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
         teamTableView.delegate = self
         teamSearchBar.delegate = self
         
+        teamTableView.keyboardDismissMode = .onDrag
         
         TeamController.teams = TeamController.loadTeams()
         filteredTeams = TeamController.teams
@@ -57,6 +58,10 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
     func reload() {
         filteredTeams = TeamController.teams
         teamTableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

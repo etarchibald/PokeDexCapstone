@@ -100,6 +100,9 @@
                                     <segment title="Generation"/>
                                     <segment title="Type"/>
                                 </segments>
+                                <connections>
+                                    <action selector="segmentedControlChanged:" destination="0tx-fw-qFT" eventType="valueChanged" id="vAs-Gk-FwF"/>
+                                </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="lgT-1Q-jJC">
                                 <rect key="frame" x="0.0" y="205" width="393" height="564"/>
@@ -234,6 +237,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="ujP-R0-slv"/>
                     <connections>
+                        <outlet property="searchBar" destination="yQT-Cb-Dl5" id="esS-eX-s52"/>
                         <outlet property="segmentedControl" destination="sfm-Ea-UlX" id="bYb-b0-BnQ"/>
                         <outlet property="tableView" destination="lgT-1Q-jJC" id="DA5-79-Nbu"/>
                     </connections>

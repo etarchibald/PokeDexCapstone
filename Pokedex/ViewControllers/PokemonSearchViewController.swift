@@ -9,6 +9,7 @@ import UIKit
 
 class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet var tableView: UITableView!
     
@@ -30,6 +31,9 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         setUpDataSource()
         
         tabBarController?.tabBar.items?[2].title = "Teams"
+        
+        tableView.keyboardDismissMode = .onDrag
+        
     }
     
     func displayGenericPokemon(pageNumber: Int) {
@@ -135,6 +139,31 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
+    @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            searchBar.resignFirstResponder()
+            searchBar.keyboardType = .default
+            searchBar.becomeFirstResponder()
+        case 1:
+            searchBar.resignFirstResponder()
+            searchBar.keyboardType = .numbersAndPunctuation
+            searchBar.returnKeyType = .search
+            searchBar.becomeFirstResponder()
+        case 2:
+            searchBar.resignFirstResponder()
+            searchBar.keyboardType = .numbersAndPunctuation
+            searchBar.returnKeyType = .search
+            searchBar.becomeFirstResponder()
+        case 3:
+            searchBar.resignFirstResponder()
+            searchBar.keyboardType = .default
+            searchBar.becomeFirstResponder()
+        default:
+            break
+        }
+    }
+    
     @IBSegueAction func pokemonDetailSegueAction(_ coder: NSCoder) -> UIViewController? {
         
         let pokemon = pokemon[tableView.indexPathForSelectedRow!.row]
@@ -165,10 +194,8 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         case 0:
             fetchPokemonByName(searchText: searchBar.text ?? "")
         case 1:
-            searchBar.keyboardType = .numberPad
             fetchPokemonByNumber(searchNumber: Int(searchBar.text ?? "") ?? 1)
         case 2:
-            searchBar.keyboardType = .numberPad
             fetchPokemonByGen(searchNumber: Int(searchBar.text ?? "") ?? 1)
         case 3:
             fetchPokemonByType(type: searchBar.text ?? "normal")
@@ -176,6 +203,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
             break
         }
         
+        self.searchBar.resignFirstResponder()
     }
     
     func fetchPokemonByGen(searchNumber: Int) {

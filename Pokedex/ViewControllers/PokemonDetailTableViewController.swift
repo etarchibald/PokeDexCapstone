@@ -14,6 +14,7 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // Outlets relating to Pokemon images
     @IBOutlet weak var pokemonNameLabel: UILabel!
+    @IBOutlet weak var pokemonIdLabel: UILabel!
     @IBOutlet weak var favoritedButton: UIButton!
     
     @IBOutlet weak var primaryTypeBackground: UIView!
@@ -279,6 +280,7 @@ class PokemonDetailTableViewController: UITableViewController {
         }
         
         pokemonNameLabel.text = pokemon.name.capitalized
+        pokemonIdLabel.text = "#\(pokemon.id)"
         
         for stat in pokemon.stats {
             let statDataToAppend = String(stat.base_stat)

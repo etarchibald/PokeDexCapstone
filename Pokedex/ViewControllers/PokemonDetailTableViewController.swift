@@ -11,19 +11,18 @@ import UIKit
 class PokemonDetailTableViewController: UITableViewController {
     
     @IBOutlet var staticTableView: UITableView!
+    
     // Outlets relating to Pokemon images
     @IBOutlet weak var pokemonNameLabel: UILabel!
     @IBOutlet weak var favoritedButton: UIButton!
-    @IBOutlet weak var pokemonTypingLabel: UILabel!
     
-    // Evolution chain data labels
-    //    @IBOutlet weak var previousEvolutionLabel: UILabel!
-    //    @IBOutlet weak var nextEvolutionLabel: UILabel!
+    @IBOutlet weak var primaryTypeBackground: UIView!
+    @IBOutlet weak var primaryTypeLabel: UILabel!
+    @IBOutlet weak var secondaryTypeBackground: UIView!
+    @IBOutlet weak var secondaryTypeLabel: UILabel!
+    @IBOutlet weak var ampersandLabel: UILabel!
     
-    // Base stats labels
-//    @IBOutlet weak var heightLabel: UILabel!
-//    @IBOutlet weak var weightLabel: UILabel!
-    
+    // Base Stat Labels and Views
     @IBOutlet weak var hpProgressBar: CustomProgressBar!
     @IBOutlet weak var attackProgressBar: CustomProgressBar!
     @IBOutlet weak var defenseProgressBar: CustomProgressBar!
@@ -40,7 +39,6 @@ class PokemonDetailTableViewController: UITableViewController {
     
     // Damage relations labels
     @IBOutlet weak var strengthSwiftUIView: UIView!
-    
     @IBOutlet weak var pokemonSpritesCollectionView: UICollectionView!
     @IBOutlet weak var weaknessSwiftUIView: UIView!
     
@@ -49,12 +47,14 @@ class PokemonDetailTableViewController: UITableViewController {
     @IBOutlet weak var firstMoveLabel: UILabel!
     @IBOutlet weak var secondMoveLabel: UILabel!
     @IBOutlet weak var thirdMoveLabel: UILabel!
+    @IBOutlet weak var showAllAbilitiesButton: UIButton!
+    @IBOutlet weak var showAllMovesButton: UIButton!
     
     var pokemon: Pokemon
     var pokemonController = PokemonNetworkController.shared
     var teamController = TeamController.shared
     var storedImages: [UIImage] = []
-    var delegate: FavoritePokemon? 
+    var delegate: FavoritePokemon?
     
     // MARK: ViewDidLoad
     
@@ -64,20 +64,25 @@ class PokemonDetailTableViewController: UITableViewController {
         pokemonSpritesCollectionView.delegate = self
         pokemonSpritesCollectionView.dataSource = self
         
-        
         staticTableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         fetchMoves()
         setupMenu()
+        
         Task {
             do {
                 pokemon = try await PokemonNetworkController.shared.fetchDetailInformation(pokemon: pokemon)
             } catch {
                 //present alert
-                print(error)
-                throw error
+                let alertController = UIAlertController(title: "Loading Failed", message: "Unable to Fetch Pokemon details at this time. Please try again later.", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "OK", style: .cancel)
+                
+                alertController.addAction(okayAction)
+                showAllMovesButton.isEnabled = false
+                showAllAbilitiesButton.isEnabled = false
+                present(alertController, animated: true)
             }
             
             setUpPokemonInfo()
@@ -110,6 +115,14 @@ class PokemonDetailTableViewController: UITableViewController {
             if indexPath.row == 0 {
                 return 220
             }
+        case 5:
+            if indexPath.row == 0 {
+                return 50
+            }
+            if pokemon.moves.isEmpty {
+                return 0
+            }
+            
         default:
             return UITableView.automaticDimension
         }
@@ -125,12 +138,19 @@ class PokemonDetailTableViewController: UITableViewController {
         0
     }
     
+    // MARK: Fetching Moves
+    
     func fetchMoves() {
         Task {
             do {
                 pokemon = try await pokemonController.fetchPokemonMoves(pokemon: pokemon)
+                
             }
-            reloadMoves()
+            if pokemon.moves.isEmpty {
+                showAllMovesButton.isEnabled = false
+            } else if !pokemon.moves.isEmpty {
+                reloadMoves()
+            }
         }
     }
     
@@ -159,9 +179,20 @@ class PokemonDetailTableViewController: UITableViewController {
                 for url in urls {
                     if let url {
                         let newImage = try await pokemonController.fetchImageData(url: url)
-                        storedImages.append(newImage)
+                        if storedImages.count == 4 {
+                            pokemonSpritesCollectionView.reloadData()
+                            return
+                        } else if storedImages.count < 5 {
+                            storedImages.append(newImage)
+                        }
                     }
                 }
+            } catch {
+                let alertController = UIAlertController(title: "Loading Failed", message: "Unable to Fetch Pokemon images at this time. Please try again later.", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "OK", style: .cancel)
+                
+                alertController.addAction(okayAction)
+                present(alertController, animated: true)
             }
             pokemonSpritesCollectionView.reloadData()
             
@@ -193,6 +224,11 @@ class PokemonDetailTableViewController: UITableViewController {
                     PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
                 } catch {
                     //handle errors
+                    let alertController = UIAlertController(title: "Saving Failed", message: "Unable to Save Pokemon at this time. Please try again later.", preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: "OK", style: .cancel)
+                    
+                    alertController.addAction(okayAction)
+                    present(alertController, animated: true)
                 }
             }
             
@@ -216,29 +252,31 @@ class PokemonDetailTableViewController: UITableViewController {
     }
     
     func setUpPokemonInfo() {
-        var pokemonTyping = ""
         
-        if pokemon.primaryType?.rawValue == pokemon.secondaryType?.rawValue {
-            pokemonTyping = "\(pokemon.primaryType!.rawValue)".capitalized
-        } else {
-            pokemonTyping = "\(pokemon.primaryType!.rawValue), \(pokemon.secondaryType?.rawValue ?? "")".capitalized
+        primaryTypeLabel = PokemonPrettyController.shared.createLabelForTypeBox(primaryTypeLabel, pokemon.primaryType!)
+        primaryTypeBackground = PokemonPrettyController.shared.createBackgroundForTypeBox(primaryTypeBackground, pokemon.primaryType!)
+        
+        if pokemon.secondaryType != pokemon.primaryType {
+            secondaryTypeLabel = PokemonPrettyController.shared.createLabelForTypeBox(secondaryTypeLabel, pokemon.secondaryType!)
+            secondaryTypeBackground = PokemonPrettyController.shared.createBackgroundForTypeBox(secondaryTypeBackground, pokemon.secondaryType!)
+        } else if pokemon.primaryType == pokemon.secondaryType {
+            ampersandLabel.isHidden = true
+            secondaryTypeLabel.isHidden = true
+            secondaryTypeBackground.isHidden = true
         }
         
         favoritedButton.setImage(UIImage(systemName: pokemon.isFavorited ?? false ? "heart.fill" : "heart"), for: .normal)
         
-        if pokemon.species?.isMythical ?? false {
-            pokemonTypingLabel.text = "Mythical \(pokemonTyping) Type Pokemon"
-        } else if pokemon.species?.isLegendary ?? false {
-            pokemonTypingLabel.text = "Legendary \(pokemonTyping) Type Pokemon"
-        } else {
-            pokemonTypingLabel.text = "\(pokemonTyping) Type Pokemon"
-        }
-        
         abilityLabel.text = "\(pokemon.abilities[0].name?.capitalized ?? "N/A")"
         
-        firstMoveLabel.text = pokemon.moves[0].name?.capitalized
-        secondMoveLabel.text = pokemon.moves[1].name?.capitalized
-        thirdMoveLabel.text = pokemon.moves[2].name?.capitalized
+        if !pokemon.moves.isEmpty {
+            firstMoveLabel.text = pokemon.moves[0].name?.capitalized
+            secondMoveLabel.text = pokemon.moves[1].name?.capitalized
+            thirdMoveLabel.text = pokemon.moves[2].name?.capitalized
+        } else if pokemon.moves.isEmpty {
+            firstMoveLabel.text = "No Moves to List"
+            showAllMovesButton.isEnabled = false
+        }
         
         pokemonNameLabel.text = pokemon.name.capitalized
         
@@ -331,8 +369,8 @@ class PokemonDetailTableViewController: UITableViewController {
         
         let arrayOfArrayOfTypes = setupStrengthsAndWeaknesses()
         
-        let weaknessViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[1]))
-        let strengthsViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[0]))
+        let weaknessViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[1], isStrengths: false))
+        let strengthsViewHC = UIHostingController(rootView: TypingSwiftUIView(types: arrayOfArrayOfTypes[0], isStrengths: true))
         let weaknessInnerView = weaknessViewHC.view!
         let strengthsInnerView = strengthsViewHC.view!
         

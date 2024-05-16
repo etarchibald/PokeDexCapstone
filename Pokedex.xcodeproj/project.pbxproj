@@ -225,7 +225,6 @@
 		A38B12FA2B4EED3C003D33D8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A38B12F82B4EEB65003D33D8 /* Pokemon.swift */,
 				4A893BD72BDFF21600CCDE0B /* PokemonMove.swift */,
 				3152CB0F2BD15D8800BB5980 /* PokemonTeam.swift */,
 				4A6BBC0E2BD07A5800ACE001 /* PokemonEvolution.swift */,
@@ -233,6 +232,7 @@
 				4A6BBC062BCF01B700ACE001 /* PokemonDamageRelations.swift */,
 				4A6BBC042BCEFCED00ACE001 /* PokemonStats.swift */,
 				4A6BBC022BCED7A000ACE001 /* PokemonAbilities.swift */,
+				A38B12F82B4EEB65003D33D8 /* Pokemon.swift */,
 				A38B12FB2B4EED69003D33D8 /* PokemonTypeContainer.swift */,
 				A38B12FF2B4EED94003D33D8 /* PokemonSprites.swift */,
 				4A893BF02BF4F73F00CCDE0B /* PokemonTypeSearch.swift */,

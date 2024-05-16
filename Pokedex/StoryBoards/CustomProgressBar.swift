@@ -28,6 +28,7 @@ class CustomProgressBar: UIView {
     
     private func setupProgressBar() {
         backgroundColor = .gray.withAlphaComponent(0.35)
+        layer.cornerRadius = 5
         progressView.backgroundColor = .red
         
         addSubview(progressView)
@@ -38,6 +39,7 @@ class CustomProgressBar: UIView {
         let progressWidth = maxWidth * progress / 255
         
         progressView.frame = CGRect(x: 0, y: 0, width: progressWidth, height: frame.height)
+        progressView.layer.cornerRadius = 5
     }
     
     func setProgress(value: CGFloat) {

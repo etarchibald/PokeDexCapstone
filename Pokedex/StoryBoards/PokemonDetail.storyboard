@@ -33,12 +33,23 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vO7-fd-RJP">
                                                             <rect key="frame" x="0.0" y="0.0" width="293" height="78"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pokemon Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8F-lB-fZ1">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="203.66666666666666" height="35"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="7AI-Py-2cz">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="241.66666666666666" height="35"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pokemon Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8F-lB-fZ1">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="203.66666666666666" height="35"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alL-5H-wPj">
+                                                                            <rect key="frame" x="210.66666666666666" y="10.333333333333332" width="31" height="14.333333333333332"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                            <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KSN-au-COg">
                                                                     <rect key="frame" x="0.0" y="43" width="215.33333333333334" height="35"/>
                                                                     <subviews>
@@ -534,6 +545,7 @@
                         <outlet property="firstMoveLabel" destination="yi7-jA-oXg" id="cJg-U8-vKq"/>
                         <outlet property="hpProgressBar" destination="YrH-Og-Stb" id="0d5-wq-KZw"/>
                         <outlet property="hpStatLabel" destination="2sH-Hv-VPn" id="1Fg-4m-aud"/>
+                        <outlet property="pokemonIdLabel" destination="alL-5H-wPj" id="N0k-zT-KI9"/>
                         <outlet property="pokemonNameLabel" destination="x8F-lB-fZ1" id="QGM-Ur-Ed7"/>
                         <outlet property="pokemonSpritesCollectionView" destination="mrx-lK-JDR" id="I18-we-aYf"/>
                         <outlet property="primaryTypeBackground" destination="V5M-Km-bZb" id="NY3-Ez-TFX"/>
@@ -624,6 +636,9 @@
     </scenes>
     <resources>
         <image name="heart" catalog="system" width="128" height="107"/>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

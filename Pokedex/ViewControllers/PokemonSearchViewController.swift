@@ -177,6 +177,16 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
     // MARK: - UISearchBar Delegate Methods
     //What I'm working on Error message for noResultsFound/ wrong spelling
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text == "" {
+            pokemon = []
+            pageNumber = 0
+            displayGenericPokemon(pageNumber: pageNumber)
+            isFetchingPokemon = false
+            hasSearchedForPokemon = false
+        }
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // If the text is empty bring the generic pokemon back to the screen
         

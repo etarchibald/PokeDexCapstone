@@ -9,6 +9,7 @@ import UIKit
 
 class PokemonTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var type2BackgroundView: UIView!
     @IBOutlet weak var type1BackgroundView: UIView!
     @IBOutlet weak var type2Label: UILabel!
@@ -33,6 +34,7 @@ class PokemonTableViewCell: UITableViewCell {
     
     func setup(pokemon: Pokemon) {
         nameLabel.text = pokemon.name.capitalized
+        numberLabel.text = "#\(pokemon.id)"
         
         if pokemon.primaryType == pokemon.secondaryType {
             type1Label = pokemonPrettyController.createLabelForTypeBox(type1Label, pokemon.primaryType ?? .normal)

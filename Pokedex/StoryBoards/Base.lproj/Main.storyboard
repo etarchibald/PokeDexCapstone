@@ -123,7 +123,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="cDv-EL-fI9">
-                                                    <rect key="frame" x="135" y="30" width="231" height="25.333333333333329"/>
+                                                    <rect key="frame" x="133" y="17" width="231" height="25.333333333333329"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0eh-XK-eZy">
                                                             <rect key="frame" x="0.0" y="0.0" width="146.66666666666666" height="25.333333333333332"/>
@@ -183,23 +183,31 @@
                                                         <action selector="favoritebuttonTapped:" destination="bsJ-kW-DlH" eventType="touchUpInside" id="QQY-y4-xnI"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#35" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9wr-Qb-hoJ">
+                                                    <rect key="frame" x="133" y="46" width="22.666666666666657" height="14.333333333333336"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="ZXq-qx-X4n" secondAttribute="bottom" constant="4" id="1n3-cx-qaX"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="cDv-EL-fI9" secondAttribute="trailing" constant="7" id="4ea-jU-1AL"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="cDv-EL-fI9" secondAttribute="trailing" constant="9" id="4ea-jU-1AL"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="hu9-lQ-P8M" secondAttribute="bottom" constant="4" id="4zl-3L-9h6"/>
                                                 <constraint firstAttribute="bottom" secondItem="vEK-Yj-3j2" secondAttribute="bottom" id="6fd-In-Pt5"/>
                                                 <constraint firstItem="vEK-Yj-3j2" firstAttribute="leading" secondItem="S1X-4e-c6X" secondAttribute="leading" id="BGM-hW-IqG"/>
+                                                <constraint firstItem="9wr-Qb-hoJ" firstAttribute="leading" secondItem="vEK-Yj-3j2" secondAttribute="trailing" constant="8" symbolic="YES" id="I4H-3h-MAM"/>
                                                 <constraint firstItem="Aks-it-gi6" firstAttribute="leading" secondItem="t67-84-aLZ" secondAttribute="trailing" constant="21" id="INY-0b-AVR"/>
                                                 <constraint firstItem="hu9-lQ-P8M" firstAttribute="leading" secondItem="vEK-Yj-3j2" secondAttribute="trailing" constant="8" symbolic="YES" id="Lm6-3r-sJS"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="t67-84-aLZ" secondAttribute="bottom" constant="4" id="M4H-Bo-y0R"/>
                                                 <constraint firstAttribute="trailing" secondItem="Aks-it-gi6" secondAttribute="trailing" constant="13" id="OyB-QE-XOs"/>
                                                 <constraint firstItem="ZXq-qx-X4n" firstAttribute="leading" secondItem="CTE-k3-ho8" secondAttribute="trailing" constant="18" id="UVl-JT-iXv"/>
                                                 <constraint firstItem="vEK-Yj-3j2" firstAttribute="top" secondItem="S1X-4e-c6X" secondAttribute="top" id="a7l-iw-g4n"/>
-                                                <constraint firstItem="Aks-it-gi6" firstAttribute="top" secondItem="cDv-EL-fI9" secondAttribute="bottom" constant="13.67" id="cpW-39-3K1"/>
-                                                <constraint firstItem="cDv-EL-fI9" firstAttribute="top" secondItem="S1X-4e-c6X" secondAttribute="topMargin" constant="19" id="ei0-td-Jgo"/>
+                                                <constraint firstItem="Aks-it-gi6" firstAttribute="top" secondItem="cDv-EL-fI9" secondAttribute="bottom" constant="26.666666666666671" id="cpW-39-3K1"/>
+                                                <constraint firstItem="cDv-EL-fI9" firstAttribute="top" secondItem="S1X-4e-c6X" secondAttribute="topMargin" constant="6" id="ei0-td-Jgo"/>
                                                 <constraint firstAttribute="bottom" secondItem="Aks-it-gi6" secondAttribute="bottom" constant="10" id="j3J-Vx-Eud"/>
-                                                <constraint firstItem="cDv-EL-fI9" firstAttribute="leading" secondItem="vEK-Yj-3j2" secondAttribute="trailing" constant="10" id="lWe-Dp-ASB"/>
+                                                <constraint firstItem="cDv-EL-fI9" firstAttribute="leading" secondItem="vEK-Yj-3j2" secondAttribute="trailing" constant="8" id="lWe-Dp-ASB"/>
+                                                <constraint firstItem="9wr-Qb-hoJ" firstAttribute="top" secondItem="cDv-EL-fI9" secondAttribute="bottom" constant="3.6699999999999999" id="ubQ-bN-5ou"/>
                                                 <constraint firstItem="t67-84-aLZ" firstAttribute="leading" secondItem="hu9-lQ-P8M" secondAttribute="trailing" constant="18" id="v3U-bQ-rzI"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="CTE-k3-ho8" secondAttribute="bottom" constant="4" id="vf0-TB-YKo"/>
                                                 <constraint firstItem="CTE-k3-ho8" firstAttribute="leading" secondItem="vEK-Yj-3j2" secondAttribute="trailing" constant="8" symbolic="YES" id="yVi-Jl-adk"/>
@@ -209,6 +217,7 @@
                                             <outlet property="favoriteButton" destination="Aks-it-gi6" id="K98-5G-AEb"/>
                                             <outlet property="generationLabel" destination="veA-VV-iBQ" id="aUK-v7-wn1"/>
                                             <outlet property="nameLabel" destination="0eh-XK-eZy" id="l64-u8-XHr"/>
+                                            <outlet property="numberLabel" destination="9wr-Qb-hoJ" id="Eop-lB-bjs"/>
                                             <outlet property="pokemonImage" destination="vEK-Yj-3j2" id="yZ0-bi-jWd"/>
                                             <outlet property="type1BackgroundView" destination="hu9-lQ-P8M" id="8yu-ak-sCW"/>
                                             <outlet property="type1Label" destination="CTE-k3-ho8" id="ygU-8P-Rch"/>
@@ -250,6 +259,9 @@
     <resources>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

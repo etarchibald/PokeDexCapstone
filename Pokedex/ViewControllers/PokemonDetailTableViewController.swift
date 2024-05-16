@@ -438,7 +438,7 @@ class PokemonDetailTableViewController: UITableViewController {
             actions.append(UIAction(title: "No Teams") { (_) in })
             let menu = UIMenu(title: "Add To Team", children: actions)
             
-            let rightBarButton = UIBarButtonItem(title: "", image: UIImage(systemName: "plus"), menu: menu)
+            let rightBarButton = UIBarButtonItem(title: "Add To Team", menu: menu)
             self.navigationItem.rightBarButtonItem = rightBarButton
         }
         

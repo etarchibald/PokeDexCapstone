@@ -66,6 +66,7 @@ class PokemonTeamViewController: UIViewController {
         print()
         if let teamVC = segue.destination as? PokemonDetailTableViewController {
             teamVC.pokemon = team.pokemon[selectedItemIndex[0].row]
+            teamVC.isComingFromATeam = true
         }
     }
     

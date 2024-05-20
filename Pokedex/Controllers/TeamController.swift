@@ -58,16 +58,6 @@ class TeamController {
         TeamController.teams.first(where: { $0.id == team.id })?.pokemon.removeAll(where: { $0.id == pokemon.id })
     }
     
-    func searchPokemonInTeams(_ pokemon: Pokemon) {
-        ////figure out better way later if possible
-        for (teamIndex, eachTeam) in TeamController.teams.enumerated() {
-            for (index, eachPokemon) in eachTeam.pokemon.enumerated() {
-                if eachPokemon.id == pokemon.id {
-                    TeamController.teams[teamIndex].pokemon[index].isFavorited = pokemon.isFavorited!
-                }
-            }
-        }
-    }
 }
 
 extension UITableViewCell {

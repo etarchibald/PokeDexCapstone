@@ -26,6 +26,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
         
         Task {
             FavoritePokemonViewController.favoritePokemon.append(contentsOf: PokemonPersistenceController.loadPokemon())
+            TeamController.teams = TeamController.loadTeams()
         }
         displayGenericPokemon(pageNumber: pageNumber)
         setUpDataSource()
@@ -196,6 +197,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
             displayGenericPokemon(pageNumber: pageNumber)
             isFetchingPokemon = false
             hasSearchedForPokemon = false
+            navigationItem.title = nil
             return
         }
         
@@ -239,6 +241,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                         spinner.stopAnimating()
                         self.tableView.tableHeaderView = nil
                         self.pokemon.append(contentsOf: pokemonToAdd)
+                        self.pokemon = self.pokemon.sorted { $0.id < $1.id }
                         self.applySnapshot(from: self.pokemon)
                     }
                 }
@@ -317,6 +320,7 @@ class PokemonSearchViewController: UIViewController, UISearchBarDelegate {
                         spinner.stopAnimating()
                         self.tableView.tableHeaderView = nil
                         self.pokemon.append(contentsOf: pokemonToAdd)
+                        self.pokemon = self.pokemon.sorted { $0.id < $1.id }
                         self.applySnapshot(from: self.pokemon)
                     }
                 }
@@ -347,6 +351,7 @@ extension PokemonSearchViewController: FavoritePokemon {
                 self.pokemon[index] = pokemon
                 self.applySnapshot(from: self.pokemon)
                 self.reload(pokemon)
+                TeamController.saveTeams(teams: TeamController.teams)
             }
         }
     }

@@ -24,7 +24,6 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         teamTableView.keyboardDismissMode = .onDrag
         
-        TeamController.teams = TeamController.loadTeams()
         filteredTeams = TeamController.teams
     }
     

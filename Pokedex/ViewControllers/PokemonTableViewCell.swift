@@ -95,14 +95,10 @@ class PokemonTableViewCell: UITableViewCell {
                         self.pokemon = try await PokemonPersistenceController.shared.fetchInformationToSave(pokemon: pokemon)
                         PokemonPersistenceController.savePokemon(favoritePokemons: FavoritePokemonViewController.favoritePokemon)
                     } catch {
-                        //handle errors
+                        fatalError("Error Saving Favorite Pokemon")
                     }
                 }
             }
-        }
-        
-        if let pokemon, let isFavorited = pokemon.isFavorited {
-            TeamController.shared.searchPokemonInTeams(pokemon)
         }
         
         TeamController.saveTeams(teams: TeamController.teams)

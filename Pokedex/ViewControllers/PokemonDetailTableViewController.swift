@@ -56,6 +56,7 @@ class PokemonDetailTableViewController: UITableViewController {
     var teamController = TeamController.shared
     var storedImages: [UIImage] = []
     var delegate: FavoritePokemon?
+    var isComingFromATeam = false
     
     // MARK: ViewDidLoad
     
@@ -71,6 +72,8 @@ class PokemonDetailTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         fetchMoves()
         setupMenu()
+        
+        favoritedButton.isHidden = isComingFromATeam
         
         Task {
             do {
@@ -232,9 +235,9 @@ class PokemonDetailTableViewController: UITableViewController {
                     present(alertController, animated: true)
                 }
             }
-            
-            
         }
+        
+        TeamController.saveTeams(teams: TeamController.teams)
         
         UIView.animate(withDuration: 0.3, delay: 0, options: .autoreverse, animations: {
             self.favoritedButton.imageView?.contentMode = self.pokemon.isFavorited ?? false ? .scaleAspectFill : .scaleAspectFit
